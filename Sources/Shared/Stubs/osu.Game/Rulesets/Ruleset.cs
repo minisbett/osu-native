@@ -7,6 +7,7 @@ using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.Legacy;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu.Difficulty;
 
 // ReSharper disable once CheckNamespace
 
@@ -37,6 +38,8 @@ namespace osu.Game.Rulesets
         public virtual IEnumerable<Mod> ConvertFromLegacyMods(LegacyMods mods) => Array.Empty<Mod>();
 
         public abstract DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap);
+
+        public abstract PerformanceCalculator CreatePerformanceCalculator();
 
         public abstract IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap);
 

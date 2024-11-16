@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native", "Sources\osu.Native\osu.Native.csproj", "{6467E7A9-DE2C-4960-873E-AB058262FDAE}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "osu.Native", "Sources\osu.Native\osu.Native.csproj", "{6467E7A9-DE2C-4960-873E-AB058262FDAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.WebAssembly", "Sources\osu.Native.WebAssembly\osu.Native.WebAssembly.csproj", "{0D538C83-4744-4018-9D34-51F4C9E481C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Bindings", "Bindings\CSharp\osu.Native.Bindings\osu.Native.Bindings.csproj", "{8164F8FF-2F8D-40BC-8B2B-96F9E43DA4BB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.CSharp", "Samples\CSharp\Samples.CSharp.csproj", "{BC91A015-0BA8-4A21-933B-AD2B2B29668F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing", "Testing\Testing.csproj", "{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,21 +17,15 @@ Global
 		{6467E7A9-DE2C-4960-873E-AB058262FDAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6467E7A9-DE2C-4960-873E-AB058262FDAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6467E7A9-DE2C-4960-873E-AB058262FDAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECE2B24D-D95B-428D-B995-E40D5E14ADF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECE2B24D-D95B-428D-B995-E40D5E14ADF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECE2B24D-D95B-428D-B995-E40D5E14ADF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECE2B24D-D95B-428D-B995-E40D5E14ADF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D538C83-4744-4018-9D34-51F4C9E481C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D538C83-4744-4018-9D34-51F4C9E481C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D538C83-4744-4018-9D34-51F4C9E481C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D538C83-4744-4018-9D34-51F4C9E481C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8164F8FF-2F8D-40BC-8B2B-96F9E43DA4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8164F8FF-2F8D-40BC-8B2B-96F9E43DA4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8164F8FF-2F8D-40BC-8B2B-96F9E43DA4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8164F8FF-2F8D-40BC-8B2B-96F9E43DA4BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC91A015-0BA8-4A21-933B-AD2B2B29668F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC91A015-0BA8-4A21-933B-AD2B2B29668F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC91A015-0BA8-4A21-933B-AD2B2B29668F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC91A015-0BA8-4A21-933B-AD2B2B29668F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {221AC7FA-51C5-42CF-A51B-5F51254D07F5}
 	EndGlobalSection
 EndGlobal

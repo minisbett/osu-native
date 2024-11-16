@@ -15,21 +15,27 @@ namespace osu.Game.Scoring
 {
     public class ScoreInfo : IScoreInfo
     {
-        public BeatmapInfo? BeatmapInfo;
+        public BeatmapInfo? BeatmapInfo { get; set; }
+
+        public IRulesetInfo Ruleset { get; set; } = null!;
+
+        public int MaxCombo { get; set; }
+
+        public double Accuracy { get; set; }
+
+        public Mod[] Mods { get; set; } = Array.Empty<Mod>();
+
+        public Dictionary<HitResult, int> Statistics { get; set; } = null!;
+
         public string BeatmapHash = string.Empty;
         public long OnlineID => default;
         public IUser User => default!;
         public long TotalScore => default;
-        public int MaxCombo => default;
-        public double Accuracy => default;
         public long LegacyOnlineID => default;
         public DateTimeOffset Date => default;
         public double? PP => default;
         public IBeatmapInfo? Beatmap => default;
-        public IRulesetInfo Ruleset => default!;
         public ScoreRank Rank => default;
-        public Dictionary<HitResult, int> Statistics = default!;
         public Dictionary<HitResult, int> MaximumStatistics = default!;
-        public Mod[] Mods = default!;
     }
 }

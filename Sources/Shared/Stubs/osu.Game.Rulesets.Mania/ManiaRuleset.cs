@@ -10,6 +10,7 @@ using osu.Game.Rulesets.Mania.Beatmaps;
 using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Game.Rulesets.Mania.Mods;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu.Difficulty;
 
 // ReSharper disable once CheckNamespace
 namespace osu.Game.Rulesets.Mania
@@ -116,6 +117,8 @@ namespace osu.Game.Rulesets.Mania
 
         public override DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap)
             => new ManiaDifficultyCalculator(RulesetInfo, beatmap);
+
+        public override PerformanceCalculator CreatePerformanceCalculator() => new ManiaPerformanceCalculator();
 
         public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap)
             => new ManiaBeatmapConverter(beatmap, this);

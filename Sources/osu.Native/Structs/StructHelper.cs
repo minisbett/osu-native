@@ -9,6 +9,8 @@ public static class StructHelper
 {
     #region osu!
 
+    #region Model -> Struct
+
     public static NativeOsuDifficultyAttributes DifficultyAttributesToStruct(OsuDifficultyAttributes attributes)
     {
         return new NativeOsuDifficultyAttributes
@@ -30,7 +32,7 @@ public static class StructHelper
             SpinnerCount = attributes.SpinnerCount
         };
     }
-    
+
     public static NativeOsuPerformanceAttributes PerformanceAttributesToStruct(OsuPerformanceAttributes attributes)
     {
         return new NativeOsuPerformanceAttributes
@@ -43,6 +45,34 @@ public static class StructHelper
             EffectiveMissCount = attributes.EffectiveMissCount
         };
     }
+
+    #endregion
+
+    #region Struct -> Model
+
+    public static OsuDifficultyAttributes StructToDifficultyAttributes(NativeOsuDifficultyAttributes attributes)
+    {
+        return new OsuDifficultyAttributes
+        {
+            StarRating = attributes.StarRating,
+            MaxCombo = attributes.MaxCombo,
+            AimDifficulty = attributes.AimDifficulty,
+            SpeedDifficulty = attributes.SpeedDifficulty,
+            SpeedNoteCount = attributes.SpeedNoteCount,
+            FlashlightDifficulty = attributes.FlashlightDifficulty,
+            SliderFactor = attributes.SliderFactor,
+            AimDifficultStrainCount = attributes.AimDifficultStrainCount,
+            SpeedDifficultStrainCount = attributes.SpeedDifficultStrainCount,
+            ApproachRate = attributes.ApproachRate,
+            OverallDifficulty = attributes.OverallDifficulty,
+            DrainRate = attributes.DrainRate,
+            HitCircleCount = attributes.HitCircleCount,
+            SliderCount = attributes.SliderCount,
+            SpinnerCount = attributes.SpinnerCount
+        };
+    }
+
+    #endregion
 
     #endregion
 

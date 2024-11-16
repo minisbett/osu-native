@@ -22,13 +22,13 @@ namespace osu.Native.EntryPoints;
 public unsafe static class DifficultyEntryPoints
 {
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeDifficultyOsu(int beatmapContextId, uint mods, NativeOsuDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeDifficultyOsu(int beatmapContextId, uint mods, NativeOsuDifficultyAttributes* attributes)
     {
-        ErrorCode error = ComputeDifficulty(beatmapContextId, new OsuRuleset(), mods, out var attributes);
+        ErrorCode error = ComputeDifficulty(beatmapContextId, new OsuRuleset(), mods, out var diffAttributes);
         if (error > ErrorCode.Success)
             return error;
 
-        *diffAttributes = StructHelper.DifficultyAttributesToStruct((OsuDifficultyAttributes)attributes);
+        *attributes = StructHelper.DifficultyAttributesToStruct((OsuDifficultyAttributes)diffAttributes);
 
         return ErrorCode.Success;
     }

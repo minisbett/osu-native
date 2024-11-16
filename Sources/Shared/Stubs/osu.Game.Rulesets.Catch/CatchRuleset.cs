@@ -9,6 +9,7 @@ using osu.Game.Rulesets.Catch.Beatmaps;
 using osu.Game.Rulesets.Catch.Difficulty;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Game.Rulesets.Taiko.Mods;
 
 // ReSharper disable once CheckNamespace
@@ -64,6 +65,8 @@ namespace osu.Game.Rulesets.Catch
 
         public override DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap)
             => new CatchDifficultyCalculator(RulesetInfo, beatmap);
+
+        public override PerformanceCalculator CreatePerformanceCalculator() => new CatchPerformanceCalculator();
 
         public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap)
             => new CatchBeatmapConverter(beatmap, this);

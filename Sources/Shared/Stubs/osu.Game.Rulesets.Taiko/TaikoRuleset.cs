@@ -10,6 +10,7 @@ using osu.Game.Rulesets.Taiko.Beatmaps;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Taiko.Mods;
+using osu.Game.Rulesets.Osu.Difficulty;
 
 // ReSharper disable once CheckNamespace
 
@@ -64,6 +65,8 @@ namespace osu.Game.Rulesets.Taiko
 
         public override DifficultyCalculator CreateDifficultyCalculator(IWorkingBeatmap beatmap)
             => new TaikoDifficultyCalculator(RulesetInfo, beatmap);
+
+        public override PerformanceCalculator CreatePerformanceCalculator() => new TaikoPerformanceCalculator();
 
         public override IBeatmapConverter CreateBeatmapConverter(IBeatmap beatmap)
             => new TaikoBeatmapConverter(beatmap, this);
