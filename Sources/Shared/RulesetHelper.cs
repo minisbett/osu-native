@@ -8,31 +8,19 @@ using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 
-// ReSharper disable once CheckNamespace
+namespace osu.Native;
 
-namespace osu.Native
+public static class RulesetHelper
 {
-    public static class RulesetHelper
+    public static Ruleset CreateRuleset(int rulesetId)
     {
-        public static Ruleset CreateRuleset(int rulesetId)
+        return rulesetId switch
         {
-            switch (rulesetId)
-            {
-                case 0:
-                    return new OsuRuleset();
-
-                case 1:
-                    return new TaikoRuleset();
-
-                case 2:
-                    return new CatchRuleset();
-
-                case 3:
-                    return new ManiaRuleset();
-
-                default:
-                    throw new InvalidOperationException($"Unknown ruleset id: {rulesetId}.");
-            }
-        }
+            0 => new OsuRuleset(),
+            1 => new TaikoRuleset(),
+            2 => new CatchRuleset(),
+            3 => new ManiaRuleset(),
+            _ => throw new InvalidOperationException($"Unknown ruleset id: {rulesetId}."),
+        };
     }
 }

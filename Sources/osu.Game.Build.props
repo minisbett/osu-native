@@ -48,6 +48,7 @@
                           $(GameDir)/Beatmaps/BeatmapProcessor.cs;
                           $(GameDir)/Beatmaps/IWorkingBeatmap.cs;
                           $(GameDir)/Beatmaps/WorkingBeatmap.cs;
+                          $(GameDir)/Beatmaps/FlatWorkingBeatmap.cs;
                           $(GameDir)/Database/IHasOnlineID.cs;
                           $(GameDir)/Database/IHasGuidPrimaryKey.cs;
                           $(GameDir)/Database/IHasNamedFiles.cs;
