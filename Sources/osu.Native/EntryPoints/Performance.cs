@@ -29,10 +29,10 @@ public static unsafe class PerformanceEntryPoints
         {
             Ruleset ruleset = new OsuRuleset();
             Mod[] rulesetMods = ruleset.ConvertFromLegacyMods((LegacyMods)mods).ToArray();
-            PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator();
+            PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
 
             int totalResults = beatmap.GetPlayableBeatmap(ruleset.RulesetInfo).HitObjects.Count;
-            Dictionary<HitResult, int> statistics = new Dictionary<HitResult, int>()
+            Dictionary<HitResult, int> statistics = new()
             {
                 { HitResult.Great, totalResults - hitStatistics.Count100 - hitStatistics.Count50 - hitStatistics.CountMiss },
                 { HitResult.Ok, hitStatistics.Count100 },
