@@ -17,8 +17,4 @@
             <ExcludeAssets>all</ExcludeAssets>
         </PackageReference>
     </ItemGroup>
-
-    <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)../Shared/**/*.cs"/>
-    </ItemGroup>
 </Project>

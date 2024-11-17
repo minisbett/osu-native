@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "osu.Native", "Sources\osu.Native\osu.Native.csproj", "{6467E7A9-DE2C-4960-873E-AB058262FDAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "osu.Native", "osu.Native\osu.Native.csproj", "{6467E7A9-DE2C-4960-873E-AB058262FDAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing", "Testing\Testing.csproj", "{AD0D422D-5861-47A1-BEF7-6E21CFB09F6E}"
 EndProject

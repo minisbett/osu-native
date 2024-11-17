@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
-    <PropertyGroup>
-        <PublishTrimmed>true</PublishTrimmed>
-        <TrimMode>full</TrimMode>
-        <RunAOTCompilation>true</RunAOTCompilation>
-    </PropertyGroup>
-</Project>
