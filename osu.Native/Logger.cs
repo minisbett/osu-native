@@ -41,3 +41,11 @@ public unsafe static class Logger
         return code;
     }
 }
+
+public enum ErrorCode : byte
+{
+    Success = 0,
+    FileNotFound = 1,
+    ContextNotFound = 2,
+    Failure = 255
+}
