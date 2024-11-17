@@ -16,7 +16,7 @@ public unsafe static class Logger
     /// Sets the logger.
     /// </summary>
     /// <param name="handler">A <see cref="LogDelegate"/> callback to handle the message.</param>
-    [UnmanagedCallersOnly(EntryPoint = "SetLogger", CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallersOnly(EntryPoint = "Logger_Set", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode SetLogger(IntPtr handler)
     {
         logger = Marshal.GetDelegateForFunctionPointer<LogDelegate>(handler);

@@ -50,6 +50,6 @@ namespace osu.Native
 
         protected override Track GetBeatmapTrack() => throw new NotImplementedException();
 
-        protected internal override ISkin GetSkin() => throw new NotImplementedException();
+        protected override ISkin GetSkin() => throw new NotImplementedException();
     }
 }

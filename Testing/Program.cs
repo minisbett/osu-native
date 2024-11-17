@@ -28,12 +28,15 @@ OsuHitStatistics statistics = new OsuHitStatistics()
     
 };
 
-BeatmapParseFile(osuFile, out int id);
-DifficultyComputeOsu(id, 0, out OsuDifficultyAttributes attributes);
-int x = PerformanceComputeOsu(id, attributes, 0, 587, statistics, out OsuPerformanceAttributes perf);
-BeatmapDestroy(id);
+int a = BeatmapParseFile(osuFile, out int id);
+int b = DifficultyComputeOsu(id, 0, out OsuDifficultyAttributes attributes);
+int c = PerformanceComputeOsu(id, attributes, 0, 587, statistics, out OsuPerformanceAttributes perf);
+int d = BeatmapDestroy(id);
 
-Console.WriteLine(x);
+Console.WriteLine(a);
+Console.WriteLine(b);
+Console.WriteLine(c);
+Console.WriteLine(d);
 Console.WriteLine(perf.Total);
 
 
