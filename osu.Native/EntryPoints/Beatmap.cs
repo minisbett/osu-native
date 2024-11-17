@@ -35,9 +35,8 @@ public static unsafe class BeatmapEntryPoints
         {
             return Logger.Error(ErrorCode.Failure, ex.Message);
         }
-
-
     }
+
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_ParseText", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ParseText(char* textPtr, int* id)
     {
