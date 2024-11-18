@@ -8,64 +8,89 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets;
-using osu.Game.Scoring;
 using System;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Beatmaps.Legacy;
 using System.Linq;
-using System.Collections.Generic;
-using osu.Game.Rulesets.Scoring;
+using osu.Native.Helpers;
+using NuGet.Packaging.Rules;
+using System.Xml.Linq;
+using osu.Game.Rulesets.Taiko.Difficulty;
+using osu.Game.Rulesets.Taiko;
+using osu.Game.Rulesets.Catch.Difficulty;
+using osu.Game.Rulesets.Catch;
+using osu.Game.Rulesets.Mania.Difficulty;
+using osu.Game.Rulesets.Mania;
 
 namespace osu.Native.EntryPoints;
 
 public static unsafe class PerformanceEntryPoints
 {
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeDifficultyOsu(int beatmapContextId, NativeOsuDifficultyAttributes diffAttributes, uint mods, int combo,
-                                                 OsuHitStatistics hitStatistics, NativeOsuPerformanceAttributes* perfAttributes)
+    public static ErrorCode ComputeOsu(int beatmapContextId, OsuDifficultyAttributes diffAttributes, uint mods, OsuScore score, OsuPerformanceAttributes* perfAttributes)
     {
-        if (!Context.Beatmaps.TryGetValue(beatmapContextId, out FlatWorkingBeatmap? beatmap))
-            return Logger.Error(ErrorCode.ContextNotFound, "No beatmap with the specified context ID found.");
+        ErrorCode error = ComputePerformance(beatmapContextId, new OsuRuleset(), diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        if (error > ErrorCode.Success)
+            return error;
 
+        *perfAttributes = (OsuPerformanceAttributes)attributes;
+
+        return ErrorCode.Success;
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode ComputeTaiko(int beatmapContextId, TaikoDifficultyAttributes diffAttributes, uint mods, TaikoScore score, TaikoPerformanceAttributes* perfAttributes)
+    {
+        ErrorCode error = ComputePerformance(beatmapContextId, new TaikoRuleset(), diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        if (error > ErrorCode.Success)
+            return error;
+
+        *perfAttributes = (TaikoPerformanceAttributes)attributes;
+
+        return ErrorCode.Success;
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode ComputeCatch(int beatmapContextId, CatchDifficultyAttributes diffAttributes, uint mods, CatchScore score, CatchPerformanceAttributes* perfAttributes)
+    {
+        ErrorCode error = ComputePerformance(beatmapContextId, new CatchRuleset(), diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        if (error > ErrorCode.Success)
+            return error;
+
+        *perfAttributes = (CatchPerformanceAttributes)attributes;
+
+        return ErrorCode.Success;
+    }
+
+    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode ComputeMania(int beatmapContextId, ManiaDifficultyAttributes diffAttributes, uint mods, ManiaScore score, ManiaPerformanceAttributes* perfAttributes)
+    {
+        ErrorCode error = ComputePerformance(beatmapContextId, new ManiaRuleset(), diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        if (error > ErrorCode.Success)
+            return error;
+
+        *perfAttributes = (ManiaPerformanceAttributes)attributes;
+
+        return ErrorCode.Success;
+    }
+
+    private static ErrorCode ComputePerformance(int beatmapContextId, Ruleset ruleset, IDifficultyAttributes diffAttributes, uint mods, IScore score,
+                                                out IPerformanceAttributes attributes)
+    {
         try
         {
-            Ruleset ruleset = new OsuRuleset();
+            FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
             Mod[] rulesetMods = ruleset.ConvertFromLegacyMods((LegacyMods)mods).ToArray();
             PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
 
-            int totalResults = beatmap.GetPlayableBeatmap(ruleset.RulesetInfo).HitObjects.Count;
-            Dictionary<HitResult, int> statistics = new()
-            {
-                { HitResult.Great, totalResults - hitStatistics.Count100 - hitStatistics.Count50 - hitStatistics.CountMiss },
-                { HitResult.Ok, hitStatistics.Count100 },
-                { HitResult.Meh, hitStatistics.Count50 },
-                { HitResult.Miss, hitStatistics.CountMiss },
-                { HitResult.LargeTickMiss, hitStatistics.CountLargeTickMiss },
-                { HitResult.SliderTailHit, diffAttributes.SliderCount - hitStatistics.CountSliderTailMiss }
-            };
-
-            double accuracy = (300 * statistics[HitResult.Great] + 100 * statistics[HitResult.Ok] + 50 * statistics[HitResult.Meh] + statistics[HitResult.Miss])
-                         / (totalResults * 300d);
-
-            ScoreInfo score = new()
-            {
-                BeatmapInfo = beatmap.BeatmapInfo,
-                Ruleset = ruleset.RulesetInfo,
-                Mods = rulesetMods,
-                MaxCombo = combo,
-                Accuracy = accuracy,
-                Statistics = statistics
-            };
-
-            PerformanceAttributes attributes = calculator.Calculate(score, StructHelper.StructToDifficultyAttributes(diffAttributes));
-            *perfAttributes = StructHelper.PerformanceAttributesToStruct((OsuPerformanceAttributes)attributes);
-
+            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, beatmap, rulesetMods), diffAttributes);
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
-            return Logger.Error(ErrorCode.Failure, ex.ToString());
+            attributes = null!;
+            return Logger.Error(ErrorCodeHelper.FromException(ex), ex.ToString());
         }
     }
 }
