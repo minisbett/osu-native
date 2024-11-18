@@ -1,11 +1,12 @@
 // Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using osu.Native.Helpers;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace osu.Native;
+namespace osu.Native.EntryPoints;
 
 public unsafe static class Logger
 {
@@ -17,7 +18,7 @@ public unsafe static class Logger
     /// </summary>
     /// <param name="handler">A <see cref="LogDelegate"/> callback to handle the message.</param>
     [UnmanagedCallersOnly(EntryPoint = "Logger_Set", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode SetLogger(IntPtr handler)
+    public static ErrorCode SetLogger(nint handler)
     {
         logger = Marshal.GetDelegateForFunctionPointer<LogDelegate>(handler);
         return ErrorCode.Success;
@@ -28,24 +29,16 @@ public unsafe static class Logger
     /// </summary>
     /// <param name="code">The error code.</param>
     /// <param name="description">The error description passed to the logger.</param>
-    /// <returns></returns>
+    /// <returns>The reported error code.</returns>
     public static ErrorCode Error(ErrorCode code, string description)
     {
         if (logger != null)
         {
-            IntPtr msgPtr = Marshal.StringToHGlobalUni(description);
+            nint msgPtr = Marshal.StringToHGlobalUni(description);
             logger((char*)msgPtr);
             Marshal.FreeHGlobal(msgPtr);
         }
 
         return code;
     }
-}
-
-public enum ErrorCode : byte
-{
-    Success = 0,
-    FileNotFound = 1,
-    ContextNotFound = 2,
-    Failure = 255
 }
