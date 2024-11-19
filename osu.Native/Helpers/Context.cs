@@ -23,6 +23,11 @@ public class Context<T>
     /// </summary>
     public static Dictionary<int, T> Objects { get; } = [];
 
+    ~Context()
+    {
+        Objects.Clear();
+    }
+
     /// <summary>
     /// Stores the specified object and returns the associated ID for accessing it.
     /// </summary>
