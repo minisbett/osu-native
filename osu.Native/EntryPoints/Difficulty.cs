@@ -45,16 +45,6 @@ public unsafe static class DifficultyEntryPoints
 
         *diffAttributes = (TaikoDifficultyAttributes)attributes;
 
-        Console.WriteLine("[osu-native] Star Rating: " + (*diffAttributes).StarRating);
-        Console.WriteLine("[osu-native] Max Combo: " + (*diffAttributes).MaxCombo);
-        Console.WriteLine("[osu-native] Stamina Difficulty: " + (*diffAttributes).StaminaDifficulty);
-        Console.WriteLine("[osu-native] Mono Stamina Factor: " + (*diffAttributes).MonoStaminaFactor);
-        Console.WriteLine("[osu-native] Rhythm Difficulty: " + (*diffAttributes).RhythmDifficulty);
-        Console.WriteLine("[osu-native] Colour Difficulty: " + (*diffAttributes).ColourDifficulty);
-        Console.WriteLine("[osu-native] Peak Difficulty: " + (*diffAttributes).PeakDifficulty);
-        Console.WriteLine("[osu-native] Great Hit Window: " + (*diffAttributes).GreatHitWindow);
-        Console.WriteLine("[osu-native] Ok Hit Window: " + (*diffAttributes).OkHitWindow);
-
         return ErrorCode.Success;
     }
 

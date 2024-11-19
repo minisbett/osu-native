@@ -48,12 +48,6 @@ public static unsafe class PerformanceEntryPoints
 
         *perfAttributes = (TaikoPerformanceAttributes)attributes;
 
-        Console.WriteLine("[osu-native] Difficulty PP: " + (*perfAttributes).Difficulty);
-        Console.WriteLine("[osu-native] Accuracy PP: " + (*perfAttributes).Accuracy);
-        Console.WriteLine("[osu-native] Effective Misscount: " + (*perfAttributes).EffectiveMissCount);
-        Console.WriteLine("[osu-native] Estimated Unstable Rate: " + (*perfAttributes).EstimatedUnstableRate);
-        Console.WriteLine("[osu-native] Total PP: " + (*perfAttributes).Total);
-
         return ErrorCode.Success;
     }
 
