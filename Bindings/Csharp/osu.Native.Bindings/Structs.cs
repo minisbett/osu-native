@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
+// See the LICENCE file in the repository root for full licence text.
+
+using System.Runtime.InteropServices;
 
 namespace osu.Native.Bindings;
 
@@ -14,7 +17,7 @@ public struct OsuDifficultyAttributes : IDifficultyAttributes
     public double AimDifficulty;
     public double SpeedDifficulty;
     public double SpeedNoteCount;
-    public double FlashlightDifficulty;
+    public double? FlashlightDifficulty;
     public double SliderFactor;
     public double AimDifficultStrainCount;
     public double SpeedDifficultStrainCount;
