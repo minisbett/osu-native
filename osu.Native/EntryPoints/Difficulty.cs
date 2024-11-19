@@ -27,7 +27,7 @@ public unsafe static class DifficultyEntryPoints
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeOsu(int beatmapContextId, uint mods, OsuDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty(beatmapContextId, new OsuRuleset(), mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -39,11 +39,21 @@ public unsafe static class DifficultyEntryPoints
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeTaiko(int beatmapContextId, uint mods, TaikoDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty(beatmapContextId, new TaikoRuleset(), mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
         *diffAttributes = (TaikoDifficultyAttributes)attributes;
+
+        Console.WriteLine("[osu-native] Star Rating: " + (*diffAttributes).StarRating);
+        Console.WriteLine("[osu-native] Max Combo: " + (*diffAttributes).MaxCombo);
+        Console.WriteLine("[osu-native] Stamina Difficulty: " + (*diffAttributes).StaminaDifficulty);
+        Console.WriteLine("[osu-native] Mono Stamina Factor: " + (*diffAttributes).MonoStaminaFactor);
+        Console.WriteLine("[osu-native] Rhythm Difficulty: " + (*diffAttributes).RhythmDifficulty);
+        Console.WriteLine("[osu-native] Colour Difficulty: " + (*diffAttributes).ColourDifficulty);
+        Console.WriteLine("[osu-native] Peak Difficulty: " + (*diffAttributes).PeakDifficulty);
+        Console.WriteLine("[osu-native] Great Hit Window: " + (*diffAttributes).GreatHitWindow);
+        Console.WriteLine("[osu-native] Ok Hit Window: " + (*diffAttributes).OkHitWindow);
 
         return ErrorCode.Success;
     }
@@ -51,7 +61,7 @@ public unsafe static class DifficultyEntryPoints
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeCatch(int beatmapContextId, uint mods, CatchDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty(beatmapContextId, new CatchRuleset(), mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -63,7 +73,7 @@ public unsafe static class DifficultyEntryPoints
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeMania(int beatmapContextId, uint mods, ManiaDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty(beatmapContextId, new ManiaRuleset(), mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -72,10 +82,11 @@ public unsafe static class DifficultyEntryPoints
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputeDifficulty(int beatmapContextId, Ruleset ruleset, uint mods, out IDifficultyAttributes attributes)
+    private static ErrorCode ComputeDifficulty<TRuleset>(int beatmapContextId, uint mods, out IDifficultyAttributes attributes) where TRuleset : Ruleset, new()
     {
         try
         {
+            Ruleset ruleset = new TRuleset();
             FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
             Mod[] rulesetMods = ruleset.ConvertFromLegacyMods((LegacyMods)mods).ToArray();
             DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(beatmap);

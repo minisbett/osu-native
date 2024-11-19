@@ -32,6 +32,7 @@ public struct TaikoDifficultyAttributes : IDifficultyAttributes
     public double StarRating;
     public int MaxCombo;
     public double StaminaDifficulty;
+    public double MonoStaminaFactor;
     public double RhythmDifficulty;
     public double ColourDifficulty;
     public double PeakDifficulty;
@@ -79,7 +80,7 @@ public struct TaikoPerformanceAttributes : IPerformanceAttributes
     public double Difficulty;
     public double Accuracy;
     public double EffectiveMissCount;
-    public double EstimatedUnstableRate;
+    public double? EstimatedUnstableRate;
 }
 
 [StructLayout(LayoutKind.Sequential)]

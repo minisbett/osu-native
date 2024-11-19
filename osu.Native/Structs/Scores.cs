@@ -7,6 +7,7 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
+using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -57,9 +58,24 @@ public struct TaikoScore : IScore
     public int CountGood;
     public int CountMiss;
 
-    public ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap beatmap, Mod[] mods)
+    public ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap, Mod[] mods)
     {
-        throw new System.NotImplementedException();
+        IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
+        int countGreat = beatmap.GetMaxCombo() - CountGood - CountMiss;
+
+        return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
+        {
+            Mods = mods,
+            MaxCombo = MaxCombo,
+            Accuracy = (2d * countGreat + CountGood) / (2d * (countGreat + CountGood + CountMiss)),
+            Statistics = new()
+            {
+                { HitResult.Great, countGreat },
+                { HitResult.Ok, CountGood },
+                { HitResult.Meh, 0 },
+                { HitResult.Miss, CountMiss },
+            }
+        };
     }
 }
 
