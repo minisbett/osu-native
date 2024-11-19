@@ -2,7 +2,7 @@
 
 public abstract class DifficultyCalculator<TDiffAttr, TPerfAttr, TScore>
     where TDiffAttr : IDifficultyAttributes
-    where TPerfAttr : IPerformanceAttributes 
+    where TPerfAttr : IPerformanceAttributes
     where TScore : IScore
 {
     protected readonly int _beatmapContextId;
@@ -22,9 +22,9 @@ public abstract class DifficultyCalculator<TDiffAttr, TPerfAttr, TScore>
         OsuNative.Beatmap_Destroy(_beatmapContextId);
     }
 
-    public abstract TDiffAttr CalculateDifficulty(uint mods);
+    public abstract TDiffAttr CalculateDifficulty();
 
-    public abstract TPerfAttr CalculatePerformance(TDiffAttr diffAttributes, uint mods, TScore score);
+    public abstract TPerfAttr CalculatePerformance(TDiffAttr diffAttributes, TScore score);
 }
 
 public class OsuDifficultyCalculator : DifficultyCalculator<OsuDifficultyAttributes, OsuPerformanceAttributes, OsuScore>
@@ -33,15 +33,15 @@ public class OsuDifficultyCalculator : DifficultyCalculator<OsuDifficultyAttribu
 
     public OsuDifficultyCalculator(string text) : base(text) { }
 
-    public override OsuDifficultyAttributes CalculateDifficulty(uint mods)
+    public override OsuDifficultyAttributes CalculateDifficulty()
     {
-        OsuNative.Difficulty_ComputeOsu(_beatmapContextId, mods, out OsuDifficultyAttributes attributes);
+        OsuNative.Difficulty_ComputeOsu(_beatmapContextId, out OsuDifficultyAttributes attributes);
         return attributes;
     }
 
-    public override OsuPerformanceAttributes CalculatePerformance(OsuDifficultyAttributes diffAttributes, uint mods, OsuScore score)
+    public override unsafe OsuPerformanceAttributes CalculatePerformance(OsuDifficultyAttributes diffAttributes, OsuScore score)
     {
-        OsuNative.Performance_ComputeOsu(_beatmapContextId, diffAttributes, mods, score, out OsuPerformanceAttributes attributes);
+        OsuNative.Performance_ComputeOsu(_beatmapContextId, diffAttributes, score, out OsuPerformanceAttributes attributes);
         return attributes;
     }
 }
@@ -52,15 +52,15 @@ public class TaikoDifficultyCalculator : DifficultyCalculator<TaikoDifficultyAtt
 
     public TaikoDifficultyCalculator(string text) : base(text) { }
 
-    public override TaikoDifficultyAttributes CalculateDifficulty(uint mods)
+    public override TaikoDifficultyAttributes CalculateDifficulty()
     {
-        OsuNative.Difficulty_ComputeTaiko(_beatmapContextId, mods, out TaikoDifficultyAttributes attributes);
+        OsuNative.Difficulty_ComputeTaiko(_beatmapContextId, out TaikoDifficultyAttributes attributes);
         return attributes;
     }
 
-    public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, uint mods, TaikoScore score)
+    public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
     {
-        int result = OsuNative.Performance_ComputeTaiko(_beatmapContextId, diffAttributes, mods, score, out TaikoPerformanceAttributes attributes);
+        OsuNative.Performance_ComputeTaiko(_beatmapContextId, diffAttributes, score, out TaikoPerformanceAttributes attributes);
         return attributes;
     }
 }
@@ -71,15 +71,15 @@ public class CatchDifficultyCalculator : DifficultyCalculator<CatchDifficultyAtt
 
     public CatchDifficultyCalculator(string text) : base(text) { }
 
-    public override CatchDifficultyAttributes CalculateDifficulty(uint mods)
+    public override CatchDifficultyAttributes CalculateDifficulty()
     {
-        OsuNative.Difficulty_ComputeCatch(_beatmapContextId, mods, out CatchDifficultyAttributes attributes);
+        OsuNative.Difficulty_ComputeCatch(_beatmapContextId, out CatchDifficultyAttributes attributes);
         return attributes;
     }
 
-    public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, uint mods, CatchScore score)
+    public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, CatchScore score)
     {
-        int result = OsuNative.Performance_ComputeCatch(_beatmapContextId, diffAttributes, mods, score, out CatchPerformanceAttributes attributes);
+        OsuNative.Performance_ComputeCatch(_beatmapContextId, diffAttributes, score, out CatchPerformanceAttributes attributes);
         return attributes;
     }
 }
@@ -90,15 +90,15 @@ public class ManiaDifficultyCalculator : DifficultyCalculator<ManiaDifficultyAtt
 
     public ManiaDifficultyCalculator(string text) : base(text) { }
 
-    public override ManiaDifficultyAttributes CalculateDifficulty(uint mods)
+    public override ManiaDifficultyAttributes CalculateDifficulty()
     {
-        OsuNative.Difficulty_ComputeMania(_beatmapContextId, mods, out ManiaDifficultyAttributes attributes);
+        OsuNative.Difficulty_ComputeMania(_beatmapContextId, out ManiaDifficultyAttributes attributes);
         return attributes;
     }
 
-    public override ManiaPerformanceAttributes CalculatePerformance(ManiaDifficultyAttributes diffAttributes, uint mods, ManiaScore score)
+    public override ManiaPerformanceAttributes CalculatePerformance(ManiaDifficultyAttributes diffAttributes, ManiaScore score)
     {
-        int result = OsuNative.Performance_ComputeMania(_beatmapContextId, diffAttributes, mods, score, out ManiaPerformanceAttributes attributes);
+        OsuNative.Performance_ComputeMania(_beatmapContextId, diffAttributes, score, out ManiaPerformanceAttributes attributes);
         return attributes;
     }
 }

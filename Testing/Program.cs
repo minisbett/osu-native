@@ -6,10 +6,10 @@ using osu.Native.Bindings;
 string osuFile = @"C:\Users\mini\Desktop\test.osu";
 
 
-TaikoDifficultyCalculator calculator = new TaikoDifficultyCalculator(new FileInfo(osuFile));
+OsuDifficultyCalculator calculator = new OsuDifficultyCalculator(new FileInfo(osuFile));
 
-TaikoDifficultyAttributes diffAttributes = calculator.CalculateDifficulty(0);
-TaikoPerformanceAttributes perfAttributes = calculator.CalculatePerformance(diffAttributes, 0, new TaikoScore() { MaxCombo = 581 });
+OsuDifficultyAttributes diffAttributes = calculator.CalculateDifficulty();
+OsuPerformanceAttributes perfAttributes = calculator.CalculatePerformance(diffAttributes, new OsuScore() { MaxCombo = 587 });
 
 Console.WriteLine("Star Rating: " + diffAttributes.StarRating);
 Console.WriteLine("Total PP: " + perfAttributes.Total);

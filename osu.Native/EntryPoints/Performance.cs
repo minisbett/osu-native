@@ -11,11 +11,7 @@ using osu.Game.Rulesets;
 using System;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Mods;
-using osu.Game.Beatmaps.Legacy;
-using System.Linq;
 using osu.Native.Helpers;
-using NuGet.Packaging.Rules;
-using System.Xml.Linq;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Catch.Difficulty;
@@ -28,9 +24,10 @@ namespace osu.Native.EntryPoints;
 public static unsafe class PerformanceEntryPoints
 {
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(int beatmapContextId, OsuDifficultyAttributes diffAttributes, uint mods, OsuScore score, OsuPerformanceAttributes* perfAttributes)
+    public static ErrorCode ComputeOsu(int beatmapContextId, OsuDifficultyAttributes diffAttributes, OsuScore score,
+                                       OsuPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<OsuRuleset>(beatmapContextId, diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<OsuRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -40,9 +37,10 @@ public static unsafe class PerformanceEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(int beatmapContextId, TaikoDifficultyAttributes diffAttributes, uint mods, TaikoScore score, TaikoPerformanceAttributes* perfAttributes)
+    public static ErrorCode ComputeTaiko(int beatmapContextId, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
+                                         TaikoPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<TaikoRuleset>(beatmapContextId, diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<TaikoRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -52,9 +50,10 @@ public static unsafe class PerformanceEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(int beatmapContextId, CatchDifficultyAttributes diffAttributes, uint mods, CatchScore score, CatchPerformanceAttributes* perfAttributes)
+    public static ErrorCode ComputeCatch(int beatmapContextId, CatchDifficultyAttributes diffAttributes, CatchScore score,
+                                         CatchPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<CatchRuleset>(beatmapContextId, diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<CatchRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -64,9 +63,10 @@ public static unsafe class PerformanceEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(int beatmapContextId, ManiaDifficultyAttributes diffAttributes, uint mods, ManiaScore score, ManiaPerformanceAttributes* perfAttributes)
+    public static ErrorCode ComputeMania(int beatmapContextId, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
+                                         ManiaPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<ManiaRuleset>(beatmapContextId, diffAttributes, mods, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<ManiaRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -75,24 +75,24 @@ public static unsafe class PerformanceEntryPoints
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputePerformance<TRuleset>(int beatmapContextId, IDifficultyAttributes diffAttributes, uint mods, IScore score,
-                                                out IPerformanceAttributes attributes) where TRuleset : Ruleset, new()
+    private static ErrorCode ComputePerformance<TRuleset>(int beatmapContextId, IDifficultyAttributes diffAttributes, IScore score,
+                                                          out IPerformanceAttributes attributes) where TRuleset : Ruleset, new()
     {
         try
         {
             Ruleset ruleset = new TRuleset();
-            FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
-            Mod[] rulesetMods = ruleset.ConvertFromLegacyMods((LegacyMods)mods).ToArray();
-            PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, "");
 
+            FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
+            PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
             attributes = calculator.Calculate(score.ToScoreInfo(ruleset, beatmap, rulesetMods), diffAttributes);
-            Console.WriteLine(attributes.Total);
+            
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
             attributes = null!;
-            return Logger.Error(ErrorCodeHelper.FromException(ex), ex.ToString());
+            return Logger.Error(ex);
         }
     }
 }

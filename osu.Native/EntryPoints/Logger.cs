@@ -41,4 +41,11 @@ public unsafe static class Logger
 
         return code;
     }
+
+    /// <summary>
+    /// Reports the error associated with the specified exception to the logger and returns the corresponding error code.
+    /// </summary>
+    /// <param name="exception">The exception.</param>
+    /// <returns>The error code associate with the exception.</returns>
+    public static ErrorCode Error(Exception exception) => Error(ErrorCodeHelper.FromException(exception), exception.ToString());
 }

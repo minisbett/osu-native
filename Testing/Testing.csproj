@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bindings\osu.Native.Bindings\osu.Native.Bindings.csproj" />
+    <ProjectReference Include="..\Bindings\Csharp\osu.Native.Bindings\osu.Native.Bindings.csproj" />
   </ItemGroup>
 
 </Project>

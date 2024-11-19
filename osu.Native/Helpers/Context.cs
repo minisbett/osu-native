@@ -67,7 +67,4 @@ public class Context<T>
 /// <summary>
 /// Indicates that the specified context ID is not associated with an object, either because the object was destroyed or the ID was never assigned.
 /// </summary>
-public class ContextNotFoundException : Exception
-{
-    public ContextNotFoundException() : base("The specified context ID has no associated object.") { }
-}
+public class ContextNotFoundException() : Exception("The specified context ID has no associated object.");

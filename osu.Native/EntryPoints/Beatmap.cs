@@ -25,17 +25,14 @@ public static unsafe class BeatmapEntryPoints
     {
         string filePath = Marshal.PtrToStringUTF8((IntPtr)filePathPtr) ?? string.Empty;
 
-        if (filePath == null)
-            return Logger.Error(ErrorCode.FileNotFound, "Beatmap file not found.");
-
         try
         {
-            *id = Contexts.Beatmaps.Create(new FlatWorkingBeatmap(filePath));
+            *id = Contexts.Beatmaps.Create(new FlatWorkingBeatmap(filePath)); // Throws FileNotFoundException if filePath cannot be found
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
-            return Logger.Error(ErrorCodeHelper.FromException(ex), ex.Message);
+            return Logger.Error(ex);
         }
     }
 
@@ -60,7 +57,7 @@ public static unsafe class BeatmapEntryPoints
         }
         catch (Exception ex)
         {
-            return Logger.Error(ErrorCodeHelper.FromException(ex), ex.Message);
+            return Logger.Error(ex);
         }
     }
 
@@ -71,7 +68,14 @@ public static unsafe class BeatmapEntryPoints
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_Destroy", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode Destroy(int id)
     {
-        Contexts.Beatmaps.Destroy(id);
-        return ErrorCode.Success;
+        try
+        {
+            Contexts.Beatmaps.Destroy(id);
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            return Logger.Error(ex);
+        }
     }
 }

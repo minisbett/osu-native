@@ -103,7 +103,7 @@ public struct ManiaPerformanceAttributes : IPerformanceAttributes
 public interface IScore { }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct OsuScore : IScore
+public unsafe struct OsuScore : IScore
 {
     public int MaxCombo;
     public int Count100;
@@ -114,7 +114,7 @@ public struct OsuScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct TaikoScore : IScore
+public unsafe struct TaikoScore : IScore
 {
     public int MaxCombo;
     public int CountGood;
@@ -122,7 +122,7 @@ public struct TaikoScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CatchScore : IScore
+public unsafe struct CatchScore : IScore
 {
     public int MaxCombo;
     public int CountDroplets;
@@ -132,7 +132,7 @@ public struct CatchScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct ManiaScore : IScore
+public unsafe struct ManiaScore : IScore
 {
     public int MaxCombo;
     public int CountGreat;

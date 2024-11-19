@@ -25,9 +25,9 @@ namespace osu.Native.EntryPoints;
 public unsafe static class DifficultyEntryPoints
 {
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(int beatmapContextId, uint mods, OsuDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeOsu(int beatmapContextId, OsuDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmapContextId, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -37,9 +37,9 @@ public unsafe static class DifficultyEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(int beatmapContextId, uint mods, TaikoDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeTaiko(int beatmapContextId, TaikoDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmapContextId, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -49,9 +49,9 @@ public unsafe static class DifficultyEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(int beatmapContextId, uint mods, CatchDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeCatch(int beatmapContextId, CatchDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmapContextId, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -61,9 +61,9 @@ public unsafe static class DifficultyEntryPoints
     }
 
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(int beatmapContextId, uint mods, ManiaDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeMania(int beatmapContextId, ManiaDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmapContextId, mods, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmapContextId, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -72,22 +72,23 @@ public unsafe static class DifficultyEntryPoints
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputeDifficulty<TRuleset>(int beatmapContextId, uint mods, out IDifficultyAttributes attributes) where TRuleset : Ruleset, new()
+    private static ErrorCode ComputeDifficulty<TRuleset>(int beatmapContextId, out IDifficultyAttributes attributes) where TRuleset : Ruleset, new()
     {
         try
         {
             Ruleset ruleset = new TRuleset();
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, "");
+
             FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
-            Mod[] rulesetMods = ruleset.ConvertFromLegacyMods((LegacyMods)mods).ToArray();
             DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(beatmap);
-            
             attributes = calculator.Calculate(rulesetMods);
+
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
             attributes = null!;
-            return Logger.Error(ErrorCodeHelper.FromException(ex), ex.ToString());
+            return Logger.Error(ex);
         }
     }
 }
