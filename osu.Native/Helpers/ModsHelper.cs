@@ -1,12 +1,12 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using Newtonsoft.Json;
-using osu.Game.Online.API;
-using osu.Game.Rulesets;
-using osu.Game.Rulesets.Mods;
 using System;
 using System.Linq;
+using osu.Game.Rulesets;
+using osu.Game.Online.API;
+using osu.Game.Rulesets.Mods;
+using Newtonsoft.Json;
 
 namespace osu.Native.Helpers;
 

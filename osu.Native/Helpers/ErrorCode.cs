@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using osu.Native.Objects;
 
 namespace osu.Native.Helpers;
 
@@ -22,9 +23,9 @@ public enum ErrorCode : byte
     FileNotFound = 1,
 
     /// <summary>
-    /// Indicates that a context in <see cref="Contexts"/> was not found. (see <see cref="ContextNotFoundException"/>)
+    /// Indicates that the object referenced by a native object was not found. (see <see cref="ObjectNotFoundException"/>)
     /// </summary>
-    ContextNotFound = 2,
+    ObjectNotFound = 2,
 
     /// <summary>
     /// Indicates that mods parsing failed. (see <see cref="ModsParsingFailedException"/>)
@@ -52,7 +53,7 @@ public static class ErrorCodeHelper
         return ex switch
         {
             FileNotFoundException => ErrorCode.FileNotFound,
-            ContextNotFoundException => ErrorCode.ContextNotFound,
+            ObjectNotFoundException => ErrorCode.ObjectNotFound,
             ModsParsingFailedException => ErrorCode.ModsParsingFailed,
             _ => ErrorCode.Failure
         };

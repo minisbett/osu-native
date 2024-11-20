@@ -1,33 +1,35 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System;
 using System.IO;
-using osu.Game.Beatmaps;
 using System.Text;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using osu.Game.Beatmaps;
 using osu.Game.IO;
-using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 using osu.Native.Helpers;
+using osu.Native.Objects;
+using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
 namespace osu.Native.EntryPoints;
 
-public static unsafe class BeatmapEntryPoints
+public static unsafe class Beatmap
 {
     /// <summary>
-    /// Creates a <see cref="FlatWorkingBeatmap"/> from the specified path and returns the associated context ID.
+    /// Creates a <see cref="FlatWorkingBeatmap"/> from the specified path and returns the native object referencing it.
     /// </summary>
     /// <param name="filePathPtr">The path to the .osu file.</param>
-    /// <param name="id">The context ID associated with the created beatmap object.</param>
+    /// <param name="beatmap">The native object referencing the beatmap object.</param>
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromFile", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode CreateFromFile(char* filePathPtr, int* id)
+    public static ErrorCode CreateFromFile(char* filePathPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
         string filePath = Marshal.PtrToStringUTF8((IntPtr)filePathPtr) ?? string.Empty;
 
         try
         {
-            *id = Contexts.Beatmaps.Create(new FlatWorkingBeatmap(filePath)); // Throws FileNotFoundException if filePath cannot be found
+            FlatWorkingBeatmap workingBeatmap = new(filePath); // Throws FileNotFoundException if filePath cannot be found
+            *beatmap = NativeObject<FlatWorkingBeatmap>.Create(workingBeatmap);
             return ErrorCode.Success;
         }
         catch (Exception ex)
@@ -37,12 +39,12 @@ public static unsafe class BeatmapEntryPoints
     }
 
     /// <summary>
-    /// Creates a <see cref="FlatWorkingBeatmap"/> from the .osu file content and returns the associated context ID.
+    /// Creates a <see cref="FlatWorkingBeatmap"/> from the .osu file content and returns the native object referencing it.
     /// </summary>
     /// <param name="textPtr">The .osu file content.</param>
-    /// <param name="id">The context ID associated with the created beatmap object.</param>
+    /// <param name="beatmap">The native object referencing the beatmap object.</param>
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromText", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode CreateFromText(char* textPtr, int* id)
+    public static ErrorCode CreateFromText(char* textPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
         string text = Marshal.PtrToStringUTF8((IntPtr)textPtr) ?? string.Empty;
 
@@ -50,9 +52,9 @@ public static unsafe class BeatmapEntryPoints
         {
             using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
             using LineBufferedReader reader = new(ms);
-            FlatWorkingBeatmap beatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));
+            FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Game.Beatmaps.Beatmap>(reader).Decode(reader));
 
-            *id = Contexts.Beatmaps.Create(beatmap);
+            *beatmap = NativeObject<FlatWorkingBeatmap>.Create(workingBeatmap);
             return ErrorCode.Success;
         }
         catch (Exception ex)
@@ -62,15 +64,15 @@ public static unsafe class BeatmapEntryPoints
     }
 
     /// <summary>
-    /// Destroys the <see cref="FlatWorkingBeatmap"/> associated with the specified context ID.
+    /// Destroys the <see cref="FlatWorkingBeatmap"/> referenced by the specified native object.
     /// </summary>
-    /// <param name="id">The context ID associated with the beatmap object.</param>
+    /// <param name="beatmap">The native object referencing the beatmap object.</param>
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode Destroy(int id)
+    public static ErrorCode Destroy(NativeObject<FlatWorkingBeatmap> beatmap)
     {
         try
         {
-            Contexts.Beatmaps.Destroy(id);
+            beatmap.Destroy();
             return ErrorCode.Success;
         }
         catch (Exception ex)

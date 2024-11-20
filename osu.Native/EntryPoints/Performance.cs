@@ -1,33 +1,41 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using osu.Game.Rulesets.Osu.Difficulty;
-using osu.Game.Rulesets.Osu;
-using osu.Native.Structs;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using osu.Game.Rulesets.Difficulty;
-using osu.Game.Rulesets;
-using System;
 using osu.Game.Beatmaps;
+using osu.Game.Rulesets;
+using osu.Game.Rulesets.Osu.Difficulty;
+using osu.Game.Rulesets.Osu;
+using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
-using osu.Native.Helpers;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Catch.Difficulty;
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Game.Rulesets.Mania;
+using osu.Native.Objects;
+using osu.Native.Structs;
+using osu.Native.Helpers;
 
 namespace osu.Native.EntryPoints;
 
-public static unsafe class PerformanceEntryPoints
+public static unsafe class Performance
 {
+    /// <summary>
+    /// Computes the performance attributes of the specified beatmap and score with the specified difficulty attributes in the osu! ruleset.
+    /// </summary>
+    /// <param name="beatmap">The native object referencing the beatmap.</param>
+    /// <param name="diffAttributes">The difficulty attributes.</param>
+    /// <param name="score">The score information.</param>
+    /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(int beatmapContextId, OsuDifficultyAttributes diffAttributes, OsuScore score,
+    public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
                                        OsuPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<OsuRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<OsuRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -36,11 +44,19 @@ public static unsafe class PerformanceEntryPoints
         return ErrorCode.Success;
     }
 
+
+    /// <summary>
+    /// Computes the performance attributes of the specified beatmap and score with the specified difficulty attributes in the osu!taiko ruleset.
+    /// </summary>
+    /// <param name="beatmap">The native object referencing the beatmap.</param>
+    /// <param name="diffAttributes">The difficulty attributes.</param>
+    /// <param name="score">The score information.</param>
+    /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(int beatmapContextId, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
+    public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
                                          TaikoPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<TaikoRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<TaikoRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -49,11 +65,19 @@ public static unsafe class PerformanceEntryPoints
         return ErrorCode.Success;
     }
 
+
+    /// <summary>
+    /// Computes the performance attributes of the specified beatmap and score with the specified difficulty attributes in the osu!catch ruleset.
+    /// </summary>
+    /// <param name="beatmap">The native object referencing the beatmap.</param>
+    /// <param name="diffAttributes">The difficulty attributes.</param>
+    /// <param name="score">The score information.</param>
+    /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(int beatmapContextId, CatchDifficultyAttributes diffAttributes, CatchScore score,
+    public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
                                          CatchPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<CatchRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<CatchRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -62,11 +86,18 @@ public static unsafe class PerformanceEntryPoints
         return ErrorCode.Success;
     }
 
+    /// <summary>
+    /// Computes the performance attributes of the specified beatmap and score with the specified difficulty attributes in the osu!mania ruleset.
+    /// </summary>
+    /// <param name="beatmap">The native object referencing the beatmap.</param>
+    /// <param name="diffAttributes">The difficulty attributes.</param>
+    /// <param name="score">The score information.</param>
+    /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(int beatmapContextId, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
+    public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
                                          ManiaPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<ManiaRuleset>(beatmapContextId, diffAttributes, score, out IPerformanceAttributes attributes);
+        ErrorCode error = ComputePerformance<ManiaRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -75,7 +106,7 @@ public static unsafe class PerformanceEntryPoints
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputePerformance<TRuleset>(int beatmapContextId, IDifficultyAttributes diffAttributes, IScore score,
+    private static ErrorCode ComputePerformance<TRuleset>(INativeObject<FlatWorkingBeatmap> beatmap, IDifficultyAttributes diffAttributes, IScore score,
                                                           out IPerformanceAttributes attributes) where TRuleset : Ruleset, new()
     {
         try
@@ -83,9 +114,9 @@ public static unsafe class PerformanceEntryPoints
             Ruleset ruleset = new TRuleset();
             Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, "");
 
-            FlatWorkingBeatmap beatmap = Contexts.Beatmaps.Resolve(beatmapContextId);
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
             PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
-            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, beatmap, rulesetMods), diffAttributes);
+            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, workingBeatmap, rulesetMods), diffAttributes);
             
             return ErrorCode.Success;
         }

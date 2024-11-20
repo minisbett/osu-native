@@ -15,6 +15,9 @@ namespace osu.Native;
 public static class OsuNative
 {
 #pragma warning disable CA2255
+    /// <summary>
+    /// The "DllMain" of osu-native, initializing important runtime components.
+    /// </summary>
     [ModuleInitializer]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(OsuRuleset))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(TaikoRuleset))]
