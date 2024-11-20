@@ -9,7 +9,6 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
-using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 

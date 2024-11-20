@@ -1,6 +1,5 @@
 <Project>
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
@@ -8,18 +7,5 @@
 
     <PropertyGroup>
         <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
-        <ArtifactsPath>$(RepositoryRoot)artifacts</ArtifactsPath>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <DesktopLibName>osu.Native</DesktopLibName>
-        <DesktopLibProject>$(RepositoryRoot)Sources/$(DesktopLibName)</DesktopLibProject>
-        <DesktopLibArtifactPath>$(ArtifactsPath)/publish/$(DesktopLibName)/release/</DesktopLibArtifactPath>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <DesktopLibArtifact Include="$(DesktopLibArtifactPath)$(DesktopLibName).dylib" Condition="Exists('$(DesktopLibArtifactPath)$(DesktopLibName).dylib')"/>
-        <DesktopLibArtifact Include="$(DesktopLibArtifactPath)$(DesktopLibName).dll" Condition="Exists('$(DesktopLibArtifactPath)$(DesktopLibName).dll')"/>
-        <DesktopLibArtifact Include="$(DesktopLibArtifactPath)$(DesktopLibName).so" Condition="Exists('$(DesktopLibArtifactPath)$(DesktopLibName).so')"/>
-    </ItemGroup>
 </Project>

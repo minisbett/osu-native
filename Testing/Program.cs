@@ -13,3 +13,9 @@ OsuPerformanceAttributes perfAttributes = calculator.CalculatePerformance(diffAt
 
 Console.WriteLine("Star Rating: " + diffAttributes.StarRating);
 Console.WriteLine("Total PP: " + perfAttributes.Total);
+
+// TODO: implement artifacts publish thing for osu.Native and osu.Native.Bindings
+//       proper mod support
+//       implement logger in osu.Native.Bindings
+//       implement error handling in osu.Native.Bindings
+//       implement tests

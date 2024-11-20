@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net4.0</TargetFramework>
+    <DefineConstants>IS_BINDINGS</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(RepositoryRoot)/osu.Native/Helpers/ErrorCode.cs" />
+    <Compile Include="$(RepositoryRoot)/osu.Native/Structs/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\mini\source\repos\minisbett\osu-native\osu.Native\Structs\Scores.cs" />
+  </ItemGroup>
+</Project>

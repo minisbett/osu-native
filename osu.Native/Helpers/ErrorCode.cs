@@ -3,7 +3,9 @@
 
 using System;
 using System.IO;
+#if !IS_BINDINGS
 using osu.Native.Objects;
+#endif
 
 namespace osu.Native.Helpers;
 
@@ -23,12 +25,12 @@ public enum ErrorCode : byte
     FileNotFound = 1,
 
     /// <summary>
-    /// Indicates that the object referenced by a native object was not found. (see <see cref="ObjectNotFoundException"/>)
+    /// Indicates that the object referenced by a native object was not found.
     /// </summary>
     ObjectNotFound = 2,
 
     /// <summary>
-    /// Indicates that mods parsing failed. (see <see cref="ModsParsingFailedException"/>)
+    /// Indicates that mods parsing failed.
     /// </summary>
     ModsParsingFailed = 3,
 
@@ -38,6 +40,7 @@ public enum ErrorCode : byte
     Failure = 255
 }
 
+#if !IS_BINDINGS
 /// <summary>
 /// Provides helper methods for the <see cref="ErrorCode"/> enumerable.
 /// </summary>
@@ -59,3 +62,4 @@ public static class ErrorCodeHelper
         };
     }
 }
+#endif
