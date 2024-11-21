@@ -15,7 +15,7 @@ public static class Context<T> where T : notnull
     /// <summary>
     /// Holds all managed objects with their associated content IDs.
     /// </summary>
-    public static Dictionary<int, T> Objects { get; } = new();
+    public static Dictionary<int, T> Objects { get; } = [];
 
     /// <summary>
     /// Provides the next available context ID via <see cref="Interlocked.Increment(ref int)"/> and increases it by 1.

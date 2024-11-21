@@ -6,7 +6,9 @@ using System.Linq;
 using osu.Game.Rulesets;
 using osu.Game.Online.API;
 using osu.Game.Rulesets.Mods;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Collections.Generic;
 
 namespace osu.Native.Helpers;
 
@@ -26,7 +28,7 @@ public static class ModsHelper
 
         try
         {
-            APIMod[] mods = JsonConvert.DeserializeObject<APIMod[]>(json)!;
+            APIMod[] mods = JsonSerializer.Deserialize(json, APIModSourceGenerationContext.Default.APIModArray)!;
             return [.. mods.Select(m => m.ToMod(ruleset))];
         }
         catch (Exception ex)
@@ -35,6 +37,16 @@ public static class ModsHelper
         }
     }
 }
+
+/// <summary>
+/// The source generation context for the JSON parsing of <see cref="Game.Online.API.APIMod"/>.
+/// This is necessary as reflection-based serialization is not available with NativeAOT.
+/// </summary>
+[JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)] // "acronym"/"settings" vs "Acronym"/"Settings"
+[JsonSerializable(typeof(APIMod[]))]
+[JsonSerializable(typeof(string))] // Acronym
+[JsonSerializable(typeof(Dictionary<string, object>))] // Settings
+public partial class APIModSourceGenerationContext : JsonSerializerContext;
 
 /// <summary>
 /// Indicates that parsing an <see cref="APIMod"/>[] JSON failed.

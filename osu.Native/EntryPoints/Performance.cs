@@ -112,12 +112,10 @@ public static unsafe class Performance
         try
         {
             Ruleset ruleset = new TRuleset();
-            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, "");
-
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
             PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
-            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, workingBeatmap, rulesetMods), diffAttributes);
-            
+            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, workingBeatmap), diffAttributes);
+
             return ErrorCode.Success;
         }
         catch (Exception ex)

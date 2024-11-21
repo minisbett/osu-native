@@ -29,9 +29,9 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, OsuDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmap, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -46,9 +46,9 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, TaikoDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmap, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -63,9 +63,9 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, CatchDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmap, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -80,9 +80,9 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, ManiaDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmap, out IDifficultyAttributes attributes);
+        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
             return error;
 
@@ -91,13 +91,13 @@ public unsafe static class Difficulty
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputeDifficulty<TRuleset>(NativeObject<FlatWorkingBeatmap> beatmap, out IDifficultyAttributes attributes)
+    private static ErrorCode ComputeDifficulty<TRuleset>(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, out IDifficultyAttributes attributes)
         where TRuleset : Ruleset, new()
     {
         try
         {
             Ruleset ruleset = new TRuleset();
-            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, "");
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)mods) ?? "");
 
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
             DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);

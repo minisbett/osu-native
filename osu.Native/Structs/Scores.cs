@@ -9,19 +9,22 @@ using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
+using osu.Native.Helpers;
 using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace osu.Native.Structs;
 
-public interface IScore
+public unsafe interface IScore
 {
-    public ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap beatmap, Mod[] mods);
+    public char* Mods { get; }
+    public ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap beatmap);
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct OsuScore : IScore
+public unsafe struct OsuScore : IScore
 {
+    public char* Mods { get; }
     public int MaxCombo;
     public int Count100;
     public int Count50;
@@ -29,14 +32,14 @@ public struct OsuScore : IScore
     public int CountLargeTickMiss;
     public int CountSliderTailMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap, Mod[] mods)
+    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
     {
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int count300 = beatmap.HitObjects.Count - Count100 - Count50 - CountMiss;
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = mods,
+            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
             MaxCombo = MaxCombo,
             Accuracy = (double)(300 * count300 + 100 * Count100 + 50 * Count50 + CountMiss) / (beatmap.HitObjects.Count * 300),
             Statistics = new()
@@ -53,20 +56,21 @@ public struct OsuScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct TaikoScore : IScore
+public unsafe struct TaikoScore : IScore
 {
+    public char* Mods { get; }
     public int MaxCombo;
     public int CountGood;
     public int CountMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap, Mod[] mods)
+    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
     {
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int countGreat = beatmap.GetMaxCombo() - CountGood - CountMiss;
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = mods,
+            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
             MaxCombo = MaxCombo,
             Accuracy = (double)(2 * countGreat + CountGood) / (2 * (countGreat + CountGood + CountMiss)),
             Statistics = new()
@@ -81,15 +85,16 @@ public struct TaikoScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CatchScore : IScore
+public unsafe struct CatchScore : IScore
 {
+    public char* Mods { get; }
     public int MaxCombo;
     public int CountDroplets;
     public int CountTinyDroplets;
     public int CountTinyMisses;
     public int CountMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap, Mod[] mods)
+    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
     {
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int maxDroplets = beatmap.HitObjects.OfType<JuiceStream>().Sum(s => s.NestedHitObjects.OfType<TinyDroplet>().Count());
@@ -98,7 +103,7 @@ public struct CatchScore : IScore
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = mods,
+            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
             MaxCombo = MaxCombo,
             Accuracy = (double)(countFruits + CountDroplets + CountTinyDroplets) / (countFruits + CountDroplets + CountTinyDroplets + CountTinyMisses + CountMiss),
             Statistics = new()
@@ -114,20 +119,21 @@ public struct CatchScore : IScore
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct ManiaScore : IScore
+public unsafe struct ManiaScore : IScore
 {
-    /// <summary>
-    /// On osu!lazer, hold notes provide two judgements instead of one. Therefore, a differentiation between osu!lazer and osu!stable needs to be made here.
-    /// </summary>
-    public bool IsLazer;
-    public int MaxCombo;
+    public char* Mods { get; }
     public int CountGreat;
     public int CountGood;
     public int CountOk;
     public int CountMeh;
     public int CountMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap, Mod[] mods)
+    /// <summary>
+    /// On osu!lazer, hold notes provide two judgements instead of one. Therefore, a differentiation between osu!lazer and osu!stable needs to be made here.
+    /// </summary>
+    public bool IsLazer;
+
+    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
     {
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int totalHits = beatmap.HitObjects.Count + (IsLazer ? 2 : 1) * beatmap.HitObjects.Count(ho => ho is HoldNote);
@@ -136,7 +142,7 @@ public struct ManiaScore : IScore
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
             // Mania does not use the maximum combo or accuracy in PP calculation (it calculates the accuracy itself), therefore it is omitted here.
-            Mods = mods,
+            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
             Statistics = new()
             {
                 { HitResult.Perfect, countPerfect },

@@ -8,7 +8,7 @@ namespace osu.Native.Bindings;
 
 public static class OsuNative
 {
-    private const string LIB_PATH = "C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\artifacts\\publish\\osu.Native\\release\\osu.Native.dll";
+    private const string LIB_PATH = @"C:\Users\mini\source\repos\minisbett\osu-native\osu.Native\bin\Release\win-x64\publish\osu.Native.dll";
 
     #region Beatmap
 
@@ -26,16 +26,16 @@ public static class OsuNative
     #region Difficulty
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeOsu", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ErrorCode Difficulty_ComputeOsu(int beatmapContextId, out OsuDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeOsu(int beatmapContextId, string mods, out OsuDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeTaiko", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ErrorCode Difficulty_ComputeTaiko(int beatmapContextId, out TaikoDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeTaiko(int beatmapContextId, string mods, out TaikoDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeCatch", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ErrorCode Difficulty_ComputeCatch(int beatmapContextId, out CatchDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeCatch(int beatmapContextId, string mods, out CatchDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeMania", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ErrorCode Difficulty_ComputeMania(int beatmapContextId, out ManiaDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeMania(int beatmapContextId, string mods, out ManiaDifficultyAttributes attributes);
 
     #endregion
 
