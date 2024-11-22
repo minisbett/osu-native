@@ -27,10 +27,6 @@ public static class OsuNative
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(CatchRuleset))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ManiaRuleset))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ModDoubleTime))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(Mod))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(IBindable))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(IBindable<>))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(IConvertible))]
     public static void Initialize()
     {
         // EntryAssembly is null for NativeAOT, but is needed for DebugUtils to work correctly.
