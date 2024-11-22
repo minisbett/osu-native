@@ -28,8 +28,30 @@ public static class ModsHelper
 
         try
         {
-            APIMod[] mods = JsonSerializer.Deserialize(json, APIModSourceGenerationContext.Default.APIModArray)!;
-            return [.. mods.Select(m => m.ToMod(ruleset))];
+            // Note: This deserializes the settings of the mods into Dictionary<string, JsonElement>, requiring special unwrapping.
+            APIMod[] apiMods = JsonSerializer.Deserialize(json, APIModSourceGenerationContext.Default.APIModArray)!;
+            foreach (APIMod mod in apiMods)
+                foreach (KeyValuePair<string, object> setting in mod.Settings)
+                {
+                    JsonElement element = (JsonElement)setting.Value;
+                    mod.Settings[setting.Key] = element.ValueKind switch
+                    {
+                        JsonValueKind.True => true,
+                        JsonValueKind.False => false,
+                        JsonValueKind.String => element.GetString()!,
+                        JsonValueKind.Number => element.GetDouble()!,
+                        _ => throw new InvalidCastException($"Could not find a native type for '{element.ValueKind}'.")
+                    };
+                }
+
+            Mod[] mods = [.. apiMods.Select(m => m.ToMod(ruleset))];
+
+            // Throw if any acronym could not be found in the ruleset.
+            Mod? unknownMod = mods.FirstOrDefault(x => x is UnknownMod);
+            if (unknownMod is not null)
+                throw new ModsParsingFailedException($"Unknown mod acronym for ruleset '{ruleset.ShortName}': '{unknownMod.Acronym}'.");
+
+            return mods;
         }
         catch (Exception ex)
         {

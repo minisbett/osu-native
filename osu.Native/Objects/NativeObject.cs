@@ -6,7 +6,7 @@ using System.Threading;
 namespace osu.Native.Objects;
 
 /// <summary>
-/// A basic native object, only containing the contxt ID for referring to the associated managed object.
+/// A basic native object, only containing the context ID for referring to the associated managed object.
 /// </summary>
 /// <typeparam name="T">The type of object this native object refers to.</typeparam>
 public readonly struct NativeObject<T> : INativeObject<T> where T : notnull
