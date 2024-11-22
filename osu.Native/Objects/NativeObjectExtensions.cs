@@ -26,8 +26,11 @@ public static class NativeObjectExtensions
     /// <exception cref="ObjectNotFoundException">Throws if the managed object was already destroyed.</exception>
     public static void Destroy<T>(this INativeObject<T> nativeObject) where T : notnull
     {
-        if (!Context<T>.Objects.Remove(nativeObject.ContextId))
-            throw new ObjectNotFoundException();
+        T obj = nativeObject.Resolve();
+        if(obj is IDisposable disposable)
+            disposable.Dispose();
+
+        Context<T>.Objects.Remove(nativeObject.ContextId);
     }
 }
 
