@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace osu.Native.Bindings;
+namespace osu.Native.Bindings.Models;
 
 public class Mod(string acronym, Dictionary<string, object>? settings = null)
 {
@@ -12,5 +12,5 @@ public class Mod(string acronym, Dictionary<string, object>? settings = null)
     public string Acronym { get; } = acronym;
 
     [JsonProperty("settings")]
-    public Dictionary<string, object> Settings { get; } = settings ?? new Dictionary<string, object>();
+    public Dictionary<string, object> Settings { get; } = settings ?? [];
 }

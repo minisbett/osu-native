@@ -1,0 +1,28 @@
+﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
+// See the LICENCE file in the repository root for full licence text.
+
+using Newtonsoft.Json;
+using osu.Native.Bindings.Models;
+using osu.Native.Bindings.Models.Taiko;
+using System.IO;
+
+namespace osu.Native.Bindings.Difficulty;
+
+public class TaikoDifficultyCalculator : DifficultyCalculator<TaikoDifficultyAttributes, TaikoPerformanceAttributes, TaikoScore>
+{
+    public TaikoDifficultyCalculator(FileInfo file) : base(file) { }
+
+    public TaikoDifficultyCalculator(string text) : base(text) { }
+
+    public override TaikoDifficultyAttributes CalculateDifficulty(Mod[] mods)
+    {
+        OsuNative.Difficulty_ComputeTaiko(_beatmapContextId, JsonConvert.SerializeObject(mods), out TaikoDifficultyAttributes attributes);
+        return attributes;
+    }
+
+    public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
+    {
+        OsuNative.Performance_ComputeTaiko(_beatmapContextId, diffAttributes, score.ToNative(), out TaikoPerformanceAttributes attributes);
+        return attributes;
+    }
+}
