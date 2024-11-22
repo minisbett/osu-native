@@ -24,7 +24,7 @@ public static unsafe class Beatmap
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromFile", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode CreateFromFile(char* filePathPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
-        string filePath = Marshal.PtrToStringUTF8((IntPtr)filePathPtr) ?? string.Empty;
+        string filePath = Marshal.PtrToStringUTF8((nint)filePathPtr) ?? string.Empty;
 
         try
         {
@@ -46,7 +46,7 @@ public static unsafe class Beatmap
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromText", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode CreateFromText(char* textPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
-        string text = Marshal.PtrToStringUTF8((IntPtr)textPtr) ?? string.Empty;
+        string text = Marshal.PtrToStringUTF8((nint)textPtr) ?? string.Empty;
 
         try
         {

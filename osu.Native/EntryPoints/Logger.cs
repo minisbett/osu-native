@@ -18,7 +18,7 @@ public unsafe static class Logger
     /// </summary>
     /// <param name="ptr">A <see cref="LogDelegate"/> callback to handle the message.</param>
     [UnmanagedCallersOnly(EntryPoint = "Logger_Set", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode SetLogger(nint ptr)
+    public static ErrorCode Logger_Set(nint ptr)
     {
         logger = Marshal.GetDelegateForFunctionPointer<LogDelegate>(ptr);
         return ErrorCode.Success;
