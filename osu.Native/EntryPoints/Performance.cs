@@ -9,7 +9,6 @@ using osu.Game.Rulesets;
 using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Difficulty;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Catch.Difficulty;
