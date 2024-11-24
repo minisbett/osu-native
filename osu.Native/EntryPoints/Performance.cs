@@ -110,10 +110,9 @@ public static unsafe class Performance
     {
         try
         {
-            Ruleset ruleset = new TRuleset();
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
-            PerformanceCalculator calculator = ruleset.CreatePerformanceCalculator()!;
-            attributes = calculator.Calculate(score.ToScoreInfo(ruleset, workingBeatmap), diffAttributes);
+            PerformanceCalculator calculator = new TRuleset().CreatePerformanceCalculator()!;
+            attributes = calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes);
 
             return ErrorCode.Success;
         }

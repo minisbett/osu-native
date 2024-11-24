@@ -5,6 +5,9 @@ using System;
 
 namespace osu.Native.Objects;
 
+/// <summary>
+/// Provides helper methods for <see cref="INativeObject{T}"/>.
+/// </summary>
 public static class NativeObjectExtensions
 {
     /// <summary>

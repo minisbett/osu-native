@@ -3,10 +3,15 @@
 
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
+using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Catch.Objects;
+using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Mania.Objects;
+using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Scoring;
+using osu.Game.Rulesets.Taiko;
+using osu.Game.Rulesets.Taiko.Replays;
 using osu.Game.Scoring;
 using osu.Native.Helpers;
 using System.Linq;
@@ -14,12 +19,24 @@ using System.Runtime.InteropServices;
 
 namespace osu.Native.Structs;
 
+/// <summary>
+/// The common class for all structs representing score information in the context of PP calculation.
+/// </summary>
 public unsafe interface IScore
 {
     public char* Mods { get; }
-    public ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap beatmap);
+
+    /// <summary>
+    /// Builds a <see cref="ScoreInfo"/> object with the available score information.
+    /// </summary>
+    /// <param name="beatmap">The beatmap the score corresponds to.</param>
+    /// <returns>The built <see cref="ScoreInfo"/> object.</returns>
+    public ScoreInfo ToScoreInfo(FlatWorkingBeatmap beatmap);
 }
 
+/// <summary>
+/// Represents score information for the osu! ruleset in the context of PP calculation.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct OsuScore : IScore
 {
@@ -31,8 +48,10 @@ public unsafe struct OsuScore : IScore
     public int CountLargeTickMiss;
     public int CountSliderTailMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
+    /// <inheritdoc/>
+    public readonly ScoreInfo ToScoreInfo(FlatWorkingBeatmap workingBeatmap)
     {
+        Ruleset ruleset = new OsuRuleset();
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int count300 = beatmap.HitObjects.Count - Count100 - Count50 - CountMiss;
 
@@ -54,6 +73,9 @@ public unsafe struct OsuScore : IScore
     }
 }
 
+/// <summary>
+/// Represents score information for the osu!taiko ruleset in the context of PP calculation.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct TaikoScore : IScore
 {
@@ -62,8 +84,10 @@ public unsafe struct TaikoScore : IScore
     public int CountGood;
     public int CountMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
+    /// <inheritdoc/>
+    public readonly ScoreInfo ToScoreInfo(FlatWorkingBeatmap workingBeatmap)
     {
+        Ruleset ruleset = new TaikoRuleset();
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int countGreat = beatmap.GetMaxCombo() - CountGood - CountMiss;
 
@@ -83,6 +107,9 @@ public unsafe struct TaikoScore : IScore
     }
 }
 
+/// <summary>
+/// Represents score information for the osu!catch ruleset in the context of PP calculation.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct CatchScore : IScore
 {
@@ -93,8 +120,10 @@ public unsafe struct CatchScore : IScore
     public int CountTinyMisses;
     public int CountMiss;
 
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
+    /// <inheritdoc/>
+    public readonly ScoreInfo ToScoreInfo(FlatWorkingBeatmap workingBeatmap)
     {
+        Ruleset ruleset = new CatchRuleset();
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int maxDroplets = beatmap.HitObjects.OfType<JuiceStream>().Sum(s => s.NestedHitObjects.OfType<TinyDroplet>().Count());
         int maxFruits = beatmap.HitObjects.Sum(h => h is Fruit ? 1 : (h as JuiceStream)?.NestedHitObjects.Count(n => n is Fruit) ?? 0);
@@ -117,6 +146,9 @@ public unsafe struct CatchScore : IScore
     }
 }
 
+/// <summary>
+/// Represents score information for the osu!mania ruleset in the context of PP calculation.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct ManiaScore : IScore
 {
@@ -131,9 +163,11 @@ public unsafe struct ManiaScore : IScore
     /// On osu!lazer, hold notes provide two judgements instead of one. Therefore, a differentiation between osu!lazer and osu!stable needs to be made here.
     /// </summary>
     public bool IsLazer;
-
-    public readonly ScoreInfo ToScoreInfo(Ruleset ruleset, FlatWorkingBeatmap workingBeatmap)
+    
+    /// <inheritdoc/>
+    public readonly ScoreInfo ToScoreInfo(FlatWorkingBeatmap workingBeatmap)
     {
+        Ruleset ruleset = new ManiaRuleset();
         IBeatmap beatmap = workingBeatmap.GetPlayableBeatmap(ruleset.RulesetInfo);
         int totalHits = beatmap.HitObjects.Count + (IsLazer ? 2 : 1) * beatmap.HitObjects.Count(ho => ho is HoldNote);
         int countPerfect = totalHits - CountMiss - CountMeh - CountOk - CountGood - CountGreat;
