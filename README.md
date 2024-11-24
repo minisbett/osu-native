@@ -7,36 +7,8 @@
 
 # osu-native
 
-Native tools for osu!
+A native (AOT-compiled) library for accessing different parts of the osu!lazer codebase (eg. PP calculation).
 
 > [!CAUTION]
 >
-> Work in progress. API is unstable. Usage scenarios/requests welcome!
-
-## Usage
-
-Check out the [samples](https://github.com/smoogipoo/osu-native/tree/master/Samples)!
-
-## Building / Running
-
-### Desktop:
-
-```sh
-# Build the native project -> ./artifacts/publish/osu.Native/release/
-dotnet publish --ucr ./Sources/osu.Native/osu.Native.csproj
-
-# Run the sample project
-dotnet run --project Samples/CSharp/Samples.CSharp.csproj -- <beatmap_file> <ruleset_id> <mods_int>
-```
-
-### WebAssembly:
-
-```sh
-# Build the native project -> ./artifacts/publish/osu.Native.WebAssembly/release/ 
-dotnet publish ./Sources/osu.Native.WebAssembly/osu.Native.WebAssembly.csproj
-
-# Run the sample project
-python3 -m http.server --directory ./artifacts/publish/osu.Native.WebAssembly/release/wwwroot
-
-# Navigate to http://localhost:8000
-```
+> This library is work in progress. Feature requests are welcome!
