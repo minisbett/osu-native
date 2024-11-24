@@ -11,7 +11,6 @@ using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Objects;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Rulesets.Taiko;
-using osu.Game.Rulesets.Taiko.Replays;
 using osu.Game.Scoring;
 using osu.Native.Helpers;
 using System.Linq;
@@ -163,7 +162,7 @@ public unsafe struct ManiaScore : IScore
     /// On osu!lazer, hold notes provide two judgements instead of one. Therefore, a differentiation between osu!lazer and osu!stable needs to be made here.
     /// </summary>
     public bool IsLazer;
-    
+
     /// <inheritdoc/>
     public readonly ScoreInfo ToScoreInfo(FlatWorkingBeatmap workingBeatmap)
     {
