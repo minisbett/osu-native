@@ -1,14 +1,13 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
-using osu.Framework.Bindables;
+#pragma warning disable CA2255
+
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania;
-using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 using osu.Native.EntryPoints;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -17,7 +16,6 @@ namespace osu.Native;
 
 public static class OsuNative
 {
-#pragma warning disable CA2255
     /// <summary>
     /// The "DllMain" of osu-native, initializing important runtime components.
     /// </summary>
@@ -26,6 +24,7 @@ public static class OsuNative
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(TaikoRuleset))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(CatchRuleset))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ManiaRuleset))]
+    #region Mod Dynamic Dependencies
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mods.Mod))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mods.ModAccuracyChallenge))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mods.ModAdaptiveSpeed))]
@@ -185,9 +184,10 @@ public static class OsuNative
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mania.Mods.ManiaModRandom))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mania.Mods.ManiaModSuddenDeath))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Mania.Mods.ManiaModWithPlayfieldCover))]
+    #endregion
     public static void Initialize()
     {
-        // EntryAssembly is null for NativeAOT, but is needed for DebugUtils to work correctly.
+        // The entry assembly is null in AOT-compiled assemblies, but is needed for osu!framework's DebugUtils to work correctly.
         Assembly.SetEntryAssembly(typeof(Logger).Assembly);
     }
 }
