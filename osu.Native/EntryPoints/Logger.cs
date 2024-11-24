@@ -10,17 +10,23 @@ namespace osu.Native.EntryPoints;
 
 public unsafe static class Logger
 {
-    private delegate void LogDelegate(char* message);
-    private static LogDelegate? logger;
+    /// <summary>
+    /// The logging delegate, containing the error code and associated message.
+    /// </summary>
+    /// <param name="code">The error code.</param>
+    /// <param name="message">The error message. (eg. exception message, stack trace)</param>
+    private delegate void LogDelegate(ErrorCode code, char* message);
+    
+    private static LogDelegate? _logger;
 
     /// <summary>
     /// Sets the logger.
     /// </summary>
     /// <param name="ptr">A <see cref="LogDelegate"/> callback to handle the message.</param>
     [UnmanagedCallersOnly(EntryPoint = "Logger_Set", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode Logger_Set(nint ptr)
+    public static ErrorCode Set(nint ptr)
     {
-        logger = Marshal.GetDelegateForFunctionPointer<LogDelegate>(ptr);
+        _logger = Marshal.GetDelegateForFunctionPointer<LogDelegate>(ptr);
         return ErrorCode.Success;
     }
 
@@ -32,10 +38,10 @@ public unsafe static class Logger
     /// <returns>The reported error code.</returns>
     public static ErrorCode Error(ErrorCode code, string description)
     {
-        if (logger != null)
+        if (_logger != null)
         {
             nint msgPtr = Marshal.StringToHGlobalUni(description);
-            logger((char*)msgPtr);
+            _logger(code, (char*)msgPtr);
             Marshal.FreeHGlobal(msgPtr);
         }
 

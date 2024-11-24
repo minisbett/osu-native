@@ -24,10 +24,9 @@ public static unsafe class Beatmap
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromFile", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode CreateFromFile(char* filePathPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
-        string filePath = Marshal.PtrToStringUTF8((nint)filePathPtr) ?? string.Empty;
-
         try
         {
+            string filePath = Marshal.PtrToStringUTF8((nint)filePathPtr) ?? string.Empty;
             FlatWorkingBeatmap workingBeatmap = new(filePath); // Throws FileNotFoundException if filePath cannot be found
             *beatmap = NativeObject<FlatWorkingBeatmap>.Create(workingBeatmap);
             return ErrorCode.Success;
@@ -46,10 +45,9 @@ public static unsafe class Beatmap
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromText", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode CreateFromText(char* textPtr, NativeObject<FlatWorkingBeatmap>* beatmap)
     {
-        string text = Marshal.PtrToStringUTF8((nint)textPtr) ?? string.Empty;
-
         try
         {
+            string text = Marshal.PtrToStringUTF8((nint)textPtr) ?? string.Empty;
             using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
             using LineBufferedReader reader = new(ms);
             FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Game.Beatmaps.Beatmap>(reader).Decode(reader));
