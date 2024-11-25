@@ -16,13 +16,15 @@ public class TaikoDifficultyCalculator : DifficultyCalculator<TaikoDifficultyAtt
 
     public override TaikoDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
-        OsuNative.Difficulty_ComputeTaiko(_beatmapContextId, JsonConvert.SerializeObject(mods), out TaikoDifficultyAttributes attributes);
+        TaikoDifficultyAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Difficulty_ComputeTaiko(_beatmapContextId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
     public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
     {
-        OsuNative.Performance_ComputeTaiko(_beatmapContextId, diffAttributes, score.ToNative(), out TaikoPerformanceAttributes attributes);
+        TaikoPerformanceAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Performance_ComputeTaiko(_beatmapContextId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

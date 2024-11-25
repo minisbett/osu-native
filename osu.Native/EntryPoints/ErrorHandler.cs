@@ -19,7 +19,7 @@ public static class ErrorHandler
     /// Returns the message of the last error in the thread this function was called from.
     /// </summary>
     /// <returns></returns>
-    [UnmanagedCallersOnly(EntryPoint = "GetLastErrorMessage", CallConvs = [typeof(CallConvCdecl)])]
+    [UnmanagedCallersOnly(EntryPoint = "_GetLastError", CallConvs = [typeof(CallConvCdecl)])]
     public static nint GetLastError() => _lastErrorPtr;
 
     /// <summary>

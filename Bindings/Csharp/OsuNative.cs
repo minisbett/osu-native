@@ -5,6 +5,7 @@ using osu.Native.Bindings.Models.Catch;
 using osu.Native.Bindings.Models.Mania;
 using osu.Native.Bindings.Models.Osu;
 using osu.Native.Bindings.Models.Taiko;
+using System;
 using System.Runtime.InteropServices;
 
 namespace osu.Native.Bindings;
@@ -12,10 +13,6 @@ namespace osu.Native.Bindings;
 public static class OsuNative
 {
     private const string LIB_PATH = @"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\osu.Native\osu.Native.dll";
-
-    [DllImport(LIB_PATH, EntryPoint = "GetLastErrorMessage", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    [return: MarshalAs(UnmanagedType.LPWStr)]
-    public static extern string GetLastErrorMessage();
 
     #region Beatmap
 
@@ -65,4 +62,36 @@ public static class OsuNative
                                                       out ManiaPerformanceAttributes attributes);
 
     #endregion
+
+    #region Other
+
+    [DllImport(LIB_PATH, EntryPoint = "_GetLastError", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern string GetLastError();
+
+    #endregion
+
+    /// <summary>
+    /// Utility method for wrapping an osu-native function call and converting an errous result into a .NET exception.
+    /// </summary>
+    /// <param name="func">The osu-native function call.</param>
+    /// <exception cref="OsuNativeException">The resulting exception, if the error code is not <see cref="ErrorCode.Success"/>.</exception>
+    public static void Execute(Func<ErrorCode> func)
+    {
+        ErrorCode code = func();
+        if (code != ErrorCode.Success)
+            throw new OsuNativeException(code, GetLastError());
+    }
+}
+
+/// <summary>
+/// Represents an error returned from osu-native, with it's error code and error message received via <see cref="OsuNative.GetLastErrorMessage"/>.
+/// </summary>
+/// <param name="code">The error code.</param>
+/// <param name="msg">The error message.</param>
+public class OsuNativeException(ErrorCode code, string msg) : Exception($"{code}: {msg}")
+{
+    /// <summary>
+    /// The error code.
+    /// </summary>
+    public ErrorCode Code { get; } = code;
 }

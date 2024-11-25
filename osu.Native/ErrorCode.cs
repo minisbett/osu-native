@@ -19,7 +19,7 @@ public enum ErrorCode : byte
     FileNotFound = 1,
 
     /// <summary>
-    /// Indicates that the object referenced by a native object was not found.
+    /// Indicates that the managed object referenced by a native object was not found.
     /// </summary>
     ObjectNotFound = 2,
 
