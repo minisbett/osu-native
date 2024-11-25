@@ -39,7 +39,7 @@ public static class ModsHelper
                         JsonValueKind.True => true,
                         JsonValueKind.False => false,
                         JsonValueKind.String => element.GetString()!,
-                        JsonValueKind.Number => element.GetDouble()!,
+                        JsonValueKind.Number => element.GetDouble(),
                         _ => throw new InvalidCastException($"Could not find a native type for '{element.ValueKind}'.")
                     };
                 }
