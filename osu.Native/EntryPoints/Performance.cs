@@ -119,7 +119,8 @@ public static unsafe class Performance
         catch (Exception ex)
         {
             attributes = null!;
-            return Logger.Error(ex);
+            ErrorHandler.SetLastError(ex.Message);
+            return ErrorHelper.FromException(ex);
         }
     }
 }

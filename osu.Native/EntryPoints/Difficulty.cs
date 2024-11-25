@@ -97,7 +97,7 @@ public unsafe static class Difficulty
         try
         {
             Ruleset ruleset = new TRuleset();
-            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)mods) ?? "");
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, new(mods));
 
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
             DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);
@@ -108,7 +108,8 @@ public unsafe static class Difficulty
         catch (Exception ex)
         {
             attributes = null!;
-            return Logger.Error(ex);
+            ErrorHandler.SetLastError(ex.Message);
+            return ErrorHelper.FromException(ex);
         }
     }
 }

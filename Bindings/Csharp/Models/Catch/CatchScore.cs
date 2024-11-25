@@ -34,7 +34,7 @@ public class CatchScore(Mod[]? mods = null, int? maxCombo = null, int? countDrop
         };
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct Native
     {
         public string Mods;

@@ -2,7 +2,6 @@
 using osu.Native.Bindings.Models;
 using osu.Native.Bindings.Models.Osu;
 
-
 string osuFile = @"C:\Users\mini\Desktop\test.osu";
 
 OsuDifficultyCalculator calculator = new OsuDifficultyCalculator(new FileInfo(osuFile));
@@ -14,6 +13,5 @@ OsuPerformanceAttributes perfAttributes = calculator.CalculatePerformance(diffAt
 Console.WriteLine("Star Rating: " + diffAttributes.StarRating);
 Console.WriteLine("Total PP: " + perfAttributes.Total);
 
-// TODO: implement logger in osu.Native.Bindings
-//       implement error handling in osu.Native.Bindings
+// TODO: implement error handling in osu.Native.Bindings
 //       implement tests

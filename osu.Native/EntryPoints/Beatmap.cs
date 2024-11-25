@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using osu.Game.Beatmaps;
 using osu.Game.IO;
-using osu.Native.Helpers;
 using osu.Native.Objects;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
+using osu.Native.Helpers;
 
 namespace osu.Native.EntryPoints;
 
@@ -26,14 +26,15 @@ public static unsafe class Beatmap
     {
         try
         {
-            string filePath = Marshal.PtrToStringUTF8((nint)filePathPtr) ?? string.Empty;
+            string filePath = new(filePathPtr);
             FlatWorkingBeatmap workingBeatmap = new(filePath); // Throws FileNotFoundException if filePath cannot be found
             *beatmap = NativeObject<FlatWorkingBeatmap>.Create(workingBeatmap);
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
-            return Logger.Error(ex);
+            ErrorHandler.SetLastError(ex.Message);
+            return ErrorHelper.FromException(ex);
         }
     }
 
@@ -47,7 +48,7 @@ public static unsafe class Beatmap
     {
         try
         {
-            string text = Marshal.PtrToStringUTF8((nint)textPtr) ?? string.Empty;
+            string text = new(textPtr);
             using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
             using LineBufferedReader reader = new(ms);
             FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Game.Beatmaps.Beatmap>(reader).Decode(reader));
@@ -57,7 +58,8 @@ public static unsafe class Beatmap
         }
         catch (Exception ex)
         {
-            return Logger.Error(ex);
+            ErrorHandler.SetLastError(ex.Message);
+            return ErrorHelper.FromException(ex);
         }
     }
 
@@ -75,7 +77,8 @@ public static unsafe class Beatmap
         }
         catch (Exception ex)
         {
-            return Logger.Error(ex);
+            ErrorHandler.SetLastError(ex.Message);
+            return ErrorHelper.FromException(ex);
         }
     }
 }

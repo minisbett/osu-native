@@ -8,6 +8,7 @@ using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 using osu.Native.EntryPoints;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -188,6 +189,6 @@ public static class OsuNative
     public static void Initialize()
     {
         // The entry assembly is null in AOT-compiled assemblies, but is needed for osu!framework's DebugUtils to work correctly.
-        Assembly.SetEntryAssembly(typeof(Logger).Assembly);
+        Assembly.SetEntryAssembly(typeof(ErrorHandler).Assembly);
     }
 }

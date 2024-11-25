@@ -27,7 +27,7 @@ public class TaikoScore(Mod[]? mods = null, int? maxCombo = null, int? countGood
         };
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct Native
     {
         public string Mods;

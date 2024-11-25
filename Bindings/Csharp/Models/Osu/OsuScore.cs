@@ -36,7 +36,7 @@ public class OsuScore(Mod[]? mods = null, int? maxCombo = null, int? count100 = 
         };
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct Native
     {
         public string Mods;

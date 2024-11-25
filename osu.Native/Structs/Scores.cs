@@ -56,7 +56,7 @@ public unsafe struct OsuScore : IScore
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
+            Mods = ModsHelper.ParseMods(ruleset, new(Mods)),
             MaxCombo = MaxCombo,
             Accuracy = (double)(300 * count300 + 100 * Count100 + 50 * Count50 + CountMiss) / (beatmap.HitObjects.Count * 300),
             Statistics = new()
@@ -92,7 +92,7 @@ public unsafe struct TaikoScore : IScore
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
+            Mods = ModsHelper.ParseMods(ruleset, new(Mods)),
             MaxCombo = MaxCombo,
             Accuracy = (double)(2 * countGreat + CountGood) / (2 * (countGreat + CountGood + CountMiss)),
             Statistics = new()
@@ -130,7 +130,7 @@ public unsafe struct CatchScore : IScore
 
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
+            Mods = ModsHelper.ParseMods(ruleset, new(Mods)),
             MaxCombo = MaxCombo,
             Accuracy = (double)(countFruits + CountDroplets + CountTinyDroplets) / (countFruits + CountDroplets + CountTinyDroplets + CountTinyMisses + CountMiss),
             Statistics = new()
@@ -174,7 +174,7 @@ public unsafe struct ManiaScore : IScore
         return new ScoreInfo(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
             // Mania does not use the maximum combo or accuracy in PP calculation (it calculates the accuracy itself), therefore it is omitted here.
-            Mods = ModsHelper.ParseMods(ruleset, Marshal.PtrToStringUTF8((nint)Mods) ?? ""),
+            Mods = ModsHelper.ParseMods(ruleset, new(Mods)),
             Statistics = new()
             {
                 { HitResult.Perfect, countPerfect },
