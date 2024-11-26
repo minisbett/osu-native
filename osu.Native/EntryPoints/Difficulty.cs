@@ -108,7 +108,7 @@ public unsafe static class Difficulty
         catch (Exception ex)
         {
             attributes = null!;
-            ErrorHandler.SetLastError(ex.Message);
+            ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }
     }

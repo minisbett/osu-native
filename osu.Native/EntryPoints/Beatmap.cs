@@ -33,7 +33,7 @@ public static unsafe class Beatmap
         }
         catch (Exception ex)
         {
-            ErrorHandler.SetLastError(ex.Message);
+            ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }
     }
@@ -58,7 +58,7 @@ public static unsafe class Beatmap
         }
         catch (Exception ex)
         {
-            ErrorHandler.SetLastError(ex.Message);
+            ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }
     }
@@ -77,7 +77,7 @@ public static unsafe class Beatmap
         }
         catch (Exception ex)
         {
-            ErrorHandler.SetLastError(ex.Message);
+            ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }
     }
