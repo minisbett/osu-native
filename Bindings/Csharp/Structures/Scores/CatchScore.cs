@@ -2,9 +2,10 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using Newtonsoft.Json;
+using osu.Native.Bindings.Models;
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Catch;
+namespace osu.Native.Bindings.Structures.Scores;
 
 public class CatchScore(Mod[]? mods = null, int? maxCombo = null, int? countDroplets = null, int? countTinyDroplets = null, int? countTinyMisses = null,
                         int? countMiss = null)

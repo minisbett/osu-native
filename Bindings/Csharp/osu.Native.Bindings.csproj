@@ -12,4 +12,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Structures\Catch\" />
+    <Folder Include="Structures\Mania\" />
+    <Folder Include="Structures\Osu\" />
+  </ItemGroup>
 </Project>

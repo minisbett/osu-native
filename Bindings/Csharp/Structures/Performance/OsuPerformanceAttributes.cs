@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Osu;
+namespace osu.Native.Bindings.Structures.Performance;
 
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct OsuPerformanceAttributes

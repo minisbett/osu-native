@@ -3,10 +3,11 @@
 
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Catch;
+namespace osu.Native.Bindings.Structures.Performance;
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly struct CatchPerformanceAttributes
+public readonly struct ManiaPerformanceAttributes
 {
     public readonly double Total;
+    public readonly double Difficulty;
 }

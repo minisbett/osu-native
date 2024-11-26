@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Taiko;
+namespace osu.Native.Bindings.Structures.Performance;
 
 [StructLayout(LayoutKind.Sequential)]
 public struct TaikoPerformanceAttributes

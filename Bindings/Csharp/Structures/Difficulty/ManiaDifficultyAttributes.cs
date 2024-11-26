@@ -3,11 +3,12 @@
 
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Mania;
+namespace osu.Native.Bindings.Structures.Difficulty;
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly struct ManiaPerformanceAttributes
+public readonly struct ManiaDifficultyAttributes
 {
-    public readonly double Total;
-    public readonly double Difficulty;
+    public readonly double StarRating;
+    public readonly int MaxCombo;
+    public readonly double GreatHitWindow;
 }

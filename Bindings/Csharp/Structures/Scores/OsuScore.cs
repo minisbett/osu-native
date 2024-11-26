@@ -2,9 +2,10 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using Newtonsoft.Json;
+using osu.Native.Bindings.Models;
 using System.Runtime.InteropServices;
 
-namespace osu.Native.Bindings.Models.Osu;
+namespace osu.Native.Bindings.Structures.Scores;
 
 public class OsuScore(Mod[]? mods = null, int? maxCombo = null, int? count100 = null, int? count50 = null, int? countMiss = null, int? countLargeTickMiss = null,
                       int? countSliderTailMiss = null)

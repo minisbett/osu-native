@@ -3,7 +3,9 @@
 
 using Newtonsoft.Json;
 using osu.Native.Bindings.Models;
-using osu.Native.Bindings.Models.Catch;
+using osu.Native.Bindings.Structures.Difficulty;
+using osu.Native.Bindings.Structures.Performance;
+using osu.Native.Bindings.Structures.Scores;
 using System.IO;
 
 namespace osu.Native.Bindings.Difficulty;
