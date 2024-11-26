@@ -17,4 +17,11 @@ dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Taiko
 dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Catch
 dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Mania
 
+dotnet remove osu.Native.Tests\osu.Native.Tests.csproj package ppy.osu.Game
+dotnet remove osu.Native.Tests\osu.Native.Tests.csproj package ppy.osu.Game.Rulesets.Osu
+dotnet remove osu.Native.Tests\osu.Native.Tests.csproj package ppy.osu.Game.Rulesets.Taiko
+dotnet remove osu.Native.Tests\osu.Native.Tests.csproj package ppy.osu.Game.Rulesets.Catch
+dotnet remove osu.Native.Tests\osu.Native.Tests.csproj package ppy.osu.Game.Rulesets.Mania
+
 dotnet add osu.Native\osu.Native.csproj reference $DEPENDENCIES
+dotnet add osu.Native.Tests\osu.Native.Tests.csproj reference $DEPENDENCIES

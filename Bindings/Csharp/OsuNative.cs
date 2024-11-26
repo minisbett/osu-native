@@ -29,16 +29,16 @@ public static class OsuNative
     #region Difficulty
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeOsu", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    internal static extern ErrorCode Difficulty_ComputeOsu(int beatmapContextId, string mods, out OsuDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeOsu(int beatmapContextId, string mods, out OsuDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeTaiko", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    internal static extern ErrorCode Difficulty_ComputeTaiko(int beatmapContextId, string mods, out TaikoDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeTaiko(int beatmapContextId, string mods, out TaikoDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeCatch", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    internal static extern ErrorCode Difficulty_ComputeCatch(int beatmapContextId, string mods, out CatchDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeCatch(int beatmapContextId, string mods, out CatchDifficultyAttributes attributes);
 
     [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeMania", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    internal static extern ErrorCode Difficulty_ComputeMania(int beatmapContextId, string mods, out ManiaDifficultyAttributes attributes);
+    public static extern ErrorCode Difficulty_ComputeMania(int beatmapContextId, string mods, out ManiaDifficultyAttributes attributes);
 
     #endregion
 
@@ -65,7 +65,7 @@ public static class OsuNative
     #region Other
 
     [DllImport(LIB_PATH, EntryPoint = "_GetLastError", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern string GetLastError();
+    public static extern string? GetLastError();
 
     #endregion
 
@@ -78,7 +78,7 @@ public static class OsuNative
     {
         ErrorCode code = func();
         if (code != ErrorCode.Success)
-            throw new OsuNativeException(code, GetLastError());
+            throw new OsuNativeException(code, GetLastError() ?? throw new NullReferenceException("Could not retrieve error message: GetLastError() is null."));
     }
 }
 
