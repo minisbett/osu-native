@@ -7,7 +7,6 @@ using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
-using osu.Native.EntryPoints;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;

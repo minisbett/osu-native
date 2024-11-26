@@ -16,8 +16,8 @@ using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Game.Rulesets.Mania;
 using osu.Native.Objects;
-using osu.Native.Structs;
 using osu.Native.Helpers;
+using osu.Native.Structures.Scores;
 
 namespace osu.Native.EntryPoints;
 

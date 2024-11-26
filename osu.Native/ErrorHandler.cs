@@ -5,7 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace osu.Native.EntryPoints;
+namespace osu.Native;
 
 public static class ErrorHandler
 {

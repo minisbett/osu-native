@@ -2,7 +2,7 @@
 using osu.Native.Bindings.Models;
 using osu.Native.Bindings.Models.Osu;
 
-string osuFile = @"C:\Users\mini\Desktop\teest.osu";
+string osuFile = @"C:\Users\mini\Desktop\test.osu";
 
 OsuDifficultyCalculator calculator = new OsuDifficultyCalculator(new FileInfo(osuFile));
 
