@@ -27,6 +27,7 @@ public class ErrorHandlerTests
     [Test]
     public void SetLastError_NullIfSuccess()
     {
+        // TODO: Figure out why this fails at times (errorMessage says object no found)
         ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _);
         string? errorMessage = OsuNative.GetLastError();
 

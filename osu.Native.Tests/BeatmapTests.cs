@@ -5,13 +5,26 @@ namespace osu.Native.Tests;
 public class BeatmapTests
 {
     [Test]
-    public void CreateFromText_ValidBeatmapText_Success()
+    public void CreateFromText_Success()
     {
         ErrorCode error = OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out int id);
         OsuNative.Beatmap_Destroy(id);
 
         Assert.That(error, Is.EqualTo(ErrorCode.Success));
     }
+    [Test]
+    public void CreateFromFile_Success()
+    {
+        string tempFile = Path.GetTempFileName();
+        File.WriteAllText(tempFile, Shared.BEATMAP_TEXT);
+
+        ErrorCode error = OsuNative.Beatmap_CreateFromFile(tempFile, out int id);
+        OsuNative.Beatmap_Destroy(id);
+        File.Delete(tempFile);
+
+        Assert.That(error, Is.EqualTo(ErrorCode.Success));
+    }
+
 
     [Test]
     public void Create_TwoBeatmaps_IncreasedIds()

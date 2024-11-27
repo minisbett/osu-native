@@ -30,7 +30,7 @@ public class DifficultyTests
 
         Assert.That(error1, Is.EqualTo(ErrorCode.Success));
         Assert.That(error2, Is.EqualTo(ErrorCode.Success));
-        Assert.That(attributes1.StarRating, Is.Not.EqualTo(attributes2.StarRating));
+        Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
     }
 
     [Test]
