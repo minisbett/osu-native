@@ -13,20 +13,20 @@ namespace osu.Native.Tests;
 
 internal class PerformanceTests
 {
-    private int _beatmapContextId;
+    private int _beatmapId;
     private OsuDifficultyAttributes _attributes;
 
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out _beatmapContextId);
-        OsuNative.Difficulty_ComputeOsu(_beatmapContextId, "", out _attributes);
+        OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out _beatmapId);
+        OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _attributes);
     }
 
     [Test]
     public void Compute_WithoutMods_Success()
     {
-        ErrorCode error = OsuNative.Performance_ComputeOsu(_beatmapContextId, _attributes, new OsuScore().ToNative(), out _);
+        ErrorCode error = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out _);
 
         Assert.That(error, Is.EqualTo(ErrorCode.Success));
     }
@@ -35,8 +35,8 @@ internal class PerformanceTests
     public void Compute_WithMods_Success()
     {
         // TODO: Find a more consistent way to check if the mods affected the outcome. Right now it assumes HD will change the total PP
-        ErrorCode error1 = OsuNative.Performance_ComputeOsu(_beatmapContextId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes1);
-        ErrorCode error2 = OsuNative.Performance_ComputeOsu(_beatmapContextId, _attributes, new OsuScore([new Mod("HD")]).ToNative(), out OsuPerformanceAttributes attributes2);
+        ErrorCode error1 = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes1);
+        ErrorCode error2 = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore([new Mod("HD")]).ToNative(), out OsuPerformanceAttributes attributes2);
 
         Assert.That(error1, Is.EqualTo(ErrorCode.Success));
         Assert.That(error2, Is.EqualTo(ErrorCode.Success));
@@ -44,9 +44,23 @@ internal class PerformanceTests
     }
 
     [Test]
+    public void Compute_Multiple_Success()
+    {
+        ErrorCode error = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes1);
+        Assert.That(error, Is.EqualTo(ErrorCode.Success));
+
+        for (int i = 0; i < 5; i++)
+        {
+            error = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes2);
+            Assert.That(error, Is.EqualTo(ErrorCode.Success));
+            Assert.That(attributes2.Total, Is.EqualTo(attributes1.Total));
+        }
+    }
+
+    [Test]
     public void Compute_InvalidMods_Failure()
     {
-        ErrorCode error = OsuNative.Performance_ComputeOsu(_beatmapContextId, _attributes, new OsuScore([new Mod("invalid mod")]).ToNative(), out _);
+        ErrorCode error = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore([new Mod("invalid mod")]).ToNative(), out _);
 
         Assert.That(error, Is.EqualTo(ErrorCode.ModsParsingFailed));
     }
