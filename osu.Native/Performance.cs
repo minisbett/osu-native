@@ -19,7 +19,7 @@ using osu.Native.Objects;
 using osu.Native.Helpers;
 using osu.Native.Structures.Scores;
 
-namespace osu.Native.EntryPoints;
+namespace osu.Native;
 
 public static unsafe class Performance
 {

@@ -19,7 +19,7 @@ using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Native.Helpers;
 using osu.Native.Objects;
 
-namespace osu.Native.EntryPoints;
+namespace osu.Native;
 
 public unsafe static class Difficulty
 {
@@ -29,7 +29,7 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeOsu(NativeBeatmap beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
     {
         ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
@@ -46,7 +46,7 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeTaiko(NativeBeatmap beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
     {
         ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
@@ -63,7 +63,7 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeCatch(NativeBeatmap beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
     {
         ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
@@ -80,7 +80,7 @@ public unsafe static class Difficulty
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
+    public static ErrorCode ComputeMania(NativeBeatmap beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
     {
         ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
         if (error > ErrorCode.Success)
@@ -91,7 +91,7 @@ public unsafe static class Difficulty
         return ErrorCode.Success;
     }
 
-    private static ErrorCode ComputeDifficulty<TRuleset>(NativeObject<FlatWorkingBeatmap> beatmap, char* mods, out IDifficultyAttributes attributes)
+    private static ErrorCode ComputeDifficulty<TRuleset>(NativeBeatmap beatmap, char* mods, out IDifficultyAttributes attributes)
         where TRuleset : Ruleset, new()
     {
         try

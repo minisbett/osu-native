@@ -10,12 +10,7 @@ namespace osu.Native.Objects;
 public readonly struct NativeObject<T> : INativeObject<T> where T : notnull
 {
     /// <inheritdoc/>
-    public int Id { get; }
-
-    private NativeObject(int id)
-    {
-        Id = id;
-    }
+    public int Id { get; private init; }
 
     /// <summary>
     /// Creates an instance of <see cref="NativeObject{T}"/> that refers to the specified managed object.
@@ -25,7 +20,7 @@ public readonly struct NativeObject<T> : INativeObject<T> where T : notnull
     public static NativeObject<T> Create(T obj)
     {
         int id = ObjectContainer<T>.Add(obj);
-        return new NativeObject<T>(id);
+        return new NativeObject<T> { Id = id };
     }
 }
 
