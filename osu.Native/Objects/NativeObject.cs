@@ -4,17 +4,17 @@
 namespace osu.Native.Objects;
 
 /// <summary>
-/// A basic native object, only containing the context ID for referring to the associated managed object.
+/// A basic native object, only containing the object ID for referring to the associated managed object.
 /// </summary>
 /// <typeparam name="T">The type of object this native object refers to.</typeparam>
 public readonly struct NativeObject<T> : INativeObject<T> where T : notnull
 {
     /// <inheritdoc/>
-    public int ContextId { get; }
+    public int Id { get; }
 
-    private NativeObject(int contextId)
+    private NativeObject(int id)
     {
-        ContextId = contextId;
+        Id = id;
     }
 
     /// <summary>
@@ -24,8 +24,7 @@ public readonly struct NativeObject<T> : INativeObject<T> where T : notnull
     /// <returns>The native object.</returns>
     public static NativeObject<T> Create(T obj)
     {
-        int id = Context<T>.NextContextId;
-        Context<T>.Objects.Add(id, obj);
+        int id = ObjectContainer<T>.Add(obj);
         return new NativeObject<T>(id);
     }
 }

@@ -19,14 +19,14 @@ public class CatchDifficultyCalculator : DifficultyCalculator<CatchDifficultyAtt
     public override CatchDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         CatchDifficultyAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Difficulty_ComputeCatch(_beatmapContextId, JsonConvert.SerializeObject(mods), out attributes));
+        OsuNative.Execute(() => OsuNative.Difficulty_ComputeCatch(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
     public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, CatchScore score)
     {
         CatchPerformanceAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Performance_ComputeCatch(_beatmapContextId, diffAttributes, score.ToNative(), out attributes));
+        OsuNative.Execute(() => OsuNative.Performance_ComputeCatch(_beatmapId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

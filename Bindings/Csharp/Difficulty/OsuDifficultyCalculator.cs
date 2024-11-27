@@ -19,14 +19,14 @@ public class OsuDifficultyCalculator : DifficultyCalculator<OsuDifficultyAttribu
     public override OsuDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         OsuDifficultyAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Difficulty_ComputeOsu(_beatmapContextId, JsonConvert.SerializeObject(mods), out attributes));
+        OsuNative.Execute(() => OsuNative.Difficulty_ComputeOsu(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
     public override OsuPerformanceAttributes CalculatePerformance(OsuDifficultyAttributes diffAttributes, OsuScore score)
     {
         OsuPerformanceAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Performance_ComputeOsu(_beatmapContextId, diffAttributes, score.ToNative(), out attributes));
+        OsuNative.Execute(() => OsuNative.Performance_ComputeOsu(_beatmapId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

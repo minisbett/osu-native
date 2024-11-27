@@ -19,14 +19,14 @@ public class ManiaDifficultyCalculator : DifficultyCalculator<ManiaDifficultyAtt
     public override ManiaDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         ManiaDifficultyAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Difficulty_ComputeMania(_beatmapContextId, JsonConvert.SerializeObject(mods), out attributes));
+        OsuNative.Execute(() => OsuNative.Difficulty_ComputeMania(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
     public override ManiaPerformanceAttributes CalculatePerformance(ManiaDifficultyAttributes diffAttributes, ManiaScore score)
     {
         ManiaPerformanceAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Performance_ComputeMania(_beatmapContextId, diffAttributes, score.ToNative(), out attributes));
+        OsuNative.Execute(() => OsuNative.Performance_ComputeMania(_beatmapId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

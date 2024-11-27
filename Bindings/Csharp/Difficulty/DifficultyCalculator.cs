@@ -8,21 +8,21 @@ namespace osu.Native.Bindings.Difficulty;
 
 public abstract class DifficultyCalculator<TDiffAttr, TPerfAttr, TScore>
 {
-    protected int _beatmapContextId;
+    protected int _beatmapId;
 
     public DifficultyCalculator(FileInfo file)
     {
-        OsuNative.Execute(() => OsuNative.Beatmap_CreateFromFile(file.FullName, out _beatmapContextId));
+        OsuNative.Execute(() => OsuNative.Beatmap_CreateFromFile(file.FullName, out _beatmapId));
     }
 
     public DifficultyCalculator(string text)
     {
-        OsuNative.Execute(() => OsuNative.Beatmap_CreateFromText(text, out _beatmapContextId));
+        OsuNative.Execute(() => OsuNative.Beatmap_CreateFromText(text, out _beatmapId));
     }
 
     ~DifficultyCalculator()
     {
-        OsuNative.Execute(() => OsuNative.Beatmap_Destroy(_beatmapContextId));
+        OsuNative.Execute(() => OsuNative.Beatmap_Destroy(_beatmapId));
     }
 
     public abstract TDiffAttr CalculateDifficulty(Mod[] mods);
