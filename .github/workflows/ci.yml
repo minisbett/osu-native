@@ -56,40 +56,40 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: win-x86
-          path: Bindings/Csharp/runtimes/win-x86/native/osu.Native.dll
+          path: osu.Native.Bindings/runtimes/win-x86/native/osu.Native.dll
 
       - name: Add win-x64
         uses: actions/download-artifact@v4
         with:
           name: win-x64
-          path: Bindings/Csharp/runtimes/win-x64/native/osu.Native.dll
+          path: osu.Native.Bindings/runtimes/win-x64/native/osu.Native.dll
 
       - name: Add win-arm64
         uses: actions/download-artifact@v4
         with:
           name: win-arm64
-          path: Bindings/Csharp/runtimes/win-arm64/native/osu.Native.dll
+          path: osu.Native.Bindings/runtimes/win-arm64/native/osu.Native.dll
 
       - name: Add linux-x64
         uses: actions/download-artifact@v4
         with:
           name: linux-x64
-          path: Bindings/Csharp/runtimes/linux-x64/native/osu.Native.so
+          path: osu.Native.Bindings/runtimes/linux-x64/native/osu.Native.so
 
       - name: Add osx-x64 artifact
         uses: actions/download-artifact@v4
         with:
           name: osx-x64
-          path: Bindings/Csharp/runtimes/osx-x64/native/osu.Native.dylib
+          path: osu.Native.Bindings/runtimes/osx-x64/native/osu.Native.dylib
 
       - name: Add osx-arm64
         uses: actions/download-artifact@v4
         with:
           name: osx-arm64
-          path: Bindings/Csharp/runtimes/osx-arm64/native/osu.Native.dylib
+          path: osu.Native.Bindings/runtimes/osx-arm64/native/osu.Native.dylib
 
       - name: Pack
-        run: dotnet pack Bindings/Csharp/osu.Native.Bindings.csproj /p:Version=${{ github.ref_name }}
+        run: dotnet pack osu.Native.Bindings /p:Version=${{ github.ref_name }}
 
       - name: Upload .nupkg
         uses: actions/upload-artifact@v4

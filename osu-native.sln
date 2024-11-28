@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "osu.Native", "osu.Native\osu.Native.csproj", "{6467E7A9-DE2C-4960-873E-AB058262FDAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Bindings", "Bindings\Csharp\osu.Native.Bindings.csproj", "{734D9B16-6DAD-4640-8441-472DDF04AFF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Bindings", "osu.Native.Bindings\osu.Native.Bindings.csproj", "{734D9B16-6DAD-4640-8441-472DDF04AFF3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Tests", "osu.Native.Tests\osu.Native.Tests.csproj", "{80B7B796-6D09-437E-A3D8-3B42079954BD}"
 EndProject
