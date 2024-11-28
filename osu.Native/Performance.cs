@@ -5,19 +5,16 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using osu.Game.Beatmaps;
-using osu.Game.Rulesets;
-using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Difficulty;
-using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Game.Rulesets.Taiko;
-using osu.Game.Rulesets.Catch.Difficulty;
 using osu.Game.Rulesets.Catch;
-using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Game.Rulesets.Mania;
 using osu.Native.Objects;
 using osu.Native.Helpers;
 using osu.Native.Structures.Scores;
+using osu.Native.Structures.Difficulty;
+using osu.Native.Structures.Performance;
 
 namespace osu.Native;
 
@@ -34,13 +31,19 @@ public static unsafe class Performance
     public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
                                        OsuPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<OsuRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            PerformanceCalculator calculator = new OsuRuleset().CreatePerformanceCalculator()!;
+            *perfAttributes = (OsuPerformanceAttributes)calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes)!;
 
-        *perfAttributes = (OsuPerformanceAttributes)attributes;
-
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
 
@@ -55,13 +58,19 @@ public static unsafe class Performance
     public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
                                          TaikoPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<TaikoRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            PerformanceCalculator calculator = new TaikoRuleset().CreatePerformanceCalculator()!;
+            *perfAttributes = (TaikoPerformanceAttributes)calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes)!;
 
-        *perfAttributes = (TaikoPerformanceAttributes)attributes;
-
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
 
@@ -76,13 +85,19 @@ public static unsafe class Performance
     public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
                                          CatchPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<CatchRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            PerformanceCalculator calculator = new CatchRuleset().CreatePerformanceCalculator()!;
+            *perfAttributes = (CatchPerformanceAttributes)calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes)!;
 
-        *perfAttributes = (CatchPerformanceAttributes)attributes;
-
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
     /// <summary>
@@ -96,29 +111,16 @@ public static unsafe class Performance
     public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
                                          ManiaPerformanceAttributes* perfAttributes)
     {
-        ErrorCode error = ComputePerformance<ManiaRuleset>(beatmap, diffAttributes, score, out IPerformanceAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
-
-        *perfAttributes = (ManiaPerformanceAttributes)attributes;
-
-        return ErrorCode.Success;
-    }
-
-    private static ErrorCode ComputePerformance<TRuleset>(INativeObject<FlatWorkingBeatmap> beatmap, IDifficultyAttributes diffAttributes, IScore score,
-                                                          out IPerformanceAttributes attributes) where TRuleset : Ruleset, new()
-    {
         try
         {
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
-            PerformanceCalculator calculator = new TRuleset().CreatePerformanceCalculator()!;
-            attributes = calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes);
+            PerformanceCalculator calculator = new ManiaRuleset().CreatePerformanceCalculator()!;
+            *perfAttributes = (ManiaPerformanceAttributes)calculator.Calculate(score.ToScoreInfo(workingBeatmap), diffAttributes)!;
 
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
-            attributes = null!;
             ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }

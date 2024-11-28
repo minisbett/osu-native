@@ -38,9 +38,12 @@ internal class PerformanceTests
         ErrorCode error1 = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes1);
         ErrorCode error2 = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore([new Mod("HD")]).ToNative(), out OsuPerformanceAttributes attributes2);
 
-        Assert.That(error1, Is.EqualTo(ErrorCode.Success));
-        Assert.That(error2, Is.EqualTo(ErrorCode.Success));
-        Assert.That(attributes1.Total, Is.Not.EqualTo(attributes2.Total));
+        Assert.Multiple(() =>
+        {
+            Assert.That(error1, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+            Assert.That(attributes1.Total, Is.Not.EqualTo(attributes2.Total));
+        });
     }
 
     [Test]
@@ -52,8 +55,11 @@ internal class PerformanceTests
         for (int i = 0; i < 5; i++)
         {
             error = OsuNative.Performance_ComputeOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes2);
-            Assert.That(error, Is.EqualTo(ErrorCode.Success));
-            Assert.That(attributes2.Total, Is.EqualTo(attributes1.Total));
+            Assert.Multiple(() =>
+            {
+                Assert.That(error, Is.EqualTo(ErrorCode.Success));
+                Assert.That(attributes2.Total, Is.EqualTo(attributes1.Total));
+            });
         }
     }
 

@@ -2,14 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>net4.0</TargetFramework>
+      <DefineConstants>IS_BINDINGS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="$(RepositoryRoot)/osu.Native/ErrorCode.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/ErrorCode.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Difficulty/CatchDifficultyAttributes.cs" Link="Structures/Difficulty/CatchDifficultyAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Difficulty/ManiaDifficultyAttributes.cs" Link="Structures/Difficulty/ManiaDifficultyAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Difficulty/OsuDifficultyAttributes.cs" Link="Structures/Difficulty/OsuDifficultyAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Difficulty/TaikoDifficultyAttributes.cs" Link="Structures/Difficulty/TaikoDifficultyAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Performance/CatchPerformanceAttributes.cs" Link="Structures/Performance/CatchPerformanceAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Performance/ManiaPerformanceAttributes.cs" Link="Structures/Performance/ManiaPerformanceAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Performance/OsuPerformanceAttributes.cs" Link="Structures/Performance/OsuPerformanceAttributes.cs" />
+      <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Performance/TaikoPerformanceAttributes.cs" Link="Structures/Performance/TaikoPerformanceAttributes.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Structures\Difficulty\" />
+    <Folder Include="Structures\Performance\" />
   </ItemGroup>
 </Project>

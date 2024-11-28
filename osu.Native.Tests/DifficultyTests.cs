@@ -1,5 +1,8 @@
 ﻿using osu.Native.Bindings;
+using osu.Native.Bindings.Difficulty;
+using osu.Native.Bindings.Models;
 using osu.Native.Bindings.Structures.Difficulty;
+using osu.Native.Bindings.Structures.Scores;
 
 namespace osu.Native.Tests;
 
@@ -28,9 +31,12 @@ public class DifficultyTests
         ErrorCode error1 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
         ErrorCode error2 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "[{\"acronym\":\"DT\"}]", out OsuDifficultyAttributes attributes2);
 
-        Assert.That(error1, Is.EqualTo(ErrorCode.Success));
-        Assert.That(error2, Is.EqualTo(ErrorCode.Success));
-        Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
+        Assert.Multiple(() =>
+        {
+            Assert.That(error1, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+            Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
+        });
     }
 
     [Test]
@@ -42,8 +48,11 @@ public class DifficultyTests
         for (int i = 0; i < 5; i++)
         {
             error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes2);
-            Assert.That(error, Is.EqualTo(ErrorCode.Success));
-            Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
+            Assert.Multiple(() =>
+            {
+                Assert.That(error, Is.EqualTo(ErrorCode.Success));
+                Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
+            });
         }
     }
 

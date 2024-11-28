@@ -12,12 +12,11 @@ using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania;
-using osu.Game.Rulesets.Osu.Difficulty;
-using osu.Game.Rulesets.Taiko.Difficulty;
-using osu.Game.Rulesets.Catch.Difficulty;
-using osu.Game.Rulesets.Mania.Difficulty;
 using osu.Native.Helpers;
 using osu.Native.Objects;
+using osu.Native.Structures.Difficulty;
+using NuGet.Packaging.Rules;
+using System.Xml.Linq;
 
 namespace osu.Native;
 
@@ -31,13 +30,22 @@ public unsafe static class Difficulty
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeOsu(NativeBeatmap beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<OsuRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            Ruleset ruleset = new OsuRuleset();
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, new(mods));
 
-        *diffAttributes = (OsuDifficultyAttributes)attributes;
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);
+            *diffAttributes = (OsuDifficultyAttributes)calculator.Calculate(rulesetMods)!;
 
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
     /// <summary>
@@ -48,13 +56,22 @@ public unsafe static class Difficulty
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeTaiko(NativeBeatmap beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<TaikoRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            Ruleset ruleset = new TaikoRuleset();
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, new(mods));
 
-        *diffAttributes = (TaikoDifficultyAttributes)attributes;
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);
+            *diffAttributes = (TaikoDifficultyAttributes)calculator.Calculate(rulesetMods)!;
 
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
     /// <summary>
@@ -65,13 +82,22 @@ public unsafe static class Difficulty
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeCatch(NativeBeatmap beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<CatchRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
+        try
+        {
+            Ruleset ruleset = new CatchRuleset();
+            Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, new(mods));
 
-        *diffAttributes = (CatchDifficultyAttributes)attributes;
+            FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
+            DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);
+            *diffAttributes = (CatchDifficultyAttributes)calculator.Calculate(rulesetMods)!;
 
-        return ErrorCode.Success;
+            return ErrorCode.Success;
+        }
+        catch (Exception ex)
+        {
+            ErrorHandler.SetLastError(ex.ToString());
+            return ErrorHelper.FromException(ex);
+        }
     }
 
     /// <summary>
@@ -82,32 +108,19 @@ public unsafe static class Difficulty
     [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
     public static ErrorCode ComputeMania(NativeBeatmap beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
     {
-        ErrorCode error = ComputeDifficulty<ManiaRuleset>(beatmap, mods, out IDifficultyAttributes attributes);
-        if (error > ErrorCode.Success)
-            return error;
-
-        *diffAttributes = (ManiaDifficultyAttributes)attributes;
-
-        return ErrorCode.Success;
-    }
-
-    private static ErrorCode ComputeDifficulty<TRuleset>(NativeBeatmap beatmap, char* mods, out IDifficultyAttributes attributes)
-        where TRuleset : Ruleset, new()
-    {
         try
         {
-            Ruleset ruleset = new TRuleset();
+            Ruleset ruleset = new ManiaRuleset();
             Mod[] rulesetMods = ModsHelper.ParseMods(ruleset, new(mods));
 
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
             DifficultyCalculator calculator = ruleset.CreateDifficultyCalculator(workingBeatmap);
-            attributes = calculator.Calculate(rulesetMods);
+            *diffAttributes = (ManiaDifficultyAttributes)calculator.Calculate(rulesetMods)!;
 
             return ErrorCode.Success;
         }
         catch (Exception ex)
         {
-            attributes = null!;
             ErrorHandler.SetLastError(ex.ToString());
             return ErrorHelper.FromException(ex);
         }

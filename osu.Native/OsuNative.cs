@@ -1,13 +1,13 @@
 ﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+#pragma warning disable IDE0079
 #pragma warning disable CA2255
 
 using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -74,7 +74,6 @@ public static class OsuNative
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModAutoplay))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModBarrelRoll))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModBlinds))]
-    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModBloom))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModBubbles))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModCinema))]
     [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(osu.Game.Rulesets.Osu.Mods.OsuModClassic))]
