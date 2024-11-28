@@ -11,7 +11,7 @@ namespace osu.Native.Bindings;
 
 public static class OsuNative
 {
-    private const string LIB_PATH = @"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\osu.Native\osu.Native.dll";
+    private const string LIB_PATH = @"osu.Native";
 
     #region Beatmap
 
