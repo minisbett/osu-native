@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Build (Native)
+    runs-on: ${{ matrix.config.runner }}
+    strategy:
+      fail-fast: false
+    matrix:
+      config:
+        - { runner: windows-latest, platform: win-x86,   ext: dll }
+        - { runner: windows-latest, platform: win-x64,   ext: dll }
+        - { runner: windows-latest, platform: win-arm64, ext: dll }
+        - { runner: ubuntu-latest,  platform: linux-x64, ext: so }
+        - { runner: macos-latest,   platform: osx-x64,   ext: dylib }
+        - { runner: macos-latest,   platform: osx-arm64, ext: dylib }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.0'
+
+      - name: Build
+        run: dotnet publish -r ${{ matrix.config.platform }} osu.Native
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.config.platform }}
+          path: Artifacts/publish/osu.Native/release_${{ matrix.config.platform }}/osu.Native.${{ matrix.config.ext }}
+
+  pack:
+    name: Pack (C#)
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Add win-x86
+        uses: actions/download-artifact@v4
+        with:
+          name: win-x86
+          path: Bindings/Csharp/runtimes/win-x86/native/osu.Native.dll
+
+      - name: Add win-x64
+        uses: actions/download-artifact@v4
+        with:
+          name: win-x64
+          path: Bindings/Csharp/runtimes/win-x64/native/osu.Native.dll
+
+      - name: Add win-arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: win-arm64
+          path: Bindings/Csharp/runtimes/win-arm64/native/osu.Native.dll
+
+      - name: Add linux-x64
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-x64
+          path: Bindings/Csharp/runtimes/linux-x64/native/osu.Native.so
+
+      - name: Add osx-x64 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: osx-x64
+          path: Bindings/Csharp/runtimes/osx-x64/native/osu.Native.dylib
+
+      - name: Add osx-arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: osx-arm64
+          path: Bindings/Csharp/runtimes/osx-arm64/native/osu.Native.dylib
+
+      - name: Pack
+        run: dotnet pack Bindings/Csharp/osu.Native.Bindings.csproj /p:Version=${{ github.ref_name }}
+
+      - name: Upload .nupkg
+        uses: actions/upload-artifact@v4
+        with:
+          name: osu.Native.Bindings.nupkg
+          path: Artifacts/package/release/*.nupkg

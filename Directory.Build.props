@@ -5,9 +5,8 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
-    <!-- Deployment in github workflow can be done by building via dotnet publish -\-ucr on each platform. Per-platform folders are not necessary. -->
     <PropertyGroup>
         <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
-        <PublishDir>$(RepositoryRoot)Artifacts/$(MSBuildProjectName)</PublishDir>
+        <ArtifactsPath>$(RepositoryRoot)Artifacts</ArtifactsPath>
     </PropertyGroup>
 </Project>
