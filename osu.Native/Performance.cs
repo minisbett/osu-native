@@ -28,7 +28,7 @@ public static unsafe class Performance
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(NativeObject<FlatWorkingBeatmap> beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
+    public static ErrorCode ComputeOsu(NativeBeatmap beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
                                        OsuPerformanceAttributes* perfAttributes)
     {
         try
@@ -55,7 +55,7 @@ public static unsafe class Performance
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(NativeObject<FlatWorkingBeatmap> beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
+    public static ErrorCode ComputeTaiko(NativeBeatmap beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
                                          TaikoPerformanceAttributes* perfAttributes)
     {
         try
@@ -82,7 +82,7 @@ public static unsafe class Performance
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(NativeObject<FlatWorkingBeatmap> beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
+    public static ErrorCode ComputeCatch(NativeBeatmap beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
                                          CatchPerformanceAttributes* perfAttributes)
     {
         try
@@ -108,7 +108,7 @@ public static unsafe class Performance
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
     [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(NativeObject<FlatWorkingBeatmap> beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
+    public static ErrorCode ComputeMania(NativeBeatmap beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
                                          ManiaPerformanceAttributes* perfAttributes)
     {
         try
