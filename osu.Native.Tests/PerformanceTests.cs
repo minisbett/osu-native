@@ -14,7 +14,7 @@ internal class PerformanceTests
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out _beatmapId);
+        OsuNative.Beatmap_CreateFromText(TestUtils.GetResourceString("beatmap.osu"), out _beatmapId);
         OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _attributes);
     }
 

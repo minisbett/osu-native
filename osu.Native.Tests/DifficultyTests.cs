@@ -10,7 +10,7 @@ public class DifficultyTests
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out _beatmapId);
+        OsuNative.Beatmap_CreateFromText(TestUtils.GetResourceString("beatmap.osu"), out _beatmapId);
     }
 
     [Test]
@@ -24,7 +24,6 @@ public class DifficultyTests
     [Test]
     public void Compute_WithMods_Success()
     {
-        // TODO: Find a more consistent way to check if the mods affected the outcome. Right now it assumes DT affected the star rating
         ErrorCode error1 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
         ErrorCode error2 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "[{\"acronym\":\"DT\"}]", out OsuDifficultyAttributes attributes2);
 
@@ -32,7 +31,7 @@ public class DifficultyTests
         {
             Assert.That(error1, Is.EqualTo(ErrorCode.Success));
             Assert.That(error2, Is.EqualTo(ErrorCode.Success));
-            Assert.That(attributes1.StarRating, Is.EqualTo(attributes2.StarRating));
+            Assert.That(attributes1.StarRating, Is.Not.EqualTo(attributes2.StarRating));
         });
     }
 

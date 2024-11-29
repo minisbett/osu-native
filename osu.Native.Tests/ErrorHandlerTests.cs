@@ -10,7 +10,7 @@ public class ErrorHandlerTests
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out _beatmapId);
+        OsuNative.Beatmap_CreateFromText(TestUtils.GetResourceString("beatmap.osu"), out _beatmapId);
     }
 
     [Test]
