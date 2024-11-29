@@ -58,7 +58,7 @@ public class OsuScore(Mod[]? mods = null, int? maxCombo = null, int? count100 = 
     /// Converts the managed <see cref="OsuScore"/> object into its <see cref="Native"/> representation.
     /// </summary>
     /// <returns>The native representation of the managed score information.</returns>
-    internal Native ToNative()
+    public Native ToNative()
     {
         return new Native
         {
@@ -75,7 +75,7 @@ public class OsuScore(Mod[]? mods = null, int? maxCombo = null, int? count100 = 
     /// A structure representation of <see cref="OsuScore"/>.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct Native
+    public struct Native
     {
         public string Mods;
         public int MaxCombo;
