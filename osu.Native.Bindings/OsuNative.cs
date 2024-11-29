@@ -83,7 +83,7 @@ public static class OsuNative
 }
 
 /// <summary>
-/// Represents an error returned from osu-native, with it's error code and error message received via <see cref="OsuNative.GetLastErrorMessage"/>.
+/// Represents an error returned from osu-native, with it's error code and error message received via <see cref="OsuNative.GetLastError"/>.
 /// </summary>
 /// <param name="code">The error code.</param>
 /// <param name="msg">The error message.</param>
