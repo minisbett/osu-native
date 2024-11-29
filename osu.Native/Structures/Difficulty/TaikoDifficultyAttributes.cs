@@ -9,6 +9,9 @@ namespace osu.Native.Bindings.Structures.Difficulty;
 namespace osu.Native.Structures.Difficulty;
 #endif
 
+/// <summary>
+/// Represents the calculated difficulty attributes for an osu!taiko beatmap.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct TaikoDifficultyAttributes
 {

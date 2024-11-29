@@ -11,6 +11,9 @@ using osu.Game.Rulesets.Mods;
 namespace osu.Native.Structures.Difficulty;
 #endif
 
+/// <summary>
+/// Represents the calculated difficulty attributes for an osu!standard beatmap.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct OsuDifficultyAttributes
 {

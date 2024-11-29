@@ -9,6 +9,9 @@ namespace osu.Native.Bindings.Structures.Performance;
 namespace osu.Native.Structures.Performance;
 #endif
 
+/// <summary>
+/// Represents the calculated performance attributes for an osu!catch score.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public struct CatchPerformanceAttributes
 {
