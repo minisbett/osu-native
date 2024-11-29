@@ -1,4 +1,5 @@
 ﻿using osu.Native.Bindings;
+using System.Runtime.InteropServices;
 
 namespace osu.Native.Tests;
 
@@ -13,31 +14,18 @@ public class ErrorHandlerTests
     }
 
     [Test]
-    public void SetLastError_SetsError()
+    public unsafe void SetLastError_SetsError()
     {
-        string? errorMessage1 = OsuNative.GetLastError();
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "invalid mods", out _);
-        string? errorMessage2 = OsuNative.GetLastError();
+        ErrorCode error1 = OsuNative.Difficulty_ComputeOsu(-1, "", out _);
+        string errorMessage1 = new(OsuNative.GetLastError());
+        ErrorCode error2 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "invalid mods", out _);
+        string errorMessage2 = new(OsuNative.GetLastError());
 
         Assert.Multiple(() =>
         {
-            Assert.That(error, Is.EqualTo(ErrorCode.ModsParsingFailed));
-            Assert.That(errorMessage1, Is.Null);
-            Assert.That(errorMessage2, Is.Not.Null);
-        });
-    }
-
-    [Test]
-    public void SetLastError_NullIfSuccess()
-    {
-        // TODO: Figure out why this fails at times (errorMessage says object no found)
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _);
-        string? errorMessage = OsuNative.GetLastError();
-
-        Assert.Multiple(() =>
-        {
-            Assert.That(error, Is.EqualTo(ErrorCode.Success));
-            Assert.That(errorMessage, Is.Null);
+            Assert.That(error1, Is.EqualTo(ErrorCode.ObjectNotFound));
+            Assert.That(error2, Is.EqualTo(ErrorCode.ModsParsingFailed));
+            Assert.That(errorMessage1, Is.Not.EqualTo(errorMessage2));
         });
     }
 }

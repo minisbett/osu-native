@@ -65,7 +65,7 @@ public static class OsuNative
     #region Other
 
     [DllImport(LIB_PATH, EntryPoint = "_GetLastError", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern string? GetLastError();
+    public static unsafe extern char* GetLastError();
 
     #endregion
 
@@ -74,11 +74,11 @@ public static class OsuNative
     /// </summary>
     /// <param name="func">The osu-native function call.</param>
     /// <exception cref="OsuNativeException">The resulting exception, if the error code is not <see cref="ErrorCode.Success"/>.</exception>
-    public static void Execute(Func<ErrorCode> func)
+    public static unsafe void Execute(Func<ErrorCode> func)
     {
         ErrorCode code = func();
         if (code != ErrorCode.Success)
-            throw new OsuNativeException(code, GetLastError() ?? throw new NullReferenceException("Could not retrieve error message: GetLastError() is null."));
+            throw new OsuNativeException(code, new string(GetLastError()));
     }
 }
 
