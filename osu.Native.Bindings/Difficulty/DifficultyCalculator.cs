@@ -2,7 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System.IO;
-using osu.Native.Bindings.Models;
+using osu.Native.Bindings.Structures;
 
 namespace osu.Native.Bindings.Difficulty;
 

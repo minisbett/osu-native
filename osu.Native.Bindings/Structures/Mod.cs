@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace osu.Native.Bindings.Models;
+namespace osu.Native.Bindings.Structures;
 
 public class Mod(string acronym, Dictionary<string, object>? settings = null)
 {

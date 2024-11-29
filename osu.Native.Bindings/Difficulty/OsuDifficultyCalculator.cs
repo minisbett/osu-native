@@ -2,7 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using Newtonsoft.Json;
-using osu.Native.Bindings.Models;
+using osu.Native.Bindings.Structures;
 using osu.Native.Bindings.Structures.Difficulty;
 using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;

@@ -2,7 +2,6 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using Newtonsoft.Json;
-using osu.Native.Bindings.Models;
 using System.Runtime.InteropServices;
 
 namespace osu.Native.Bindings.Structures.Scores;
