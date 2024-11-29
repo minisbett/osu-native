@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 #if IS_BINDINGS
 namespace osu.Native.Bindings.Structures.Difficulty;
 #else
+using System.Linq;
+using osu.Game.Rulesets.Mods;
 namespace osu.Native.Structures.Difficulty;
 #endif
 
@@ -31,6 +33,8 @@ public struct OsuDifficultyAttributes
 #if !IS_BINDINGS
     public static implicit operator OsuDifficultyAttributes(Game.Rulesets.Osu.Difficulty.OsuDifficultyAttributes attributes)
     {
+        double? flashlightDifficulty = attributes.Mods.Any(x => x is ModFlashlight) ? attributes.FlashlightDifficulty : null;
+
         return new OsuDifficultyAttributes
         {
             StarRating = attributes.StarRating,
@@ -38,7 +42,7 @@ public struct OsuDifficultyAttributes
             AimDifficulty = attributes.AimDifficulty,
             SpeedDifficulty = attributes.SpeedDifficulty,
             SpeedNoteCount = attributes.SpeedNoteCount,
-            FlashlightDifficulty = attributes.FlashlightDifficulty,
+            FlashlightDifficulty = flashlightDifficulty,
             SliderFactor = attributes.SliderFactor,
             AimDifficultStrainCount = attributes.AimDifficultStrainCount,
             SpeedDifficultStrainCount = attributes.SpeedDifficultStrainCount,
@@ -53,14 +57,14 @@ public struct OsuDifficultyAttributes
 
     public static implicit operator Game.Rulesets.Osu.Difficulty.OsuDifficultyAttributes(OsuDifficultyAttributes attributes)
     {
-        return new OsuDifficultyAttributes
+        return new Game.Rulesets.Osu.Difficulty.OsuDifficultyAttributes
         {
             StarRating = attributes.StarRating,
             MaxCombo = attributes.MaxCombo,
             AimDifficulty = attributes.AimDifficulty,
             SpeedDifficulty = attributes.SpeedDifficulty,
             SpeedNoteCount = attributes.SpeedNoteCount,
-            FlashlightDifficulty = attributes.FlashlightDifficulty,
+            FlashlightDifficulty = attributes.FlashlightDifficulty ?? 0,
             SliderFactor = attributes.SliderFactor,
             AimDifficultStrainCount = attributes.AimDifficultStrainCount,
             SpeedDifficultStrainCount = attributes.SpeedDifficultStrainCount,
