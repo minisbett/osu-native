@@ -17,11 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bindings\Csharp\osu.Native.Bindings.csproj" />
+    <ProjectReference Include="..\osu.Native.Bindings\osu.Native.Bindings.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

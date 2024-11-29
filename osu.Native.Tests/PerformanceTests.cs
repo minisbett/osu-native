@@ -3,11 +3,6 @@ using osu.Native.Bindings.Models;
 using osu.Native.Bindings.Structures.Difficulty;
 using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace osu.Native.Tests;
 

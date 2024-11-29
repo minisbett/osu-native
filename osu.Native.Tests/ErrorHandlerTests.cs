@@ -19,9 +19,12 @@ public class ErrorHandlerTests
         ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "invalid mods", out _);
         string? errorMessage2 = OsuNative.GetLastError();
 
-        Assert.That(error, Is.EqualTo(ErrorCode.ModsParsingFailed));
-        Assert.That(errorMessage1, Is.Null);
-        Assert.That(errorMessage2, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(error, Is.EqualTo(ErrorCode.ModsParsingFailed));
+            Assert.That(errorMessage1, Is.Null);
+            Assert.That(errorMessage2, Is.Not.Null);
+        });
     }
 
     [Test]
@@ -31,7 +34,10 @@ public class ErrorHandlerTests
         ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _);
         string? errorMessage = OsuNative.GetLastError();
 
-        Assert.That(error, Is.EqualTo(ErrorCode.Success));
-        Assert.That(errorMessage, Is.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(error, Is.EqualTo(ErrorCode.Success));
+            Assert.That(errorMessage, Is.Null);
+        });
     }
 }

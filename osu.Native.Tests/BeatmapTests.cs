@@ -32,8 +32,11 @@ public class BeatmapTests
         OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out int id1);
         OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out int id2);
 
-        Assert.That(id1, Is.EqualTo(1));
-        Assert.That(id2, Is.EqualTo(2));
+        Assert.Multiple(() =>
+        {
+            Assert.That(id1, Is.EqualTo(1));
+            Assert.That(id2, Is.EqualTo(2));
+        });
     }
 
     [Test]
@@ -42,8 +45,11 @@ public class BeatmapTests
         ErrorCode error1 = OsuNative.Beatmap_CreateFromText(Shared.BEATMAP_TEXT, out int id);
         ErrorCode error2 = OsuNative.Beatmap_Destroy(id);
 
-        Assert.That(error1, Is.EqualTo(ErrorCode.Success));
-        Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+        Assert.Multiple(() =>
+        {
+            Assert.That(error1, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+        });
     }
 
     [Test]
@@ -53,8 +59,11 @@ public class BeatmapTests
         ErrorCode error2 = OsuNative.Beatmap_Destroy(id);
         ErrorCode error3 = OsuNative.Beatmap_Destroy(id);
 
-        Assert.That(error1, Is.EqualTo(ErrorCode.Success));
-        Assert.That(error2, Is.EqualTo(ErrorCode.Success));
-        Assert.That(error3, Is.EqualTo(ErrorCode.ObjectNotFound));
+        Assert.Multiple(() =>
+        {
+            Assert.That(error1, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error3, Is.EqualTo(ErrorCode.ObjectNotFound));
+        });
     }
 }

@@ -1,8 +1,5 @@
 ﻿using osu.Native.Bindings;
-using osu.Native.Bindings.Difficulty;
-using osu.Native.Bindings.Models;
 using osu.Native.Bindings.Structures.Difficulty;
-using osu.Native.Bindings.Structures.Scores;
 
 namespace osu.Native.Tests;
 
