@@ -1,4 +1,5 @@
 ﻿using osu.Native.Bindings;
+using System.IO;
 
 namespace osu.Native.Tests;
 
