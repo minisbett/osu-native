@@ -24,9 +24,6 @@
 
 
   <ItemGroup>
-    <None Include="runtimes\**\native\*">
-      <Pack>true</Pack>
-      <PackagePath>runtimes</PackagePath>
-    </None>
+    <None Include="runtimes/**/native/*" Pack="true" PackagePath="runtimes" />
   </ItemGroup>
 </Project>
