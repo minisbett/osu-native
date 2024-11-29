@@ -88,6 +88,10 @@ jobs:
           name: osx-arm64
           path: osu.Native.Bindings/runtimes/osx-arm64/native/osu.Native.dylib
 
+      - name: Debug Check
+        run: ls -R osu.Native.Bindings
+
+
       - name: Pack
         run: dotnet pack osu.Native.Bindings /p:Version=${{ github.ref_name }}
 
