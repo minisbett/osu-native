@@ -3,6 +3,7 @@ using osu.Native.Bindings.Structures;
 using osu.Native.Bindings.Structures.Difficulty;
 using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
+using static osu.Native.Tests.TestUtils;
 
 namespace osu.Native.Tests;
 
@@ -14,7 +15,7 @@ internal class PerformanceTests
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(TestUtils.GetResourceString("beatmap.osu"), out _beatmapId);
+        OsuNative.Beatmap_CreateFromText(GetResourceString("beatmap.osu"), out _beatmapId);
         OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _attributes);
     }
 

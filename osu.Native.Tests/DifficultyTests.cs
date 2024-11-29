@@ -1,5 +1,6 @@
 ﻿using osu.Native.Bindings;
 using osu.Native.Bindings.Structures.Difficulty;
+using static osu.Native.Tests.TestUtils;
 
 namespace osu.Native.Tests;
 
@@ -10,7 +11,7 @@ public class DifficultyTests
     [SetUp]
     public void Setup()
     {
-        OsuNative.Beatmap_CreateFromText(TestUtils.GetResourceString("beatmap.osu"), out _beatmapId);
+        OsuNative.Beatmap_CreateFromText(GetResourceString("beatmap.osu"), out _beatmapId);
     }
 
     [Test]
