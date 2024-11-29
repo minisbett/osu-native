@@ -21,4 +21,12 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="runtimes\**\native\*">
+      <Pack>true</Pack>
+      <PackagePath>runtimes</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
