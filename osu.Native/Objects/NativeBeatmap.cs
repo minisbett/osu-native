@@ -84,7 +84,7 @@ public readonly struct NativeBeatmap : INativeObject<FlatWorkingBeatmap>
     /// </summary>
     /// <param name="beatmap">The native object referencing the beatmap object.</param>
     [UnmanagedCallersOnly(EntryPoint = "Beatmap_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-    private static ErrorCode Destroy(NativeObject<FlatWorkingBeatmap> beatmap)
+    private static ErrorCode Destroy(NativeBeatmap beatmap)
     {
         try
         {
