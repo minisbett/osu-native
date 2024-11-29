@@ -8,14 +8,20 @@ using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
 using System.IO;
 
-namespace osu.Native.Bindings.Difficulty;
+namespace osu.Native.Bindings.PP;
 
-public class TaikoDifficultyCalculator : DifficultyCalculator<TaikoDifficultyAttributes, TaikoPerformanceAttributes, TaikoScore>
+/// <summary>
+/// A difficulty and performance calculator for osu!taiko.
+/// </summary>
+public class TaikoPPCalculator : PPCalculator<TaikoDifficultyAttributes, TaikoPerformanceAttributes, TaikoScore>
 {
-    public TaikoDifficultyCalculator(FileInfo file) : base(file) { }
+    /// <inheritdoc/>
+    public TaikoPPCalculator(FileInfo file) : base(file) { }
 
-    public TaikoDifficultyCalculator(string text) : base(text) { }
+    /// <inheritdoc/>
+    public TaikoPPCalculator(string text) : base(text) { }
 
+    /// <inheritdoc/>
     public override TaikoDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         TaikoDifficultyAttributes attributes = default;
@@ -23,6 +29,7 @@ public class TaikoDifficultyCalculator : DifficultyCalculator<TaikoDifficultyAtt
         return attributes;
     }
 
+    /// <inheritdoc/>
     public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
     {
         TaikoPerformanceAttributes attributes = default;

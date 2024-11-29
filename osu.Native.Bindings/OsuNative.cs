@@ -13,6 +13,8 @@ public static class OsuNative
 {
     private const string LIB_PATH = @"osu.Native";
 
+    #region Imports
+
     #region Beatmap
 
     [DllImport(LIB_PATH, EntryPoint = "Beatmap_CreateFromFile", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -66,6 +68,8 @@ public static class OsuNative
 
     [DllImport(LIB_PATH, EntryPoint = "_GetLastError", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     public static unsafe extern char* GetLastError();
+
+    #endregion
 
     #endregion
 

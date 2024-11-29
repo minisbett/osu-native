@@ -8,14 +8,20 @@ using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
 using System.IO;
 
-namespace osu.Native.Bindings.Difficulty;
+namespace osu.Native.Bindings.PP;
 
-public class CatchDifficultyCalculator : DifficultyCalculator<CatchDifficultyAttributes, CatchPerformanceAttributes, CatchScore>
+/// <summary>
+/// A difficulty and performance calculator for osu!catch.
+/// </summary>
+public class CatchPPCalculator : PPCalculator<CatchDifficultyAttributes, CatchPerformanceAttributes, CatchScore>
 {
-    public CatchDifficultyCalculator(FileInfo file) : base(file) { }
+    /// <inheritdoc/>
+    public CatchPPCalculator(FileInfo file) : base(file) { }
 
-    public CatchDifficultyCalculator(string text) : base(text) { }
+    /// <inheritdoc/>
+    public CatchPPCalculator(string text) : base(text) { }
 
+    /// <inheritdoc/>
     public override CatchDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         CatchDifficultyAttributes attributes = default;
@@ -23,6 +29,7 @@ public class CatchDifficultyCalculator : DifficultyCalculator<CatchDifficultyAtt
         return attributes;
     }
 
+    /// <inheritdoc/>
     public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, CatchScore score)
     {
         CatchPerformanceAttributes attributes = default;

@@ -8,14 +8,20 @@ using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
 using System.IO;
 
-namespace osu.Native.Bindings.Difficulty;
+namespace osu.Native.Bindings.PP;
 
-public class OsuDifficultyCalculator : DifficultyCalculator<OsuDifficultyAttributes, OsuPerformanceAttributes, OsuScore>
+/// <summary>
+/// A difficulty and performance calculator for osu!standard.
+/// </summary>
+public class OsuPPCalculator : PPCalculator<OsuDifficultyAttributes, OsuPerformanceAttributes, OsuScore>
 {
-    public OsuDifficultyCalculator(FileInfo file) : base(file) { }
+    /// <inheritdoc/>
+    public OsuPPCalculator(FileInfo file) : base(file) { }
 
-    public OsuDifficultyCalculator(string text) : base(text) { }
+    /// <inheritdoc/>
+    public OsuPPCalculator(string text) : base(text) { }
 
+    /// <inheritdoc/>
     public override OsuDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         OsuDifficultyAttributes attributes = default;
@@ -23,6 +29,7 @@ public class OsuDifficultyCalculator : DifficultyCalculator<OsuDifficultyAttribu
         return attributes;
     }
 
+    /// <inheritdoc/>
     public override OsuPerformanceAttributes CalculatePerformance(OsuDifficultyAttributes diffAttributes, OsuScore score)
     {
         OsuPerformanceAttributes attributes = default;

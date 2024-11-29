@@ -8,14 +8,20 @@ using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
 using System.IO;
 
-namespace osu.Native.Bindings.Difficulty;
+namespace osu.Native.Bindings.PP;
 
-public class ManiaDifficultyCalculator : DifficultyCalculator<ManiaDifficultyAttributes, ManiaPerformanceAttributes, ManiaScore>
+/// <summary>
+/// A difficulty and performance calculator for osu!mania.
+/// </summary>
+public class ManiaPPCalculator : PPCalculator<ManiaDifficultyAttributes, ManiaPerformanceAttributes, ManiaScore>
 {
-    public ManiaDifficultyCalculator(FileInfo file) : base(file) { }
+    /// <inheritdoc/>
+    public ManiaPPCalculator(FileInfo file) : base(file) { }
 
-    public ManiaDifficultyCalculator(string text) : base(text) { }
+    /// <inheritdoc/>
+    public ManiaPPCalculator(string text) : base(text) { }
 
+    /// <inheritdoc/>
     public override ManiaDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         ManiaDifficultyAttributes attributes = default;
@@ -23,6 +29,7 @@ public class ManiaDifficultyCalculator : DifficultyCalculator<ManiaDifficultyAtt
         return attributes;
     }
 
+    /// <inheritdoc/>
     public override ManiaPerformanceAttributes CalculatePerformance(ManiaDifficultyAttributes diffAttributes, ManiaScore score)
     {
         ManiaPerformanceAttributes attributes = default;
