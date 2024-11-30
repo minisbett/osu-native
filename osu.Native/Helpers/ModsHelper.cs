@@ -20,7 +20,7 @@ public static class ModsHelper
     /// </summary>
     /// <param name="ruleset">The ruleset.</param>
     /// <param name="json">The <see cref="APIMod"/>[] JSON string.</param>
-    /// <returns>A ruleset instances of the specified mods.</returns>
+    /// <returns>The ruleset instances of the specified mods.</returns>
     public static Mod[] ParseMods(Ruleset ruleset, string json)
     {
         if (string.IsNullOrEmpty(json))
@@ -31,18 +31,7 @@ public static class ModsHelper
             // Note: This deserializes the settings of the mods into Dictionary<string, JsonElement>, requiring special unwrapping.
             APIMod[] apiMods = JsonSerializer.Deserialize(json, APIModSourceGenerationContext.Default.APIModArray)!;
             foreach (APIMod mod in apiMods)
-                foreach (KeyValuePair<string, object> setting in mod.Settings)
-                {
-                    JsonElement element = (JsonElement)setting.Value;
-                    mod.Settings[setting.Key] = element.ValueKind switch
-                    {
-                        JsonValueKind.True => true,
-                        JsonValueKind.False => false,
-                        JsonValueKind.String => element.GetString()!,
-                        JsonValueKind.Number => element.GetDouble(),
-                        _ => throw new InvalidCastException($"Could not find a native type for '{element.ValueKind}'.")
-                    };
-                }
+                UnwrapModSettings(mod);
 
             Mod[] mods = [.. apiMods.Select(m => m.ToMod(ruleset))];
 
@@ -56,6 +45,26 @@ public static class ModsHelper
         catch (Exception ex)
         {
             throw new ModsParsingFailedException(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Unwraps the <see cref="JsonElement"/> objects in the <see cref="APIMod.Settings"/> dictionary into their respective native C# type.
+    /// </summary>
+    /// <param name="mod">The mod.</param>
+    private static void UnwrapModSettings(APIMod mod)
+    {
+        foreach (KeyValuePair<string, object> setting in mod.Settings)
+        {
+            JsonElement element = (JsonElement)setting.Value;
+            mod.Settings[setting.Key] = element.ValueKind switch
+            {
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.String => element.GetString()!,
+                JsonValueKind.Number => element.GetDouble(),
+                _ => throw new InvalidCastException($"Could not find a native type for '{element.ValueKind}'.")
+            };
         }
     }
 }
