@@ -25,4 +25,4 @@ Building it via `dotnet build` will __not__ produce a NativeAOT-compiled library
 ```
 dotnet test
 ```
-The pre-build events for `osu.Native.Tests` will build osu.Native and copy it to `osu.Native.Tests`' compilation output in order for tests to work.
+The pre-build events for `osu.Native.Tests` will build `osu.Native` and copy it to `osu.Native.Tests`' compilation output in order for tests to work.
