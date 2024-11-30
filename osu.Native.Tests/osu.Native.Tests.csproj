@@ -1,37 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\beatmap.osu" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\beatmap.osu" />
+        <Using Include="NUnit.Framework" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\beatmap.osu" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+        <PackageReference Include="NUnit" Version="4.2.2" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.3.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+        <ProjectReference Include="..\osu.Native.Bindings\osu.Native.Bindings.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="NUnit" Version="4.2.2" />
-    <PackageReference Include="NUnit.Analyzers" Version="4.3.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-  </ItemGroup>
+    <Target Name="ValidateOsuNativeArtifact" BeforeTargets="Build">
+        <Error Text="osu.Native is not built. To build it, run: &#xD;&#xA;dotnet publish --ucr $(OsuNativeProject)" Condition="'@(OsuNativeArtifact)' == ''" />
+    </Target>
 
-  <ItemGroup>
-    <ProjectReference Include="..\osu.Native.Bindings\osu.Native.Bindings.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="NUnit.Framework" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-      <Exec Command="dotnet publish --ucr $(RepositoryRoot)osu.Native\osu.Native.csproj" />
-      <Exec Command="copy $(ArtifactsPath)\publish\osu.Native\release\osu.Native.dll $(OutputPath)osu.Native.dll" />
-  </Target>
-
+    <ItemGroup>
+        <Content Include="@(OsuNativeArtifact)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 </Project>

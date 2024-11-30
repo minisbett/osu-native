@@ -8,5 +8,13 @@
     <PropertyGroup>
         <RepositoryRoot>$(MSBuildThisFileDirectory)</RepositoryRoot>
         <ArtifactsPath>$(RepositoryRoot)Artifacts</ArtifactsPath>
+        <OsuNativeProject>$(RepositoryRoot)osu.Native</OsuNativeProject>
+        <OsuNativeArtifactPath>$(ArtifactsPath)/publish/osu.Native/release/</OsuNativeArtifactPath>
     </PropertyGroup>
+
+    <ItemGroup>
+        <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.dylib" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.dylib')"/>
+        <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.dll" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.dll')"/>
+        <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.so" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.so')"/>
+    </ItemGroup>
 </Project>
