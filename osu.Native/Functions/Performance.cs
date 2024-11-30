@@ -16,7 +16,7 @@ using osu.Native.Structures.Scores;
 using osu.Native.Structures.Difficulty;
 using osu.Native.Structures.Performance;
 
-namespace osu.Native;
+namespace osu.Native.Functions;
 
 public static unsafe class Performance
 {

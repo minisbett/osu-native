@@ -15,10 +15,8 @@ using osu.Game.Rulesets.Mania;
 using osu.Native.Helpers;
 using osu.Native.Objects;
 using osu.Native.Structures.Difficulty;
-using NuGet.Packaging.Rules;
-using System.Xml.Linq;
 
-namespace osu.Native;
+namespace osu.Native.Functions;
 
 public unsafe static class Difficulty
 {
