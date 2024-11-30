@@ -30,7 +30,8 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(ArtifactsPath)\publish\osu.Native\release\osu.Native.dll $(OutputPath)osu.Native.dll" />
+      <Exec Command="dotnet publish --ucr $(RepositoryRoot)osu.Native\osu.Native.csproj" />
+      <Exec Command="copy $(ArtifactsPath)\publish\osu.Native\release\osu.Native.dll $(OutputPath)osu.Native.dll" />
   </Target>
 
 </Project>
