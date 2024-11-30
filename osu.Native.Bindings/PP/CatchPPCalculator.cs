@@ -25,7 +25,7 @@ public class CatchPPCalculator : PPCalculator<CatchDifficultyAttributes, CatchPe
     public override CatchDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         CatchDifficultyAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Difficulty_ComputeCatch(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
+        OsuNative.Execute(() => OsuNative.Difficulty_CalculateCatch(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
@@ -33,7 +33,7 @@ public class CatchPPCalculator : PPCalculator<CatchDifficultyAttributes, CatchPe
     public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, CatchScore score)
     {
         CatchPerformanceAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Performance_ComputeCatch(_beatmapId, diffAttributes, score.ToNative(), out attributes));
+        OsuNative.Execute(() => OsuNative.Performance_CalculateCatch(_beatmapId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

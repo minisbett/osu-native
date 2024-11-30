@@ -16,7 +16,7 @@ using osu.Native.Structures.Scores;
 using osu.Native.Structures.Difficulty;
 using osu.Native.Structures.Performance;
 
-namespace osu.Native.Functions;
+namespace osu.Native;
 
 public static unsafe class Performance
 {
@@ -27,10 +27,10 @@ public static unsafe class Performance
     /// <param name="diffAttributes">The difficulty attributes.</param>
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(NativeBeatmap beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
+    [UnmanagedCallersOnly(EntryPoint = "Performance_CalculateOsu", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateOsu(NativeBeatmap beatmap, OsuDifficultyAttributes diffAttributes, OsuScore score,
                                        OsuPerformanceAttributes* perfAttributes)
-    {
+    { 
         try
         {
             FlatWorkingBeatmap workingBeatmap = beatmap.Resolve();
@@ -54,8 +54,8 @@ public static unsafe class Performance
     /// <param name="diffAttributes">The difficulty attributes.</param>
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(NativeBeatmap beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
+    [UnmanagedCallersOnly(EntryPoint = "Performance_CalculateTaiko", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateTaiko(NativeBeatmap beatmap, TaikoDifficultyAttributes diffAttributes, TaikoScore score,
                                          TaikoPerformanceAttributes* perfAttributes)
     {
         try
@@ -81,8 +81,8 @@ public static unsafe class Performance
     /// <param name="diffAttributes">The difficulty attributes.</param>
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(NativeBeatmap beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
+    [UnmanagedCallersOnly(EntryPoint = "Performance_CalculateCatch", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateCatch(NativeBeatmap beatmap, CatchDifficultyAttributes diffAttributes, CatchScore score,
                                          CatchPerformanceAttributes* perfAttributes)
     {
         try
@@ -107,8 +107,8 @@ public static unsafe class Performance
     /// <param name="diffAttributes">The difficulty attributes.</param>
     /// <param name="score">The score information.</param>
     /// <param name="perfAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Performance_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(NativeBeatmap beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
+    [UnmanagedCallersOnly(EntryPoint = "Performance_CalculateMania", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateMania(NativeBeatmap beatmap, ManiaDifficultyAttributes diffAttributes, ManiaScore score,
                                          ManiaPerformanceAttributes* perfAttributes)
     {
         try

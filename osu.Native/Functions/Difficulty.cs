@@ -25,8 +25,8 @@ public unsafe static class Difficulty
     /// </summary>
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeOsu", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeOsu(NativeBeatmap beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
+    [UnmanagedCallersOnly(EntryPoint = "Difficulty_CalculateOsu", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateOsu(NativeBeatmap beatmap, char* mods, OsuDifficultyAttributes* diffAttributes)
     {
         try
         {
@@ -51,8 +51,8 @@ public unsafe static class Difficulty
     /// </summary>
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeTaiko", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeTaiko(NativeBeatmap beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
+    [UnmanagedCallersOnly(EntryPoint = "Difficulty_CalculateTaiko", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateTaiko(NativeBeatmap beatmap, char* mods, TaikoDifficultyAttributes* diffAttributes)
     {
         try
         {
@@ -77,8 +77,8 @@ public unsafe static class Difficulty
     /// </summary>
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeCatch", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeCatch(NativeBeatmap beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
+    [UnmanagedCallersOnly(EntryPoint = "Difficulty_CalculateCatch", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateCatch(NativeBeatmap beatmap, char* mods, CatchDifficultyAttributes* diffAttributes)
     {
         try
         {
@@ -103,8 +103,8 @@ public unsafe static class Difficulty
     /// </summary>
     /// <param name="beatmap">The native object referencing the beatmap.</param>
     /// <param name="diffAttributes">The computed difficulty attributes.</param>
-    [UnmanagedCallersOnly(EntryPoint = "Difficulty_ComputeMania", CallConvs = [typeof(CallConvCdecl)])]
-    public static ErrorCode ComputeMania(NativeBeatmap beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
+    [UnmanagedCallersOnly(EntryPoint = "Difficulty_CalculateMania", CallConvs = [typeof(CallConvCdecl)])]
+    public static ErrorCode CalculateMania(NativeBeatmap beatmap, char* mods, ManiaDifficultyAttributes* diffAttributes)
     {
         try
         {

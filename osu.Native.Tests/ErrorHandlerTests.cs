@@ -16,9 +16,9 @@ public class ErrorHandlerTests
     [Test]
     public unsafe void SetLastError_SetsError()
     {
-        ErrorCode error1 = OsuNative.Difficulty_ComputeOsu(-1, "", out _);
+        ErrorCode error1 = OsuNative.Difficulty_CalculateOsu(-1, "", out _);
         string errorMessage1 = new(OsuNative.GetLastError());
-        ErrorCode error2 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "invalid mods", out _);
+        ErrorCode error2 = OsuNative.Difficulty_CalculateOsu(_beatmapId, "invalid mods", out _);
         string errorMessage2 = new(OsuNative.GetLastError());
 
         Assert.Multiple(() =>

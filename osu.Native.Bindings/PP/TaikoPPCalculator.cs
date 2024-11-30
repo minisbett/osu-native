@@ -25,7 +25,7 @@ public class TaikoPPCalculator : PPCalculator<TaikoDifficultyAttributes, TaikoPe
     public override TaikoDifficultyAttributes CalculateDifficulty(Mod[] mods)
     {
         TaikoDifficultyAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Difficulty_ComputeTaiko(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
+        OsuNative.Execute(() => OsuNative.Difficulty_CalculateTaiko(_beatmapId, JsonConvert.SerializeObject(mods), out attributes));
         return attributes;
     }
 
@@ -33,7 +33,7 @@ public class TaikoPPCalculator : PPCalculator<TaikoDifficultyAttributes, TaikoPe
     public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
     {
         TaikoPerformanceAttributes attributes = default;
-        OsuNative.Execute(() => OsuNative.Performance_ComputeTaiko(_beatmapId, diffAttributes, score.ToNative(), out attributes));
+        OsuNative.Execute(() => OsuNative.Performance_CalculateTaiko(_beatmapId, diffAttributes, score.ToNative(), out attributes));
         return attributes;
     }
 }

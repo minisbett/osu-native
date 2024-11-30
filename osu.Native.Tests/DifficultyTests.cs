@@ -17,7 +17,7 @@ public class DifficultyTests
     [Test]
     public void Compute_WithoutMods_Success()
     {
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out _);
+        ErrorCode error = OsuNative.Difficulty_CalculateOsu(_beatmapId, "", out _);
 
         Assert.That(error, Is.EqualTo(ErrorCode.Success));
     }
@@ -25,8 +25,8 @@ public class DifficultyTests
     [Test]
     public void Compute_WithMods_Success()
     {
-        ErrorCode error1 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
-        ErrorCode error2 = OsuNative.Difficulty_ComputeOsu(_beatmapId, "[{\"acronym\":\"DT\"}]", out OsuDifficultyAttributes attributes2);
+        ErrorCode error1 = OsuNative.Difficulty_CalculateOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
+        ErrorCode error2 = OsuNative.Difficulty_CalculateOsu(_beatmapId, "[{\"acronym\":\"DT\"}]", out OsuDifficultyAttributes attributes2);
 
         Assert.Multiple(() =>
         {
@@ -39,12 +39,12 @@ public class DifficultyTests
     [Test]
     public void Compute_Multiple_Success()
     {
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
+        ErrorCode error = OsuNative.Difficulty_CalculateOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
         Assert.That(error, Is.EqualTo(ErrorCode.Success));
 
         for (int i = 0; i < 5; i++)
         {
-            error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "", out OsuDifficultyAttributes attributes2);
+            error = OsuNative.Difficulty_CalculateOsu(_beatmapId, "", out OsuDifficultyAttributes attributes2);
             Assert.Multiple(() =>
             {
                 Assert.That(error, Is.EqualTo(ErrorCode.Success));
@@ -56,7 +56,7 @@ public class DifficultyTests
     [Test]
     public void Compute_InvalidMods_Failure()
     {
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(_beatmapId, "invalid mods", out _);
+        ErrorCode error = OsuNative.Difficulty_CalculateOsu(_beatmapId, "invalid mods", out _);
 
         Assert.That(error, Is.EqualTo(ErrorCode.ModsParsingFailed));
     }
@@ -64,7 +64,7 @@ public class DifficultyTests
     [Test]
     public void Compute_NotExistentBeatmap_Failure()
     {
-        ErrorCode error = OsuNative.Difficulty_ComputeOsu(-1, "", out _);
+        ErrorCode error = OsuNative.Difficulty_CalculateOsu(-1, "", out _);
 
         Assert.That(error, Is.EqualTo(ErrorCode.ObjectNotFound));
     }

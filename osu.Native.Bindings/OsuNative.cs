@@ -30,36 +30,36 @@ public static class OsuNative
 
     #region Difficulty
 
-    [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeOsu", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Difficulty_ComputeOsu(int beatmapId, string mods, out OsuDifficultyAttributes attributes);
+    [DllImport(LIB_PATH, EntryPoint = "Difficulty_CalculateOsu", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Difficulty_CalculateOsu(int beatmapId, string mods, out OsuDifficultyAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeTaiko", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Difficulty_ComputeTaiko(int beatmapId, string mods, out TaikoDifficultyAttributes attributes);
+    [DllImport(LIB_PATH, EntryPoint = "Difficulty_CalculateTaiko", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Difficulty_CalculateTaiko(int beatmapId, string mods, out TaikoDifficultyAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeCatch", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Difficulty_ComputeCatch(int beatmapId, string mods, out CatchDifficultyAttributes attributes);
+    [DllImport(LIB_PATH, EntryPoint = "Difficulty_CalculateCatch", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Difficulty_CalculateCatch(int beatmapId, string mods, out CatchDifficultyAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Difficulty_ComputeMania", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Difficulty_ComputeMania(int beatmapId, string mods, out ManiaDifficultyAttributes attributes);
+    [DllImport(LIB_PATH, EntryPoint = "Difficulty_CalculateMania", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Difficulty_CalculateMania(int beatmapId, string mods, out ManiaDifficultyAttributes attributes);
 
     #endregion
 
     #region Performance
 
-    [DllImport(LIB_PATH, EntryPoint = "Performance_ComputeOsu", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Performance_ComputeOsu(int beatmapId, OsuDifficultyAttributes diffAttributes, OsuScore.Native score,
+    [DllImport(LIB_PATH, EntryPoint = "Performance_CalculateOsu", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Performance_CalculateOsu(int beatmapId, OsuDifficultyAttributes diffAttributes, OsuScore.Native score,
                                                     out OsuPerformanceAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Performance_ComputeTaiko", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Performance_ComputeTaiko(int beatmapId, TaikoDifficultyAttributes diffAttributes, TaikoScore.Native score,
+    [DllImport(LIB_PATH, EntryPoint = "Performance_CalculateTaiko", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Performance_CalculateTaiko(int beatmapId, TaikoDifficultyAttributes diffAttributes, TaikoScore.Native score,
                                                       out TaikoPerformanceAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Performance_ComputeCatch", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Performance_ComputeCatch(int beatmapId, CatchDifficultyAttributes diffAttributes, CatchScore.Native score,
+    [DllImport(LIB_PATH, EntryPoint = "Performance_CalculateCatch", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Performance_CalculateCatch(int beatmapId, CatchDifficultyAttributes diffAttributes, CatchScore.Native score,
                                                       out CatchPerformanceAttributes attributes);
 
-    [DllImport(LIB_PATH, EntryPoint = "Performance_ComputeMania", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-    public static extern ErrorCode Performance_ComputeMania(int beatmapId, ManiaDifficultyAttributes diffAttributes, ManiaScore.Native score,
+    [DllImport(LIB_PATH, EntryPoint = "Performance_CalculateMania", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public static extern ErrorCode Performance_CalculateMania(int beatmapId, ManiaDifficultyAttributes diffAttributes, ManiaScore.Native score,
                                                       out ManiaPerformanceAttributes attributes);
 
     #endregion
