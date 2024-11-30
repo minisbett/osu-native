@@ -1,6 +1,7 @@
-﻿// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
+﻿calc// Copyright (c) ppy Pty Ltd <contact@ppy.sh>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.IO;
 using osu.Native.Bindings.Structures;
 
@@ -12,8 +13,9 @@ namespace osu.Native.Bindings.PP;
 /// <typeparam name="TDiffAttr">The difficulty attributes type.</typeparam>
 /// <typeparam name="TPerfAttr">The performance attributes type.</typeparam>
 /// <typeparam name="TScore">The score type.</typeparam>
-public abstract class PPCalculator<TDiffAttr, TPerfAttr, TScore>
+public abstract class PPCalculator<TDiffAttr, TPerfAttr, TScore> : IDisposable
 {
+    private bool _disposed = false;
     protected int _beatmapId;
 
     /// <summary>
@@ -36,6 +38,16 @@ public abstract class PPCalculator<TDiffAttr, TPerfAttr, TScore>
 
     ~PPCalculator()
     {
+        if (!_disposed)
+            Dispose();
+    }
+
+    /// <summary>
+    /// Destroys the underlying native beatmap object.
+    /// </summary>
+    public void Dispose()
+    {
+        _disposed = true;
         OsuNative.Execute(() => OsuNative.Beatmap_Destroy(_beatmapId));
     }
 
