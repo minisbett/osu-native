@@ -8,7 +8,7 @@ using osu.Native.Bindings.Structures.Difficulty;
 using osu.Native.Bindings.Structures.Performance;
 using osu.Native.Bindings.Structures.Scores;
 
-Mod[] mods = args.Length > 2 ? args[2].Chunk(2).Select(x => new Mod(new(x))).ToArray() : [];
+Mod[] mods = args.Length > 1 ? args[1].Chunk(2).Select(x => new Mod(new(x))).ToArray() : [];
 string beatmapText = await new HttpClient().GetStringAsync($"https://osu.ppy.sh/osu/{args[0]}");
 
 OsuPPCalculator calc = new(beatmapText);
