@@ -30,6 +30,14 @@ public class TaikoPPCalculator : PPCalculator<TaikoDifficultyAttributes, TaikoPe
     }
 
     /// <inheritdoc/>
+    public override TaikoPerformanceAttributes CalculatePerformance(TaikoScore score)
+    {
+        TaikoPerformanceAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Performance_CalculateTaiko(_beatmapId, CalculateDifficulty(score.Mods), score.ToNative(), out attributes));
+        return attributes;
+    }
+
+    /// <inheritdoc/>
     public override TaikoPerformanceAttributes CalculatePerformance(TaikoDifficultyAttributes diffAttributes, TaikoScore score)
     {
         TaikoPerformanceAttributes attributes = default;

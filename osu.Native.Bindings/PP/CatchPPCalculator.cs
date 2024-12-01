@@ -30,6 +30,14 @@ public class CatchPPCalculator : PPCalculator<CatchDifficultyAttributes, CatchPe
     }
 
     /// <inheritdoc/>
+    public override CatchPerformanceAttributes CalculatePerformance(CatchScore score)
+    {
+        CatchPerformanceAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Performance_CalculateCatch(_beatmapId, CalculateDifficulty(score.Mods), score.ToNative(), out attributes));
+        return attributes;
+    }
+
+    /// <inheritdoc/>
     public override CatchPerformanceAttributes CalculatePerformance(CatchDifficultyAttributes diffAttributes, CatchScore score)
     {
         CatchPerformanceAttributes attributes = default;

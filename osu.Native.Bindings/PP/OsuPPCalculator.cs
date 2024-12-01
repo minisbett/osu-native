@@ -30,6 +30,14 @@ public class OsuPPCalculator : PPCalculator<OsuDifficultyAttributes, OsuPerforma
     }
 
     /// <inheritdoc/>
+    public override OsuPerformanceAttributes CalculatePerformance(OsuScore score)
+    {
+        OsuPerformanceAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Performance_CalculateOsu(_beatmapId, CalculateDifficulty(score.Mods), score.ToNative(), out attributes));
+        return attributes;
+    }
+
+    /// <inheritdoc/>
     public override OsuPerformanceAttributes CalculatePerformance(OsuDifficultyAttributes diffAttributes, OsuScore score)
     {
         OsuPerformanceAttributes attributes = default;

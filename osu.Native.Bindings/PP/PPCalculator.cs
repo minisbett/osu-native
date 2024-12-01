@@ -64,11 +64,19 @@ public abstract class PPCalculator<TDiffAttr, TPerfAttr, TScore> : IDisposable
     /// <returns>The calculated difficulty attributes.</returns>
     public abstract TDiffAttr CalculateDifficulty(Mod[] mods);
 
+
+    /// <summary>
+    /// Calculates the performance of the beatmap for the specified score.
+    /// </summary>
+    /// <param name="score">The score.</param>
+    /// <returns>The calculated performance attributes.</returns>
+    public abstract TPerfAttr CalculatePerformance(TScore score);
+
     /// <summary>
     /// Calculates the performance of the beatmap for the specified score and difficulty attributes.
     /// </summary>
     /// <param name="diffAttributes">The difficulty attributes.</param>
     /// <param name="score">The score.</param>
-    /// <returns>The calculated difficulty attributes.</returns>
+    /// <returns>The calculated performance attributes.</returns>
     public abstract TPerfAttr CalculatePerformance(TDiffAttr diffAttributes, TScore score);
 }

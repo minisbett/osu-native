@@ -17,11 +17,9 @@
         <Compile Include="$(RepositoryRoot)/osu.Native/Structures/Performance/TaikoPerformanceAttributes.cs" Link="Structures/Performance/TaikoPerformanceAttributes.cs" />
     </ItemGroup>
 
-
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
-
 
     <ItemGroup>
         <None Include="runtimes/**/native/*" Pack="true" PackagePath="runtimes" />

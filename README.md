@@ -25,4 +25,11 @@ Building it via `dotnet build` will __not__ produce a NativeAOT-compiled library
 ```
 dotnet test
 ```
-The pre-build events for `osu.Native.Tests` will build `osu.Native` and copy it to `osu.Native.Tests`' compilation output in order for tests to work.
+To run the tests, please [build](#build) `osu.Native` first.
+
+
+## Running sample
+```
+dotnet run --project osu.Native.Sample -- <beatmap id> <mods>
+```
+To run the sample, please [build](#build) `osu.Native` first.

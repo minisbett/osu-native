@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\osu.Native.Bindings\osu.Native.Bindings.csproj" />
+    </ItemGroup>
+
+    <Target Name="ValidateOsuNativeArtifact" BeforeTargets="Build">
+        <Error Text="osu.Native is not built. To build it, run: &#xD;&#xA;dotnet publish --ucr $(OsuNativeProject)" Condition="'@(OsuNativeArtifact)' == ''" />
+    </Target>
+
+    <ItemGroup>
+        <Content Include="@(OsuNativeArtifact)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+</Project>

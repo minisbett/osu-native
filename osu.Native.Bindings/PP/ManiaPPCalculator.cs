@@ -30,6 +30,14 @@ public class ManiaPPCalculator : PPCalculator<ManiaDifficultyAttributes, ManiaPe
     }
 
     /// <inheritdoc/>
+    public override ManiaPerformanceAttributes CalculatePerformance(ManiaScore score)
+    {
+        ManiaPerformanceAttributes attributes = default;
+        OsuNative.Execute(() => OsuNative.Performance_CalculateMania(_beatmapId, CalculateDifficulty(score.Mods), score.ToNative(), out attributes));
+        return attributes;
+    }
+
+    /// <inheritdoc/>
     public override ManiaPerformanceAttributes CalculatePerformance(ManiaDifficultyAttributes diffAttributes, ManiaScore score)
     {
         ManiaPerformanceAttributes attributes = default;
