@@ -3,7 +3,15 @@
         <TargetFramework>net9.0</TargetFramework>
         <PublishAot>true</PublishAot>
         <PublishTrimmed>true</PublishTrimmed>
+
+        <!-- Generate necessary information for sizoscope -->
+        <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+        <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
     </PropertyGroup>
+
+    <!--<ItemGroup>
+      <TrimmerRootDescriptor Include="linker.xml" />
+    </ItemGroup>-->
 
     <ItemGroup>
         <PackageReference Include="ppy.osu.Game" Version="2024.1115.3" />
