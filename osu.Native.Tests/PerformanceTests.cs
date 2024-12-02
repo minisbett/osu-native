@@ -30,7 +30,7 @@ internal class PerformanceTests
     [Test]
     public void Compute_WithMods_Success()
     {
-        // TODO: Find a more consistent way to check if the mods affected the outcome. Right now it assumes HD will change the total PP
+        // Note: Do not use a mod for testing that only affects difficulty calculation. We are always using nomod difficulty attributes here.
         ErrorCode error1 = OsuNative.Performance_CalculateOsu(_beatmapId, _attributes, new OsuScore().ToNative(), out OsuPerformanceAttributes attributes1);
         ErrorCode error2 = OsuNative.Performance_CalculateOsu(_beatmapId, _attributes, new OsuScore([new Mod("HD")]).ToNative(), out OsuPerformanceAttributes attributes2);
 

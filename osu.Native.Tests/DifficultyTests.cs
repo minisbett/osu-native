@@ -1,4 +1,6 @@
-﻿using osu.Native.Bindings;
+﻿using Newtonsoft.Json;
+using osu.Native.Bindings;
+using osu.Native.Bindings.Structures;
 using osu.Native.Bindings.Structures.Difficulty;
 using static osu.Native.Tests.TestUtils;
 
@@ -27,6 +29,22 @@ public class DifficultyTests
     {
         ErrorCode error1 = OsuNative.Difficulty_CalculateOsu(_beatmapId, "", out OsuDifficultyAttributes attributes1);
         ErrorCode error2 = OsuNative.Difficulty_CalculateOsu(_beatmapId, "[{\"acronym\":\"DT\"}]", out OsuDifficultyAttributes attributes2);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(error1, Is.EqualTo(ErrorCode.Success));
+            Assert.That(error2, Is.EqualTo(ErrorCode.Success));
+            Assert.That(attributes1.StarRating, Is.Not.EqualTo(attributes2.StarRating));
+        });
+    }
+
+    [Test]
+    public void Compute_WithModSettings_Success()
+    {
+        string mods1 = JsonConvert.SerializeObject(new Mod[] { new("DT") });
+        string mods2 = JsonConvert.SerializeObject(new Mod[] { new("DT", new() { ["speed_change"] = 2 }) });
+        ErrorCode error1 = OsuNative.Difficulty_CalculateOsu(_beatmapId, mods1, out OsuDifficultyAttributes attributes1);
+        ErrorCode error2 = OsuNative.Difficulty_CalculateOsu(_beatmapId, mods2, out OsuDifficultyAttributes attributes2);
 
         Assert.Multiple(() =>
         {
