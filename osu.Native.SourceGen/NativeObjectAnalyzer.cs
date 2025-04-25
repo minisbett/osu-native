@@ -35,7 +35,7 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
     if (!structSymbol.AllInterfaces.Any(x => x.OriginalDefinition.Equals(iNativeObjectSymbol, SymbolEqualityComparer.Default)))
       return;
 
-    var idProperty = structSymbol.GetMembers("Id").FirstOrDefault();
+    var idProperty = structSymbol.GetMembers("ObjectId").FirstOrDefault();
     var members = structDeclaration.Members.Where(x => x is PropertyDeclarationSyntax or FieldDeclarationSyntax && !x.Modifiers.Any(SyntaxKind.StaticKeyword));
     if (idProperty is not null && members.First() != idProperty.DeclaringSyntaxReferences.First().GetSyntax())
       context.ReportDiagnostic(Diagnostic.Create(Rule, idProperty.Locations[0]));

@@ -8,7 +8,7 @@ namespace osu.Native.Objects;
 /// <typeparam name="T">The managed type of the container.</typeparam>
 internal static class ObjectContainer<T> where T : notnull
 {
-  private static ConcurrentDictionary<int, T> _objects = [];
+  private static readonly ConcurrentDictionary<int, T> _objects = [];
   private static int _nextId = 0;
 
   /// <summary>

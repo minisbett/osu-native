@@ -3,8 +3,13 @@
 /// <summary>
 /// Contains all error codes that can be returned from unmanaged functions.
 /// </summary>
-internal enum ErrorCode : byte
+internal enum ErrorCode : sbyte
 {
+  /// <summary>
+  /// Indicates that the required size of a buffer was queried.
+  /// </summary>
+  BufferSizeQuery = -1,
+
   /// <summary>
   /// Indicates a successful operation.
   /// </summary>
@@ -16,14 +21,9 @@ internal enum ErrorCode : byte
   ObjectNotFound = 1,
 
   /// <summary>
-  /// Indicates that the required size of a buffer was queried.
-  /// </summary>
-  BufferSizeQuery = 2,
-
-  /// <summary>
   /// Indicates that the size of the provided buffer was too small to hold the requested data.
   /// </summary>
-  BufferTooSmall = 3,
+  BufferTooSmall = 2,
 
   /// <summary>
   /// Indicates that the ruleset requested is not available (eg. not found).
@@ -31,7 +31,12 @@ internal enum ErrorCode : byte
   RulesetUnavailable = 3,
 
   /// <summary>
+  /// Indicates that the file in the scope of the operation was not found.
+  /// </summary>
+  BeatmapFileNotFound = 4,
+
+  /// <summary>
   /// Indicates an unspecific operation failure.
   /// </summary>
-  Failure = 255
+  Failure = 127
 }

@@ -8,23 +8,28 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
 {
   private static readonly AssemblyRulesetStore _rulesetStore = new();
 
-  public int Id { get; init; }
+  public int ObjectId { get; private init; }
 
-  private int _rulesetId;
+  public int Id { get; private init; }
+
+  private static NativeRuleset Create(RulesetInfo ruleset)
+  {
+    int objectId = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
+    return new NativeRuleset
+    {
+      ObjectId = objectId,
+      Id = ruleset.OnlineID
+    };
+  }
 
   [UnmanagedCallersOnly(EntryPoint = "Ruleset_CreateFromId", CallConvs = [typeof(CallConvCdecl)])]
   private static unsafe ErrorCode CreateFromId(int rulesetId, NativeRuleset* nativeRuleset)
   {
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(rulesetId);
     if (ruleset is null || !ruleset.Available)
-      return ErrorHandler.Handle(ErrorCode.RulesetUnavailable, $"A ruleset with ID {rulesetId} is unavailable.");
+      return ErrorCode.RulesetUnavailable;
 
-    int id = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
-    *nativeRuleset = new NativeRuleset
-    {
-      Id = id,
-      _rulesetId = rulesetId
-    };
+    *nativeRuleset = Create(ruleset);
 
     return ErrorCode.Success;
   }
@@ -37,14 +42,9 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
 
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(shortNameStr);
     if (ruleset is null || !ruleset.Available)
-      return ErrorHandler.Handle(ErrorCode.RulesetUnavailable, $"A ruleset with short name {shortNameStr} is unavailable.");
+      return ErrorCode.RulesetUnavailable;
 
-    int id = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
-    *nativeRuleset = new NativeRuleset
-    {
-      Id = id,
-      _rulesetId = ruleset.OnlineID
-    };
+    *nativeRuleset = Create(ruleset);
 
     return ErrorCode.Success;
   }
@@ -52,20 +52,13 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
   [UnmanagedCallersOnly(EntryPoint = "Ruleset_GetShortName", CallConvs = [typeof(CallConvCdecl)])]
   private static unsafe ErrorCode GetShortName(NativeRuleset nativeRuleset, char* shortNameBuffer, int* shortNameBufferSize)
   {
-    Ruleset ruleset = nativeRuleset.Resolve();
-
-    if(shortNameBuffer is null)
+    try
     {
-      *shortNameBufferSize = ruleset.ShortName.Length + 1;
-      return ErrorCode.BufferSizeQuery;
+      return BufferHelper.String(nativeRuleset.Resolve().ShortName, shortNameBuffer, shortNameBufferSize);
     }
-
-    if (ruleset.ShortName.Length + 1 > *shortNameBufferSize)
-      return ErrorHandler.Handle(ErrorCode.BufferTooSmall, $"Expected: {ruleset.ShortName.Length + 1}, Actual: {*shortNameBufferSize}");
-
-    ruleset.ShortName.AsSpan().CopyTo(new(shortNameBuffer, *shortNameBufferSize));
-    shortNameBuffer[ruleset.ShortName.Length] = '\0';
-
-    return ErrorCode.Success;
+    catch (Exception ex)
+    {
+      return ErrorHandler.Handle(ex);
+    }
   }
 }

@@ -1,61 +1,58 @@
-﻿using osu.Native.Objects;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace osu.Native;
 
 /// <summary>
-/// Manages the allocation and native providing of the latest error message in a thread.
+/// Manages error handling for native calls, either mapping exceptions to error codes or declaring an error code as a failure
+/// and storing additional information about the failure as a string, provided via a native function.
 /// </summary>
 internal static unsafe class ErrorHandler
 {
   /// <summary>
-  /// A thread-unique pointer to the last set error message.
+  /// A thread-unique pointer to a string containing information about the last <see cref="ErrorCode.Failure"/> error.
   /// </summary>
   [ThreadStatic]
-  private static char* _lastErrorPtr;
+  private static char* _lastFailurePtr;
 
   /// <summary>
-  /// Returns the message of the last error in the thread this function was called from.
+  /// Returns the message of the last failure in the thread this function was called from.
   /// </summary>
   /// <returns>The pointer to the last error.</returns>
-  [UnmanagedCallersOnly(EntryPoint = "_GetLastError", CallConvs = [typeof(CallConvCdecl)])]
-  public static char* GetLastError() => _lastErrorPtr;
+  [UnmanagedCallersOnly(EntryPoint = "GetLastFailure", CallConvs = [typeof(CallConvCdecl)])]
+  public static char* GetFailure() => _lastFailurePtr;
 
   /// <summary>
-  /// Sets the last error message in the calling thread to the specified message and returns the specified error code.
+  /// Considers the error a <see cref="ErrorCode.Failure"/> and makes additional information available via a native function.
   /// </summary>
-  /// <param name="errorCode">The error code.</param>
-  /// <param name="message">The error message.</param>
-  public static ErrorCode Handle(ErrorCode errorCode, string message)
+  /// <param name="message">The message containing information about the failure.</param>
+  /// <returns><see cref="ErrorCode.Failure"/></returns>
+  public static ErrorCode Failure(string message)
   {
-    if (_lastErrorPtr is not null)
-      Marshal.FreeHGlobal((nint)_lastErrorPtr);
+    if (_lastFailurePtr is not null)
+      Marshal.FreeHGlobal((nint)_lastFailurePtr);
 
-    _lastErrorPtr = (char*)Marshal.StringToHGlobalUni(message);
-    return errorCode;
+    _lastFailurePtr = (char*)Marshal.StringToHGlobalUni(message);
+    return ErrorCode.Failure;
   }
 
   /// <summary>
-  /// Sets the last error message in the calling thread to the exception and returns the matching error code for the exception type.
+  /// Maps the exception to an error code or, if no mapping is available, considers the error a <see cref="ErrorCode.Failure"/>,
+  /// making the exception message and stacktrace available as the failure information via a native function.
   /// </summary>
   /// <param name="exception"></param>
   /// <returns></returns>
   public static ErrorCode Handle(Exception exception)
   {
-    ErrorCode errorCode = exception switch
+    return exception switch
     {
       ObjectNotFoundException => ErrorCode.ObjectNotFound,
-      _ => ErrorCode.Failure
+      _ => Failure(exception.ToString()),
     };
-
-    return Handle(errorCode, exception.ToString());
   }
 }
 
 /// <summary>
 /// Exception thrown when an object with the specified ID is not found in the container.
 /// </summary>
-/// <param name="objectType">The type of the managed object.</param>
-/// <param name="id">The native ID.</param>
-internal class ObjectNotFoundException(Type objectType, int id) : Exception($"{objectType.Name} with ID {id} was not found.");
+internal class ObjectNotFoundException : Exception;

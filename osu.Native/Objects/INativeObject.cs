@@ -12,5 +12,5 @@ internal interface INativeObject<T> where T : notnull
   /// Furthermore, this ID is part of the layout of native structs. In order to allow parity with passing IDs instead of native structs,
   /// this property should always be declared at the start of any struct inheriting from this interface.
   /// </summary>
-  public int Id { get; }
+  public int ObjectId { get; }
 }

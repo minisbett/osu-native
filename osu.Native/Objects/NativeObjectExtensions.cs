@@ -12,7 +12,7 @@ internal static class NativeObjectExtensions
   /// <returns>The associated managed object.</returns>
   public static T Resolve<T>(this INativeObject<T> obj) where T : notnull
   {
-    return ObjectContainer<T>.Get(obj.Id);
+    return ObjectContainer<T>.Get(obj.ObjectId);
   }
 
   /// <summary>
@@ -22,9 +22,9 @@ internal static class NativeObjectExtensions
   /// <param name="obj">The native object.</param>
   public static void Destroy<T>(this INativeObject<T> obj) where T : notnull
   {
-    if (ObjectContainer<T>.Get(obj.Id) is IDisposable disposable)
+    if (ObjectContainer<T>.Get(obj.ObjectId) is IDisposable disposable)
       disposable.Dispose();
 
-    ObjectContainer<T>.Remove(obj.Id);
+    ObjectContainer<T>.Remove(obj.ObjectId);
   }
 }
