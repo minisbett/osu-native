@@ -28,7 +28,7 @@ internal static class BufferHelper
     }
 
     if (str.Length + 1 > *bufferSize)
-      return ErrorHandler.Handle(ErrorCode.BufferTooSmall, $"Expected: {str.Length + 1}, Actual: {*bufferSize}");
+      return ErrorCode.BufferTooSmall;
 
     Console.WriteLine(str);
     str.AsSpan().CopyTo(new(buffer, *bufferSize));
@@ -54,7 +54,7 @@ internal static class BufferHelper
     }
 
     if (objSize > *bufferSize)
-      return ErrorHandler.Handle(ErrorCode.BufferTooSmall, $"Expected: {objSize}, Actual: {*bufferSize}");
+      return ErrorCode.BufferTooSmall;
 
     span.CopyTo(new(buffer, *bufferSize));
 

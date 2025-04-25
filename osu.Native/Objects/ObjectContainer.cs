@@ -33,7 +33,7 @@ internal static class ObjectContainer<T> where T : notnull
     if (_objects.TryGetValue(id, out T? value))
       return value;
 
-    throw new ObjectNotFoundException(typeof(T), id);
+    throw new ObjectNotFoundException();
   }
 
   /// <summary>
