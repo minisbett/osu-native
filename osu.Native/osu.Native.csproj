@@ -4,14 +4,16 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PublishAOT>true</PublishAOT>
-    <PublishTrimmed>true</PublishTrimmed>
     
     <!-- Generate information for sizoscope -->
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\osu.Native.SourceGen\osu.Native.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ppy.osu.Game" Version="2025.424.0" />
