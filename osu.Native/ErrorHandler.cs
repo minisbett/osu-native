@@ -23,30 +23,39 @@ internal static unsafe class ErrorHandler
   public static char* GetLastError() => _lastErrorPtr;
 
   /// <summary>
-  /// Sets the last error message in the calling thread to the specified message.
+  /// Sets the last error message in the calling thread to the specified message and returns the specified error code.
   /// </summary>
-  /// <param name="error">The error message.</param>
-  public static void Handle(string message)
+  /// <param name="errorCode">The error code.</param>
+  /// <param name="message">The error message.</param>
+  public static ErrorCode Handle(ErrorCode errorCode, string message)
   {
     if (_lastErrorPtr is not null)
-    Marshal.FreeHGlobal((nint)_lastErrorPtr);
+      Marshal.FreeHGlobal((nint)_lastErrorPtr);
 
     _lastErrorPtr = (char*)Marshal.StringToHGlobalUni(message);
+    return errorCode;
   }
 
   /// <summary>
-  /// Sets the last error message in the calling thread to the message of the exception and returns the corresponding <see cref="ErrorCode"/>.
+  /// Sets the last error message in the calling thread to the exception and returns the matching error code for the exception type.
   /// </summary>
-  /// <param name="exception">The exception.</param>
-  /// <returns>The error code associated with the exception type.</returns>
+  /// <param name="exception"></param>
+  /// <returns></returns>
   public static ErrorCode Handle(Exception exception)
   {
-    Handle(exception.Message);
-
-    return exception switch
+    ErrorCode errorCode = exception switch
     {
       ObjectNotFoundException => ErrorCode.ObjectNotFound,
       _ => ErrorCode.Failure
     };
+
+    return Handle(errorCode, exception.ToString());
   }
 }
+
+/// <summary>
+/// Exception thrown when an object with the specified ID is not found in the container.
+/// </summary>
+/// <param name="objectType">The type of the managed object.</param>
+/// <param name="id">The native ID.</param>
+internal class ObjectNotFoundException(Type objectType, int id) : Exception($"{objectType.Name} with ID {id} was not found.");

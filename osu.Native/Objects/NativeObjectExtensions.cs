@@ -1,12 +1,12 @@
 ﻿namespace osu.Native.Objects;
 
 /// <summary>
-/// Provides extension methods for resolving and destroying native objects.
+/// Provides methods for <see cref="INativeObject{T}"/> that cannot be provided by the interface.
 /// </summary>
 internal static class NativeObjectExtensions
 {
   /// <summary>
-  /// Resolves the native object to its managed type using the <see cref="ObjectContainer{T}"/>.
+  /// Resolves the native object to its managed object. Equivalent to calling <see cref="ObjectContainer{T}.Get(int)"/>.
   /// </summary>
   /// <param name="obj">The native object.</param>
   /// <returns>The associated managed object.</returns>
@@ -16,7 +16,8 @@ internal static class NativeObjectExtensions
   }
 
   /// <summary>
-  /// Destroys the native object by removing it from the <see cref="ObjectContainer{T}"/> and disposing of it if necessary.
+  /// Destroys the native object, releasing the managed object reference. Equivalent to calling <see cref="ObjectContainer{T}.Remove(int)"/>,
+  /// but additionally calls <see cref="IDisposable.Dispose()"/> on the object if it implements <see cref="IDisposable"/>.
   /// </summary>
   /// <param name="obj">The native object.</param>
   public static void Destroy<T>(this INativeObject<T> obj) where T : notnull

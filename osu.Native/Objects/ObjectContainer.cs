@@ -45,10 +45,3 @@ internal static class ObjectContainer<T> where T : notnull
     _objects.TryRemove(id, out _);
   }
 }
-
-/// <summary>
-/// Exception thrown when an object with the specified ID is not found in the container.
-/// </summary>
-/// <param name="objectType">The type of the managed object.</param>
-/// <param name="id">The native ID.</param>
-internal class ObjectNotFoundException(Type objectType, int id) : Exception($"{objectType.Name} with ID {id} was not found.");

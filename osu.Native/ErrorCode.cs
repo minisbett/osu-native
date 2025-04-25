@@ -16,6 +16,11 @@ internal enum ErrorCode : byte
   ObjectNotFound = 1,
 
   /// <summary>
+  /// Indicates that the ruleset requested is not available (eg. not found).
+  /// </summary>
+  RulesetUnavailable = 2,
+
+  /// <summary>
   /// Indicates an unspecific operation failure.
   /// </summary>
   Failure = 255
