@@ -5,10 +5,8 @@ using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
 namespace osu.Native.Objects;
 
-internal readonly unsafe partial struct NativeBeatmap : INativeObject<FlatWorkingBeatmap>
+internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
 {
-  public int ObjectId { get; private init; }
-
   private static NativeBeatmap Create(FlatWorkingBeatmap beatmap)
   {
     int objectId = ObjectContainer<FlatWorkingBeatmap>.Add(beatmap);
@@ -18,7 +16,7 @@ internal readonly unsafe partial struct NativeBeatmap : INativeObject<FlatWorkin
     };
   }
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode CreateFromFile(char* filePathPtr, NativeBeatmap* beatmap)
   {
     string filePath = new(filePathPtr);
@@ -32,7 +30,7 @@ internal readonly unsafe partial struct NativeBeatmap : INativeObject<FlatWorkin
     return ErrorCode.Success;
   }
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode CreateFromText(char* beatmapTextPtr, NativeBeatmap* beatmap)
   {
     string text = new(beatmapTextPtr);
@@ -45,7 +43,7 @@ internal readonly unsafe partial struct NativeBeatmap : INativeObject<FlatWorkin
     return ErrorCode.Success;
   }
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, char* titleBuffer, int* titleBufferSize)
     => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Title, titleBuffer, titleBufferSize);
 }

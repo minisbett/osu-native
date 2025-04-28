@@ -12,79 +12,95 @@ public class NativeObjectGenerator : IIncrementalGenerator
   public void Initialize(IncrementalGeneratorInitializationContext context)
   {
     var structs = context.SyntaxProvider.CreateSyntaxProvider(
-        predicate: static (s, _) => s is StructDeclarationSyntax,
-        transform: static (ctx, _) => (StructDeclarationSyntax)ctx.Node);
+        predicate: static (s, _) => s is ClassDeclarationSyntax,
+        transform: static (ctx, _) => (ClassDeclarationSyntax)ctx.Node);
 
 
     var source = context.CompilationProvider.Combine(structs.Collect());
 
     context.RegisterSourceOutput(source, static (ctx, source) =>
     {
-      var (compilation, structs) = source;
-      var iNativeObjectSymbol = compilation.GetTypeByMetadataName("osu.Native.Objects.INativeObject`1");
+      var (compilation, classDelcarations) = source;
+      var iOsuNativeObjectSymbol = compilation.GetTypeByMetadataName("osu.Native.Objects.IOsuNativeObject`1");
+      var osuNativeFunctionSymbol = compilation.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFunctionAttribute");
 
-      foreach (var structDeclaration in structs)
+      foreach (var classDeclaration in classDelcarations)
       {
-        var model = compilation.GetSemanticModel(structDeclaration.SyntaxTree);
-        var structSymbol = model.GetDeclaredSymbol(structDeclaration);
-        if (!structSymbol.AllInterfaces.Any(x => x.OriginalDefinition.Equals(iNativeObjectSymbol, SymbolEqualityComparer.Default)))
+        var model = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
+        var @class = model.GetDeclaredSymbol(classDeclaration);
+
+        var managedObjectSymbol = @class.AllInterfaces.FirstOrDefault(x => x.OriginalDefinition.Equals(iOsuNativeObjectSymbol, SymbolEqualityComparer.Default))?.TypeArguments.FirstOrDefault();
+        if (managedObjectSymbol is null)
           continue;
 
-        string objectName = structSymbol.Name.StartsWith("Native") ? structSymbol.Name.Substring(6) : structSymbol.Name;
+        List<string> members = [];
 
-        List<string> nativeMethods = [];
-        foreach (IMethodSymbol method in structSymbol.GetMembers().OfType<IMethodSymbol>())
+        foreach (IMethodSymbol method in @class.GetMembers().OfType<IMethodSymbol>())
         {
-          if (!method.GetAttributes().Any(x => x.AttributeClass?.Name == "OsuNativeFunctionAttribute"))
+          if (!method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
             continue;
 
-          nativeMethods.Add(GetNativeMethodSource(model, objectName, method));
+          members.Add(GetNativeMethodSource(model, @class, method));
         }
 
-        string code = GetSource(structSymbol, objectName, nativeMethods);
+        string code = GetSource(@class, managedObjectSymbol, members);
 
         code = CSharpSyntaxTree.ParseText(code).GetRoot().NormalizeWhitespace().ToFullString();
-        ctx.AddSource($"{structSymbol.Name}.g.cs", code);
+        ctx.AddSource($"{@class.Name}.g.cs", code);
       }
     });
   }
 
-  private static string GetSource(INamedTypeSymbol @struct, string objectName, IEnumerable<string> nativeMethods)
-    => $$"""
-       using System.Runtime.InteropServices;
-       using System.Runtime.CompilerServices;
+  private static string GetSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> members)
+  {
+    string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
+    string managedObjectName = managedObject.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-       namespace {{@struct.ContainingNamespace}};
-           
-       internal unsafe struct {{@struct.Name}}
-       {
-           [CompilerGenerated]
-           private static {{@struct.Name}} Resolve(this {{@struct.Name}} obj) => ObjectContainer<{{@struct.Name}}>.Get(obj.ObjectId);
+    return $$"""
+           using System.Runtime.InteropServices;
+           using System.Runtime.CompilerServices;
 
-           {{string.Join("\n", nativeMethods)}}
+           namespace {{@class.ContainingNamespace}};
 
-           [CompilerGenerated]
-           [UnmanagedCallersOnly(EntryPoint = "{{objectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-           private static ErrorCode Destroy({{@struct.Name}} obj)
+           internal unsafe partial class {{@class.Name}}
            {
-               try
+               {{string.Join("\n\n", members)}}
+
+               [CompilerGenerated]
+               [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
+               private static ErrorCode Destroy(Native{{nativeObjectName}} obj)
                {
-                   obj.Destroy();
-                   return ErrorCode.Success;
-               }
-               catch (Exception ex)
-               {
-                   return ErrorHandler.Handle(ex);
+                   try
+                   {
+                       if (ObjectContainer<{{managedObjectName}}>.Get(obj.ObjectId) is IDisposable disposable)
+                           disposable.Dispose();
+
+                       ObjectContainer<{{managedObjectName}}>.Remove(obj.ObjectId);
+                       return ErrorCode.Success;
+                   }
+                   catch (Exception ex)
+                   {
+                       return ErrorHandler.Handle(ex);
+                   }
                }
            }
-       }
-       """;
+           
+           internal unsafe readonly struct Native{{nativeObjectName}}
+           {
+               public required readonly int ObjectId { get; init; }
 
-  private static string GetNativeMethodSource(SemanticModel model, string objectName, IMethodSymbol method)
+               [CompilerGenerated]
+               public {{managedObjectName}} Resolve() => ObjectContainer<{{managedObjectName}}>.Get(ObjectId);
+           }
+           """;
+  }
+
+  private static string GetNativeMethodSource(SemanticModel model, INamedTypeSymbol @class, IMethodSymbol method)
   {
     string parameters = string.Join(", ", method.Parameters.Select(p => $"{p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)} {p.Name}"));
     var methodDeclaration = method.DeclaringSyntaxReferences[0].GetSyntax() as MethodDeclarationSyntax;
 
+    // Replace all type names in the method declaration with their fully qualified names.
     var typeSyntaxes = methodDeclaration.DescendantNodes().OfType<TypeSyntax>();
     methodDeclaration = methodDeclaration.ReplaceNodes(typeSyntaxes, (node, _) =>
     {
@@ -92,34 +108,13 @@ public class NativeObjectGenerator : IIncrementalGenerator
         return node;
 
       string qualifiedName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-      if (typeSymbol.IsGenericType)
-      {
-        var genericArguments = node.DescendantNodes().OfType<GenericNameSyntax>()
-            .Select(genNode =>
-            {
-              var genericArgs = genNode.TypeArgumentList.Arguments.Select(argNode =>
-              {
-                var argSymbolInfo = model.GetSymbolInfo(argNode);
-                return argSymbolInfo.Symbol is INamedTypeSymbol argTypeSymbol
-                    ? SyntaxFactory.ParseTypeName(argTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))
-                    : argNode;
-              }).ToList();
-
-              return genNode.WithTypeArgumentList(SyntaxFactory.TypeArgumentList(SyntaxFactory.SeparatedList(genericArgs)));
-            }).ToList();
-
-        return SyntaxFactory.ParseTypeName(qualifiedName)
-            .WithTriviaFrom(node);
-      }
-
       return SyntaxFactory.ParseTypeName(qualifiedName).WithTriviaFrom(node);
     });
 
     return $$"""
            [CompilerGenerated]
-           [UnmanagedCallersOnly(EntryPoint = "{{objectName}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
-           private static ErrorCode {{objectName}}_{{method.Name}}({{parameters}})
+           [UnmanagedCallersOnly(EntryPoint = "{{@class.Name}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
+           private static ErrorCode {{@class.Name}}_{{method.Name}}({{parameters}})
            {
              try
              {

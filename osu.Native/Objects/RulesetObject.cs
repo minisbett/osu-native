@@ -2,25 +2,20 @@
 
 namespace osu.Native.Objects;
 
-internal unsafe readonly partial struct NativeRuleset : INativeObject<Ruleset>
+internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 {
   private static readonly AssemblyRulesetStore _rulesetStore = new();
-
-  public int ObjectId { get; private init; }
-
-  public int Id { get; private init; }
 
   private static NativeRuleset Create(RulesetInfo ruleset)
   {
     int objectId = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
     return new NativeRuleset
     {
-      ObjectId = objectId,
-      Id = ruleset.OnlineID
+      ObjectId = objectId
     };
   }
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode CreateFromId(int rulesetId, NativeRuleset* nativeRuleset)
   {
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(rulesetId);
@@ -33,7 +28,7 @@ internal unsafe readonly partial struct NativeRuleset : INativeObject<Ruleset>
   }
 
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode CreateFromShortName(char* shortName, NativeRuleset* nativeRuleset)
   {
     string shortNameStr = new(shortName);
@@ -47,7 +42,7 @@ internal unsafe readonly partial struct NativeRuleset : INativeObject<Ruleset>
     return ErrorCode.Success;
   }
 
-  [OsuNativeObject]
+  [OsuNativeFunction]
   private static ErrorCode GetShortName(NativeRuleset nativeRuleset, char* shortNameBuffer, int* shortNameBufferSize)
     => BufferHelper.String(nativeRuleset.Resolve().ShortName, shortNameBuffer, shortNameBufferSize);
 }
