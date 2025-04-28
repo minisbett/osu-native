@@ -20,7 +20,7 @@ internal static unsafe class ErrorHandler
   /// </summary>
   /// <returns>The pointer to the last error.</returns>
   [UnmanagedCallersOnly(EntryPoint = "GetLastFailure", CallConvs = [typeof(CallConvCdecl)])]
-  public static char* GetFailure() => _lastFailurePtr;
+  public static char* GetLastFailure() => _lastFailurePtr;
 
   /// <summary>
   /// Considers the error a <see cref="ErrorCode.Failure"/> and makes additional information available via a native function.
