@@ -30,7 +30,6 @@ internal static class BufferHelper
     if (str.Length + 1 > *bufferSize)
       return ErrorCode.BufferTooSmall;
 
-    Console.WriteLine(str);
     str.AsSpan().CopyTo(new(buffer, *bufferSize));
     buffer[str.Length] = '\0';
 

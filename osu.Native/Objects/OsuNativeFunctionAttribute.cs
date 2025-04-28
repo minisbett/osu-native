@@ -3,7 +3,7 @@
 namespace osu.Native.Objects;
 
 /// <summary>
-/// Marks a method as an osu! native endpoint function, allowing the source generator to generate the native method.
+/// Marks a method as a native endpoint function, allowing the source generator to generate the native method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-sealed class OsuNativeFunctionAttribute() : Attribute;
+internal sealed class OsuNativeFunctionAttribute() : Attribute;

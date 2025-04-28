@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 [DllImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll",
-  EntryPoint = "Beatmap_CreateFromFile", CallingConvention = CallingConvention.Cdecl)]
+  EntryPoint = "Beatmap_CreateFromFile", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
 static extern byte Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
 
 

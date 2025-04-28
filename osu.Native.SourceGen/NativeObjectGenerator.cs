@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace osu.Native.Analyzers;
@@ -11,39 +12,39 @@ public class NativeObjectGenerator : IIncrementalGenerator
 {
   public void Initialize(IncrementalGeneratorInitializationContext context)
   {
-    var structs = context.SyntaxProvider.CreateSyntaxProvider(
+    var classes = context.SyntaxProvider.CreateSyntaxProvider(
         predicate: static (s, _) => s is ClassDeclarationSyntax,
         transform: static (ctx, _) => (ClassDeclarationSyntax)ctx.Node);
 
 
-    var source = context.CompilationProvider.Combine(structs.Collect());
+    var source = context.CompilationProvider.Combine(classes.Collect());
 
     context.RegisterSourceOutput(source, static (ctx, source) =>
     {
-      var (compilation, classDelcarations) = source;
-      var iOsuNativeObjectSymbol = compilation.GetTypeByMetadataName("osu.Native.Objects.IOsuNativeObject`1");
-      var osuNativeFunctionSymbol = compilation.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFunctionAttribute");
+      var iOsuNativeObjectSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.IOsuNativeObject`1");
+      var osuNativeFunctionSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFunctionAttribute");
+      var osuNativeFieldSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFieldAttribute");
 
-      foreach (var classDeclaration in classDelcarations)
+      foreach (var declaration in source.Right)
       {
-        var model = compilation.GetSemanticModel(classDeclaration.SyntaxTree);
-        var @class = model.GetDeclaredSymbol(classDeclaration);
+        var model = source.Left.GetSemanticModel(declaration.SyntaxTree);
+        var @class = model.GetDeclaredSymbol(declaration);
 
         var managedObjectSymbol = @class.AllInterfaces.FirstOrDefault(x => x.OriginalDefinition.Equals(iOsuNativeObjectSymbol, SymbolEqualityComparer.Default))?.TypeArguments.FirstOrDefault();
         if (managedObjectSymbol is null)
           continue;
 
-        List<string> members = [];
-
+        List<string> nativeMethods = [];
         foreach (IMethodSymbol method in @class.GetMembers().OfType<IMethodSymbol>())
-        {
-          if (!method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
-            continue;
+          if (method.IsStatic && method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
+            nativeMethods.Add(GetNativeMethodSource(model, @class, method));
 
-          members.Add(GetNativeMethodSource(model, @class, method));
-        }
+        List<string> nativeFields = [];
+        foreach (IFieldSymbol field in @class.GetMembers().OfType<IFieldSymbol>())
+          if (field.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFieldSymbol, SymbolEqualityComparer.Default)))
+            nativeFields.Add(GetNativeFieldSource(field));
 
-        string code = GetSource(@class, managedObjectSymbol, members);
+        string code = GetSource(@class, managedObjectSymbol, nativeMethods, nativeFields);
 
         code = CSharpSyntaxTree.ParseText(code).GetRoot().NormalizeWhitespace().ToFullString();
         ctx.AddSource($"{@class.Name}.g.cs", code);
@@ -51,11 +52,10 @@ public class NativeObjectGenerator : IIncrementalGenerator
     });
   }
 
-  private static string GetSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> members)
+  private static string GetSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> nativeMethods, IEnumerable<string> nativeFields)
   {
     string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
-    string managedObjectName = managedObject.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
+    
     return $$"""
            using System.Runtime.InteropServices;
            using System.Runtime.CompilerServices;
@@ -64,7 +64,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
            internal unsafe partial class {{@class.Name}}
            {
-               {{string.Join("\n\n", members)}}
+               {{string.Join("\n\n", nativeMethods)}}
 
                [CompilerGenerated]
                [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
@@ -72,10 +72,10 @@ public class NativeObjectGenerator : IIncrementalGenerator
                {
                    try
                    {
-                       if (ObjectContainer<{{managedObjectName}}>.Get(obj.ObjectId) is IDisposable disposable)
+                       if (ObjectContainer<{{managedObject}}>.Get(obj.ObjectId) is IDisposable disposable)
                            disposable.Dispose();
 
-                       ObjectContainer<{{managedObjectName}}>.Remove(obj.ObjectId);
+                       ObjectContainer<{{managedObject}}>.Remove(obj.ObjectId);
                        return ErrorCode.Success;
                    }
                    catch (Exception ex)
@@ -85,46 +85,51 @@ public class NativeObjectGenerator : IIncrementalGenerator
                }
            }
            
+           [CompilerGenerated]
            internal unsafe readonly struct Native{{nativeObjectName}}
            {
+               [CompilerGenerated]
                public required readonly int ObjectId { get; init; }
 
+               {{string.Join("\n\n", nativeFields)}}
+
                [CompilerGenerated]
-               public {{managedObjectName}} Resolve() => ObjectContainer<{{managedObjectName}}>.Get(ObjectId);
+               public {{managedObject}} Resolve() => ObjectContainer<{{managedObject}}>.Get(ObjectId);
            }
            """;
   }
 
   private static string GetNativeMethodSource(SemanticModel model, INamedTypeSymbol @class, IMethodSymbol method)
   {
+    string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
     string parameters = string.Join(", ", method.Parameters.Select(p => $"{p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)} {p.Name}"));
-    var methodDeclaration = method.DeclaringSyntaxReferences[0].GetSyntax() as MethodDeclarationSyntax;
-
-    // Replace all type names in the method declaration with their fully qualified names.
-    var typeSyntaxes = methodDeclaration.DescendantNodes().OfType<TypeSyntax>();
-    methodDeclaration = methodDeclaration.ReplaceNodes(typeSyntaxes, (node, _) =>
-    {
-      if (model.GetSymbolInfo(node).Symbol is not INamedTypeSymbol typeSymbol)
-        return node;
-
-      string qualifiedName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-      return SyntaxFactory.ParseTypeName(qualifiedName).WithTriviaFrom(node);
-    });
+    string methodCall = $"{@class}.{method.Name}({string.Join(", ", method.Parameters.Select(p => p.Name))})";
 
     return $$"""
            [CompilerGenerated]
-           [UnmanagedCallersOnly(EntryPoint = "{{@class.Name}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
-           private static ErrorCode {{@class.Name}}_{{method.Name}}({{parameters}})
+           [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
+           private static ErrorCode {{nativeObjectName}}_{{method.Name}}({{parameters}})
            {
              try
              {
-               {{methodDeclaration.Body?.Statements.ToFullString() ?? $"return {methodDeclaration.ExpressionBody.Expression.ToFullString()};"}}
+               return {{methodCall}};
              }
              catch (Exception ex)
              {
                return ErrorHandler.Handle(ex);
              }
            }
+           """;
+  }
+
+  private static string GetNativeFieldSource(IFieldSymbol field)
+  {
+    string fieldName = field.Name.TrimStart('_');
+    fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
+
+    return $$"""
+           [CompilerGenerated]
+           public required readonly {{field.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{fieldName}} { get; init; }
            """;
   }
 }

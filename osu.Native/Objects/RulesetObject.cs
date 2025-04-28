@@ -1,4 +1,5 @@
 ﻿using osu.Game.Rulesets;
+using System.Diagnostics;
 
 namespace osu.Native.Objects;
 
@@ -6,12 +7,16 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 {
   private static readonly AssemblyRulesetStore _rulesetStore = new();
 
+  [OsuNativeField]
+  private readonly int _rulesetId;
+
   private static NativeRuleset Create(RulesetInfo ruleset)
   {
     int objectId = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
     return new NativeRuleset
     {
-      ObjectId = objectId
+      ObjectId = objectId,
+      RulesetId = ruleset.OnlineID
     };
   }
 
