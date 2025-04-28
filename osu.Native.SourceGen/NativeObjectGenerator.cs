@@ -21,9 +21,9 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
     context.RegisterSourceOutput(source, static (ctx, source) =>
     {
-      var iOsuNativeObjectSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.IOsuNativeObject`1");
-      var osuNativeFunctionSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFunctionAttribute");
-      var osuNativeFieldSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.OsuNativeFieldAttribute");
+      var iOsuNativeObjectSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.IOsuNativeObject`1");
+      var osuNativeFunctionSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFunctionAttribute");
+      var osuNativeFieldSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFieldAttribute");
 
       foreach (var declaration in source.Right)
       {

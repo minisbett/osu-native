@@ -12,7 +12,6 @@ internal static class OsuNative
 {
 #pragma warning disable CA2255
   [ModuleInitializer]
-#pragma warning restore CA2255
   [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(OsuRuleset))]
   [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(TaikoRuleset))]
   [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(CatchRuleset))]

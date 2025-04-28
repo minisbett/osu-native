@@ -1,4 +1,4 @@
-﻿namespace osu.Native.Objects;
+﻿namespace osu.Native.Objects.Internal;
 
 /// <summary>
 /// Types inheriting from this interface are considered native objects, and source-generation will generate a native struct for them.
