@@ -1,13 +1,11 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
 namespace osu.Native.Objects;
 
-internal unsafe partial struct NativeBeatmap : INativeObject<FlatWorkingBeatmap>
+internal readonly unsafe partial struct NativeBeatmap : INativeObject<FlatWorkingBeatmap>
 {
   public int ObjectId { get; private init; }
 
@@ -20,44 +18,34 @@ internal unsafe partial struct NativeBeatmap : INativeObject<FlatWorkingBeatmap>
     };
   }
 
-  [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromFile", CallConvs = [typeof(CallConvCdecl)])]
-  private static unsafe ErrorCode CreateFromFile(char* filePathPtr, NativeBeatmap* beatmap)
+  [OsuNativeObject]
+  private static ErrorCode CreateFromFile(char* filePathPtr, NativeBeatmap* beatmap)
   {
-    try
-    {
-      string filePath = new(filePathPtr);
-      if (!File.Exists(filePath))
-        return ErrorCode.BeatmapFileNotFound;
+    string filePath = new(filePathPtr);
+    if (!File.Exists(filePath))
+      return ErrorCode.BeatmapFileNotFound;
 
-      FlatWorkingBeatmap workingBeatmap = new(filePath);
+    FlatWorkingBeatmap workingBeatmap = new(filePath);
 
-      *beatmap = Create(workingBeatmap);
+    *beatmap = Create(workingBeatmap);
 
-      return ErrorCode.Success;
-    }
-    catch (Exception ex)
-    {
-      return ErrorHandler.Handle(ex);
-    }
+    return ErrorCode.Success;
   }
 
-  [UnmanagedCallersOnly(EntryPoint = "Beatmap_CreateFromText", CallConvs = [typeof(CallConvCdecl)])]
-  private static unsafe ErrorCode CreateFromText(char* beatmapTextPtr, NativeBeatmap* beatmap)
+  [OsuNativeObject]
+  private static ErrorCode CreateFromText(char* beatmapTextPtr, NativeBeatmap* beatmap)
   {
-    try
-    {
-      string text = new(beatmapTextPtr);
-      using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
-      using LineBufferedReader reader = new(ms);
-      FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));
+    string text = new(beatmapTextPtr);
+    using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
+    using LineBufferedReader reader = new(ms);
+    FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));
 
-      *beatmap = Create(workingBeatmap);
+    *beatmap = Create(workingBeatmap);
 
-      return ErrorCode.Success;
-    }
-    catch (Exception ex)
-    {
-      return ErrorHandler.Handle(ex);
-    }
+    return ErrorCode.Success;
   }
+
+  [OsuNativeObject]
+  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, char* titleBuffer, int* titleBufferSize)
+    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Title, titleBuffer, titleBufferSize);
 }

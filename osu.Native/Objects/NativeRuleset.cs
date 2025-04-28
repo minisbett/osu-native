@@ -1,10 +1,8 @@
 ﻿using osu.Game.Rulesets;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace osu.Native.Objects;
 
-internal partial struct NativeRuleset : INativeObject<Ruleset>
+internal unsafe readonly partial struct NativeRuleset : INativeObject<Ruleset>
 {
   private static readonly AssemblyRulesetStore _rulesetStore = new();
 
@@ -22,8 +20,8 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
     };
   }
 
-  [UnmanagedCallersOnly(EntryPoint = "Ruleset_CreateFromId", CallConvs = [typeof(CallConvCdecl)])]
-  private static unsafe ErrorCode CreateFromId(int rulesetId, NativeRuleset* nativeRuleset)
+  [OsuNativeObject]
+  private static ErrorCode CreateFromId(int rulesetId, NativeRuleset* nativeRuleset)
   {
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(rulesetId);
     if (ruleset is null || !ruleset.Available)
@@ -35,8 +33,8 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
   }
 
 
-  [UnmanagedCallersOnly(EntryPoint = "Ruleset_CreateFromShortName", CallConvs = [typeof(CallConvCdecl)])]
-  private static unsafe ErrorCode CreateFromShortName(char* shortName, NativeRuleset* nativeRuleset)
+  [OsuNativeObject]
+  private static ErrorCode CreateFromShortName(char* shortName, NativeRuleset* nativeRuleset)
   {
     string shortNameStr = new(shortName);
 
@@ -49,16 +47,7 @@ internal partial struct NativeRuleset : INativeObject<Ruleset>
     return ErrorCode.Success;
   }
 
-  [UnmanagedCallersOnly(EntryPoint = "Ruleset_GetShortName", CallConvs = [typeof(CallConvCdecl)])]
-  private static unsafe ErrorCode GetShortName(NativeRuleset nativeRuleset, char* shortNameBuffer, int* shortNameBufferSize)
-  {
-    try
-    {
-      return BufferHelper.String(nativeRuleset.Resolve().ShortName, shortNameBuffer, shortNameBufferSize);
-    }
-    catch (Exception ex)
-    {
-      return ErrorHandler.Handle(ex);
-    }
-  }
+  [OsuNativeObject]
+  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, char* shortNameBuffer, int* shortNameBufferSize)
+    => BufferHelper.String(nativeRuleset.Resolve().ShortName, shortNameBuffer, shortNameBufferSize);
 }
