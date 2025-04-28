@@ -112,6 +112,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
            {
              try
              {
+               ErrorHandler.Reset();
                return {{methodCall}};
              }
              catch (Exception ex)

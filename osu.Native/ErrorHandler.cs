@@ -16,11 +16,22 @@ internal static unsafe class ErrorHandler
   private static char* _lastFailurePtr;
 
   /// <summary>
-  /// Returns the message of the last failure in the thread this function was called from.
+  /// Returns the message of the last failure in the calling thread.
   /// </summary>
   /// <returns>The pointer to the last error.</returns>
   [UnmanagedCallersOnly(EntryPoint = "GetLastFailure", CallConvs = [typeof(CallConvCdecl)])]
   public static char* GetLastFailure() => _lastFailurePtr;
+
+  /// <summary>
+  /// Resets the last failure in the calling thread to null, freeing the memory if it was allocated.
+  /// </summary>
+  public static void Reset()
+  {
+    if (_lastFailurePtr is not null)
+      Marshal.FreeHGlobal((nint)_lastFailurePtr);
+
+    _lastFailurePtr = null;
+  }
 
   /// <summary>
   /// Considers the error a <see cref="ErrorCode.Failure"/> and makes additional information available via a native function.
@@ -40,8 +51,8 @@ internal static unsafe class ErrorHandler
   /// Maps the exception to an error code or, if no mapping is available, considers the error a <see cref="ErrorCode.Failure"/>,
   /// making the exception message and stacktrace available as the failure information via a native function.
   /// </summary>
-  /// <param name="exception"></param>
-  /// <returns></returns>
+  /// <param name="exception">The exception to be handled.</param>
+  /// <returns>The corresponding <see cref="ErrorCode"/> for the exception, or <see cref="ErrorCode.Failure"/>.</returns>
   public static ErrorCode Handle(Exception exception)
   {
     return exception switch
