@@ -1,5 +1,6 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.IO;
+using osu.Native.Objects.Internal;
 using System.Text;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
@@ -44,6 +45,14 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, char* titleBuffer, int* titleBufferSize)
-    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Title, titleBuffer, titleBufferSize);
+  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
+    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Title, buffer, bufferSize);
+
+  [OsuNativeFunction]
+  private static ErrorCode GetArtist(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
+    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Artist, buffer, bufferSize);
+
+  [OsuNativeFunction]
+  private static ErrorCode GetVersion(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
+    => BufferHelper.String(nativeBeatmap.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
 }

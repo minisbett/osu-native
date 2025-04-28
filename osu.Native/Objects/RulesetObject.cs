@@ -1,5 +1,5 @@
 ﻿using osu.Game.Rulesets;
-using System.Diagnostics;
+using osu.Native.Objects.Internal;
 
 namespace osu.Native.Objects;
 
@@ -48,6 +48,6 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, char* shortNameBuffer, int* shortNameBufferSize)
-    => BufferHelper.String(nativeRuleset.Resolve().ShortName, shortNameBuffer, shortNameBufferSize);
+  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, char* buffer, int* bufferSize)
+    => BufferHelper.String(nativeRuleset.Resolve().ShortName, buffer, bufferSize);
 }
