@@ -30,10 +30,10 @@ internal static class NativeHelper
       return ErrorCode.BufferSizeQuery;
     }
 
-    if (str.Length + 1 > *bufferSize)
+    if (bytes.Length + 1 > *bufferSize)
       return ErrorCode.BufferTooSmall;
 
-    str.AsSpan().CopyTo(new(buffer, *bufferSize));
+    bytes.AsSpan().CopyTo(new(buffer, *bufferSize));
     buffer[str.Length] = 0x0;
 
     return ErrorCode.Success;

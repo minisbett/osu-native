@@ -19,7 +19,10 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
   private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU002", "Native functions must be static", "Native functions must be static",
     "Usage", DiagnosticSeverity.Error, true, "Ensures all native functions are static.");
 
-  public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU001, RuleOSU002];
+  private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU003", "Strings should be UTF-8", "Strings should be handled with UTF-8 encoding",
+    "Usage", DiagnosticSeverity.Warning, true, "Warns the user if a string is not handled with UTF-8 encoding (byte* instead of char*).");
+
+  public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU001, RuleOSU002, RuleOSU003];
 
   public override void Initialize(AnalysisContext context)
   {
@@ -57,6 +60,11 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
 
       if (!method.IsStatic)
         context.ReportDiagnostic(Diagnostic.Create(RuleOSU002, method.Locations[0]));
+
+      // RuleOSU003: Strings should be handled with UTF-8 encoding
+      foreach (IParameterSymbol parameter in method.Parameters)
+          if (parameter.Type is IPointerTypeSymbol pointer && pointer.PointedAtType.SpecialType == SpecialType.System_Char)
+            context.ReportDiagnostic(Diagnostic.Create(RuleOSU003, parameter.Locations[0]));
     }
   }
 }

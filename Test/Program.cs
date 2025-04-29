@@ -1,28 +1,29 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 
 [DllImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll",
-  EntryPoint = "Beatmap_CreateFromFile", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-static extern byte Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
+  EntryPoint = "Beatmap_CreateFromFile", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+static extern sbyte Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
 
 
 [DllImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll",
   EntryPoint = "Beatmap_GetTitle", CallingConvention = CallingConvention.Cdecl)]
-static extern unsafe byte Beatmap_GetTitle(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize);
+static extern unsafe sbyte Beatmap_GetTitle(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize);
 
 
-byte e = Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\t.osu", out NativeBeatmap nativeBeatmap);
-
+sbyte error = Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\t.osu", out NativeBeatmap nativeBeatmap);
+Console.WriteLine(error);
 unsafe
 {
   int size = 0;
-  Beatmap_GetTitle(nativeBeatmap, null, &size);
-  char[] buffer = new char[size];
-  fixed (char* p = buffer)
+  error = Beatmap_GetTitle(nativeBeatmap, null, &size);
+  byte[] buffer = new byte[size];
+  fixed (byte* p = buffer)
   {
-    Beatmap_GetTitle(nativeBeatmap, p, &size);
+    error = Beatmap_GetTitle(nativeBeatmap, p, &size);
   }
 
-  Console.WriteLine(new string(buffer));
+  Console.WriteLine(Encoding.UTF8.GetString(buffer));
 }
 
 
