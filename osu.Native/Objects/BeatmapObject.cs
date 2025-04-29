@@ -1,6 +1,7 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.IO;
-using osu.Native.Objects.Internal;
+using osu.Native.Compiler;
+using osu.Native.Memory;
 using System.Text;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 

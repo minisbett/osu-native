@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace osu.Native.Objects.Internal;
+﻿namespace osu.Native.Compiler;
 
 /// <summary>
 /// Marks a field as a native struct field, allowing the source generator to generate the native field.

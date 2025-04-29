@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace osu.Native.Analyzers;
@@ -21,9 +20,9 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
     context.RegisterSourceOutput(source, static (ctx, source) =>
     {
-      var iOsuNativeObjectSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.IOsuNativeObject`1");
-      var osuNativeFunctionSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFunctionAttribute");
-      var osuNativeFieldSymbol = source.Left.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFieldAttribute");
+      var iOsuNativeObjectSymbol = source.Left.GetTypeByMetadataName("osu.Native.Compiler.IOsuNativeObject`1");
+      var osuNativeFunctionSymbol = source.Left.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFunctionAttribute");
+      var osuNativeFieldSymbol = source.Left.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFieldAttribute");
 
       foreach (var declaration in source.Right)
       {
@@ -59,6 +58,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
     return $$"""
            using System.Runtime.InteropServices;
            using System.Runtime.CompilerServices;
+           using osu.Native.Memory;
 
            namespace {{@class.ContainingNamespace}};
 
@@ -72,7 +72,8 @@ public class NativeObjectGenerator : IIncrementalGenerator
                {
                    try
                    {
-                       if (ObjectContainer<{{managedObject}}>.Get(obj.ObjectId) is IDisposable disposable)
+                       {{managedObject}} managedObj = obj.Resolve();
+                       if (managedObj is IDisposable disposable)
                            disposable.Dispose();
 
                        ObjectContainer<{{managedObject}}>.Remove(obj.ObjectId);
