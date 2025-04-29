@@ -58,7 +58,6 @@ public class NativeObjectGenerator : IIncrementalGenerator
     return $$"""
            using System.Runtime.InteropServices;
            using System.Runtime.CompilerServices;
-           using osu.Native.Memory;
 
            namespace {{@class.ContainingNamespace}};
 
