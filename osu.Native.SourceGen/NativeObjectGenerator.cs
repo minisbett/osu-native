@@ -75,8 +75,6 @@ public class NativeObjectGenerator : IIncrementalGenerator
                        if (managedObj is IDisposable disposable)
                            disposable.Dispose();
 
-                       AllocationArena.Free(managedObj);
-
                        ObjectContainer<{{managedObject}}>.Remove(obj.ObjectId);
                        return ErrorCode.Success;
                    }
