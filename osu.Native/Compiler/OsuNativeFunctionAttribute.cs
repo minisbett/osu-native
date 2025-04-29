@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace osu.Native.Objects.Internal;
+﻿namespace osu.Native.Compiler;
 
 /// <summary>
 /// Marks a method as a native endpoint function, allowing the source generator to generate the native method.

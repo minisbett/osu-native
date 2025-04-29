@@ -1,5 +1,5 @@
 ﻿using osu.Game.Rulesets;
-using osu.Native.Objects.Internal;
+using osu.Native.Compiler;
 
 namespace osu.Native.Objects;
 

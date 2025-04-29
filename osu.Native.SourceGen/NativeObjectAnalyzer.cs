@@ -32,9 +32,9 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
   {
     var declaration = (ClassDeclarationSyntax)context.Node;
     var @class = context.SemanticModel.GetDeclaredSymbol(declaration);
-    var iNativeObjectSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Objects.Internal.IOsuNativeObject`1");
-    var osuNativeFieldSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFieldAttribute");
-    var osuNativeFunctionSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Objects.Internal.OsuNativeFunctionAttribute");
+    var iNativeObjectSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.IOsuNativeObject`1");
+    var osuNativeFieldSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFieldAttribute");
+    var osuNativeFunctionSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFunctionAttribute");
 
     if (!@class.AllInterfaces.Any(x => x.OriginalDefinition.Equals(iNativeObjectSymbol, SymbolEqualityComparer.Default)))
       return;

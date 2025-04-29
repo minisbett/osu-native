@@ -3,7 +3,7 @@
 namespace osu.Native.Objects;
 
 /// <summary>
-/// A type-specific container for storing managed objects associated with a native ID.
+/// A type-specific container for storing managed objects associated with an object ID.
 /// </summary>
 /// <typeparam name="T">The managed type of the container.</typeparam>
 internal static class ObjectContainer<T> where T : notnull
@@ -12,25 +12,25 @@ internal static class ObjectContainer<T> where T : notnull
   private static int _nextId = 0;
 
   /// <summary>
-  /// Adds the specified object to the container and returns a native ID for it.
+  /// Adds the specified object to the container and returns a object ID for it.
   /// </summary>
   /// <param name="obj">The object.</param>
-  /// <returns>The native ID of the object.</returns>
+  /// <returns>The object ID of the object.</returns>
   public static int Add(T obj)
   {
-    int id = Interlocked.Increment(ref _nextId);
-    _objects[id] = obj;
-    return id;
+    int objectId = Interlocked.Increment(ref _nextId);
+    _objects[objectId] = obj;
+    return objectId;
   }
 
   /// <summary>
   /// Returns the managed object associated with the specified ID.
   /// </summary>
-  /// <param name="id">The native ID.</param>
+  /// <param name="objectId">The object ID.</param>
   /// <returns>The associated managed object.</returns>
-  public static T Get(int id)
+  public static T Get(int objectId)
   {
-    if (_objects.TryGetValue(id, out T? value))
+    if (_objects.TryGetValue(objectId, out T? value))
       return value;
 
     throw new ObjectNotFoundException();
@@ -39,9 +39,9 @@ internal static class ObjectContainer<T> where T : notnull
   /// <summary>
   /// Removes the object associated with the specified ID from the container.
   /// </summary>
-  /// <param name="id">The native ID.</param>
-  public static void Remove(int id)
+  /// <param name="objectId">The object ID.</param>
+  public static void Remove(int objectId)
   {
-    _objects.TryRemove(id, out _);
+    _objects.TryRemove(objectId, out _);
   }
 }
