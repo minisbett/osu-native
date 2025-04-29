@@ -4,17 +4,16 @@ using System.Text;
 namespace osu.Native;
 
 /// <summary>
-/// Provides utility methods for handling buffer-logic.
-/// <list type="bullet">
-/// <item>If a buffer and size are provided, the data is written to the buffer</item>
-/// <item>If the buffer is null, the size is written in *bufferSize and ErrorCode.BufferSizeQuery is returned</item>
-/// <item>If the buffer is not null and the size is too small, ErrorCode.BufferTooSmall is returned</item>
-/// </list>
+/// Provides utility methods for native handling.
 /// </summary>
 internal static class NativeHelper
 {
   /// <summary>
-  /// Writes the specified string into the provided buffer in UTF-8 encoding or writes the required size if the buffer is null.
+  /// Writes the specified string into the provided buffer in UTF-8 encoding.
+  /// <list type="bullet">
+  /// <item>If the buffer is null, the size is written in <paramref name="bufferSize"/> and <see cref="ErrorCode.BufferSizeQuery"/> is returned</item>
+  /// <item>If a buffer and size are provided, the string is written to the buffer. If the buffer is too small, the string will be truncated</item>
+  /// </list>
   /// </summary>
   /// <param name="str">The string to be written into the buffer.</param>
   /// <param name="buffer">The string buffer.</param>
@@ -30,17 +29,19 @@ internal static class NativeHelper
       return ErrorCode.BufferSizeQuery;
     }
 
-    if (bytes.Length + 1 > *bufferSize)
-      return ErrorCode.BufferTooSmall;
-
-    bytes.AsSpan().CopyTo(new(buffer, *bufferSize));
-    buffer[str.Length] = 0x0;
+    int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
+    bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
+    buffer[bytesToWrite] = 0x0;
 
     return ErrorCode.Success;
   }
 
   /// <summary>
-  /// Writes the specified unmanaged objects into the provided buffer or writes the required size if the buffer is null.
+  /// Writes the specified unmanaged objects into the provided buffer.
+  /// <list type="bullet">
+  /// <item>If the buffer is null, the size is written in <paramref name="bufferSize"/> and <see cref="ErrorCode.BufferSizeQuery"/> is returned</item>
+  /// <item>If a buffer and size are provided, but the buffer is too small, <see cref="ErrorCode.BufferTooSmall"/> is returned</item>
+  /// </list>
   /// </summary>
   /// <param name="span">The objects to be written into the buffer.</param>
   /// <param name="buffer">The object buffer.</param>
