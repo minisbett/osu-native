@@ -18,9 +18,9 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromFile(char* filePathPtr, NativeBeatmap* beatmap)
+  private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* beatmap)
   {
-    string filePath = new(filePathPtr);
+    string filePath = NativeHelper.ToUtf8(filePathPtr);
     if (!File.Exists(filePath))
       return ErrorCode.BeatmapFileNotFound;
 
@@ -32,9 +32,9 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromText(char* beatmapTextPtr, NativeBeatmap* beatmap)
+  private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* beatmap)
   {
-    string text = new(beatmapTextPtr);
+    string text = NativeHelper.ToUtf8(beatmapTextPtr);
     using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
     using LineBufferedReader reader = new(ms);
     FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));
@@ -45,14 +45,14 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
-    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Title, buffer, bufferSize);
+  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().Metadata.Title, buffer, bufferSize);
 
   [OsuNativeFunction]
-  private static ErrorCode GetArtist(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
-    => BufferHelper.String(nativeBeatmap.Resolve().Metadata.Artist, buffer, bufferSize);
+  private static ErrorCode GetArtist(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().Metadata.Artist, buffer, bufferSize);
 
   [OsuNativeFunction]
-  private static ErrorCode GetVersion(NativeBeatmap nativeBeatmap, char* buffer, int* bufferSize)
-    => BufferHelper.String(nativeBeatmap.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
+  private static ErrorCode GetVersion(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
 }

@@ -48,6 +48,6 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, char* buffer, int* bufferSize)
-    => BufferHelper.String(nativeRuleset.Resolve().ShortName, buffer, bufferSize);
+  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(nativeRuleset.Resolve().ShortName, buffer, bufferSize);
 }

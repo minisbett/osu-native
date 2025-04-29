@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace osu.Native;
 
@@ -10,20 +11,22 @@ namespace osu.Native;
 /// <item>If the buffer is not null and the size is too small, ErrorCode.BufferTooSmall is returned</item>
 /// </list>
 /// </summary>
-internal static class BufferHelper
+internal static class NativeHelper
 {
   /// <summary>
-  /// Writes the specified string into the provided buffer or writes the required size if the buffer is null.
+  /// Writes the specified string into the provided buffer in UTF-8 encoding or writes the required size if the buffer is null.
   /// </summary>
   /// <param name="str">The string to be written into the buffer.</param>
   /// <param name="buffer">The string buffer.</param>
   /// <param name="bufferSize">The size of the string buffer.</param>
   /// <returns>The resulting error code.</returns>
-  public static unsafe ErrorCode String(string str, char* buffer, int* bufferSize)
+  public static unsafe ErrorCode StringBuffer(string str, byte* buffer, int* bufferSize)
   {
+    byte[] bytes = Encoding.UTF8.GetBytes(str);
+
     if (buffer is null)
     {
-      *bufferSize = str.Length + 1;
+      *bufferSize = bytes.Length + 1;
       return ErrorCode.BufferSizeQuery;
     }
 
@@ -31,7 +34,7 @@ internal static class BufferHelper
       return ErrorCode.BufferTooSmall;
 
     str.AsSpan().CopyTo(new(buffer, *bufferSize));
-    buffer[str.Length] = '\0';
+    buffer[str.Length] = 0x0;
 
     return ErrorCode.Success;
   }
@@ -43,7 +46,7 @@ internal static class BufferHelper
   /// <param name="buffer">The object buffer.</param>
   /// <param name="bufferSize">The size of the object buffer in element count.</param>
   /// <returns>The resulting error code.</returns>
-  public static unsafe ErrorCode Unmanaged<T>(ReadOnlySpan<T> span, T* buffer, int* bufferSize) where T : unmanaged
+  public static unsafe ErrorCode UnmanagedBuffer<T>(ReadOnlySpan<T> span, T* buffer, int* bufferSize) where T : unmanaged
   {
     int objSize = sizeof(T);
     if (buffer is null)
@@ -59,4 +62,11 @@ internal static class BufferHelper
 
     return ErrorCode.Success;
   }
+
+  /// <summary>
+  /// Converts a UTF-8 byte pointer into a managed string via <see cref="Marshal.PtrToStringUTF8(nint)"/>, returning an empty string for null.
+  /// </summary>
+  /// <param name="ptr"></param>
+  /// <returns></returns>
+  public static unsafe string ToUtf8(byte* ptr) => Marshal.PtrToStringUTF8((nint)ptr) ?? string.Empty;
 }
