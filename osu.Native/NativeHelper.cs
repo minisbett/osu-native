@@ -37,34 +37,6 @@ internal static class NativeHelper
   }
 
   /// <summary>
-  /// Writes the specified unmanaged objects into the provided buffer.
-  /// <list type="bullet">
-  /// <item>If the buffer is null, the size is written in <paramref name="bufferSize"/> and <see cref="ErrorCode.BufferSizeQuery"/> is returned</item>
-  /// <item>If a buffer and size are provided, but the buffer is too small, <see cref="ErrorCode.BufferTooSmall"/> is returned</item>
-  /// </list>
-  /// </summary>
-  /// <param name="span">The objects to be written into the buffer.</param>
-  /// <param name="buffer">The object buffer.</param>
-  /// <param name="bufferSize">The size of the object buffer in element count.</param>
-  /// <returns>The resulting error code.</returns>
-  public static unsafe ErrorCode UnmanagedBuffer<T>(ReadOnlySpan<T> span, T* buffer, int* bufferSize) where T : unmanaged
-  {
-    int objSize = sizeof(T);
-    if (buffer is null)
-    {
-      *bufferSize = objSize;
-      return ErrorCode.BufferSizeQuery;
-    }
-
-    if (objSize > *bufferSize)
-      return ErrorCode.BufferTooSmall;
-
-    span.CopyTo(new(buffer, *bufferSize));
-
-    return ErrorCode.Success;
-  }
-
-  /// <summary>
   /// Converts a UTF-8 byte pointer into a managed string via <see cref="Marshal.PtrToStringUTF8(nint)"/>, returning an empty string for null.
   /// </summary>
   /// <param name="ptr"></param>
