@@ -34,9 +34,9 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromShortName(char* shortName, NativeRuleset* nativeRuleset)
+  private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* nativeRuleset)
   {
-    string shortNameStr = new(shortName);
+    string shortNameStr = NativeHelper.ToUtf8(shortName);
 
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(shortNameStr);
     if (ruleset is null || !ruleset.Available)
