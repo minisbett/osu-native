@@ -13,16 +13,19 @@ namespace osu.Native.Analyzers;
 public class NativeObjectAnalyzer : DiagnosticAnalyzer
 {
 #pragma warning disable RS2008
-  private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU001", "Native fields must be unmanaged", "Native fields must be of an unmanaged type", 
+  private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU001", "Native fields must be unmanaged", "Native fields must be of an unmanaged type",
     "Usage", DiagnosticSeverity.Error, true, "Ensures all native fields are of an unmanaged type.");
 
   private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU002", "Native functions must be static", "Native functions must be static",
     "Usage", DiagnosticSeverity.Error, true, "Ensures all native functions are static.");
 
-  private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU003", "Strings should be UTF-8", "Strings should be handled with UTF-8 encoding",
+  private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU003", "Native functions return an ErrorCode", "Native functions must return ErrorCode",
+    "Usage", DiagnosticSeverity.Error, true, "Ensures all native functions return an ErrorCode.");
+
+  private static readonly DiagnosticDescriptor RuleOSU004 = new("OSU004", "Strings should be UTF-8", "Strings should be handled with UTF-8 encoding",
     "Usage", DiagnosticSeverity.Warning, true, "Warns the user if a string is not handled with UTF-8 encoding (byte* instead of char*).");
 
-  public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU001, RuleOSU002, RuleOSU003];
+  public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU001, RuleOSU002, RuleOSU003, RuleOSU004];
 
   public override void Initialize(AnalysisContext context)
   {
@@ -35,6 +38,7 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
   {
     var declaration = (ClassDeclarationSyntax)context.Node;
     var @class = context.SemanticModel.GetDeclaredSymbol(declaration);
+    var errorCodeSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.ErrorCode");
     var iNativeObjectSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.IOsuNativeObject`1");
     var osuNativeFieldSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFieldAttribute");
     var osuNativeFunctionSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFunctionAttribute");
@@ -61,10 +65,14 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
       if (!method.IsStatic)
         context.ReportDiagnostic(Diagnostic.Create(RuleOSU002, method.Locations[0]));
 
-      // RuleOSU003: Strings should be handled with UTF-8 encoding
+      // RuleOSU003: Native functions must return ErrorCode
+      if (!method.ReturnType.Equals(errorCodeSymbol, SymbolEqualityComparer.Default))
+        context.ReportDiagnostic(Diagnostic.Create(RuleOSU003, method.Locations[0]));
+
+      // RuleOSU004: Strings should be handled with UTF-8 encoding
       foreach (IParameterSymbol parameter in method.Parameters)
-          if (parameter.Type is IPointerTypeSymbol pointer && pointer.PointedAtType.SpecialType == SpecialType.System_Char)
-            context.ReportDiagnostic(Diagnostic.Create(RuleOSU003, parameter.Locations[0]));
+        if (parameter.Type is IPointerTypeSymbol pointer && pointer.PointedAtType.SpecialType == SpecialType.System_Char)
+          context.ReportDiagnostic(Diagnostic.Create(RuleOSU004, parameter.Locations[0]));
     }
   }
 }
