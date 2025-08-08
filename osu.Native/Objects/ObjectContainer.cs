@@ -33,7 +33,7 @@ internal static class ObjectContainer<T> where T : notnull
     if (_objects.TryGetValue(objectId, out T? value))
       return value;
 
-    throw new ObjectNotFoundException();
+    throw new ObjectNotFoundException(typeof(T), objectId);
   }
 
   /// <summary>
@@ -45,3 +45,8 @@ internal static class ObjectContainer<T> where T : notnull
     _objects.TryRemove(objectId, out _);
   }
 }
+
+/// <summary>
+/// Exception thrown when an object with the specified ID is not found in the container.
+/// </summary>
+internal class ObjectNotFoundException(Type type, int id) : Exception($"No '{type.Name}' with ID '{id}' found.");

@@ -5,11 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
-    
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
     <!-- Generate information for sizoscope -->
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

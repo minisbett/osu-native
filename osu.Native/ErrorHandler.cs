@@ -1,69 +1,69 @@
-﻿using System.Runtime.CompilerServices;
+﻿using osu.Native.Objects;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace osu.Native;
 
 /// <summary>
-/// Manages error handling for native calls, either mapping exceptions to error codes or declaring an error code as a failure
-/// and storing additional information about the failure as a string, provided via a native function.
+/// Manages error handling for native calls, storing the last thread-specific error messages and handling managed exceptions.
 /// </summary>
 internal static unsafe class ErrorHandler
 {
   /// <summary>
-  /// A thread-unique pointer to a string containing information about the last <see cref="ErrorCode.Failure"/> error.
+  /// A thread-unique pointer to a string containing the last error message.
   /// </summary>
   [ThreadStatic]
-  private static char* _lastFailurePtr;
+  private static byte* _lastMessagePtr;
 
   /// <summary>
-  /// Returns the message of the last failure in the calling thread.
+  /// Returns the last error message in the calling thread.
   /// </summary>
-  /// <returns>The pointer to the last error.</returns>
-  [UnmanagedCallersOnly(EntryPoint = "GetLastFailure", CallConvs = [typeof(CallConvCdecl)])]
-  public static char* GetLastFailure() => _lastFailurePtr;
+  /// <returns>A pointer to the message.</returns>
+  [UnmanagedCallersOnly(EntryPoint = "ErrorHandler_GetLastMessage", CallConvs = [typeof(CallConvCdecl)])]
+  public static byte* GetLastMessage() => _lastMessagePtr;
 
   /// <summary>
-  /// Resets the last failure in the calling thread to null, freeing the memory if it was allocated.
+  /// Sets the last error message in the calling thread to the specified message.
+  /// If the message is null, the pointer will point to 0.
   /// </summary>
-  public static void Reset()
+  /// <param name="message">The message containing information about the last error.</param>
+  public static void SetLastMessage(string? message)
   {
-    if (_lastFailurePtr is not null)
-      Marshal.FreeHGlobal((nint)_lastFailurePtr);
+    Marshal.FreeHGlobal((nint)_lastMessagePtr);
 
-    _lastFailurePtr = null;
+    if (message is null)
+      return;
+
+    NativeHelper.WriteUtf8(ref _lastMessagePtr, message);
   }
 
   /// <summary>
-  /// Considers the error a <see cref="ErrorCode.Failure"/> and makes additional information available via a native function.
+  /// Sets the last error message in the calling thread to the specified message and returns the specified error code.
+  /// This method acts as a convenience for returning error codes from native functions that need to set an error message.
   /// </summary>
-  /// <param name="message">The message containing information about the failure.</param>
-  /// <returns><see cref="ErrorCode.Failure"/></returns>
-  public static ErrorCode Failure(string message)
+  /// <param name="code">The error code.</param>
+  /// <param name="message">The error message to set for the calling thread.</param>
+  /// <returns>The specified error code.</returns>
+  public static ErrorCode Return(ErrorCode code, string message)
   {
-    if (_lastFailurePtr is not null)
-      Marshal.FreeHGlobal((nint)_lastFailurePtr);
-
-    _lastFailurePtr = (char*)Marshal.StringToHGlobalUni(message);
-    return ErrorCode.Failure;
+    SetLastMessage(message);
+    return code;
   }
 
   /// <summary>
-  /// Maps the exception to an error code or, if no mapping is available, considers the error a <see cref="ErrorCode.Failure"/>,
-  /// making the exception message and stacktrace available as the failure information via a native function.
+  /// Called from the catch-blocks of source-generated native functions to handle any managed exceptions thrown.
+  /// This function may cover all handling related to those exceptions. The error code will immediately be returned to the caller.
   /// </summary>
-  /// <param name="exception">The exception to be handled.</param>
-  /// <returns>The corresponding <see cref="ErrorCode"/> for the exception, or <see cref="ErrorCode.Failure"/>.</returns>
-  public static ErrorCode Handle(Exception exception)
+  /// <param name="ex">The thrown exception.</param>
+  public static ErrorCode HandleException(Exception ex)
   {
-    return exception switch
+    SetLastMessage(ex.Message);
+
+    return ex switch
     {
       ObjectNotFoundException => ErrorCode.ObjectNotFound,
-      _ => Failure(exception.ToString()),
+      _ => ErrorCode.Failure
     };
   }
 }
-
-/// <summary>
-/// Exception thrown when an object with the specified ID is not found in the container.
-/// </summary>
-internal class ObjectNotFoundException : Exception;

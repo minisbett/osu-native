@@ -13,7 +13,7 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   private static NativeRuleset Create(RulesetInfo ruleset)
   {
     int objectId = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
-    return new NativeRuleset
+    return new()
     {
       ObjectId = objectId,
       RulesetId = ruleset.OnlineID
@@ -36,7 +36,7 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   [OsuNativeFunction]
   private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* nativeRuleset)
   {
-    string shortNameStr = NativeHelper.ToUtf8(shortName);
+    string shortNameStr = NativeHelper.ReadUtf8(shortName);
 
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(shortNameStr);
     if (ruleset is null || !ruleset.Available)

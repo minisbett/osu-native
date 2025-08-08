@@ -60,15 +60,18 @@ public class NativeObjectGenerator : IIncrementalGenerator
            using System.Runtime.CompilerServices;
 
            namespace {{@class.ContainingNamespace}};
-
+           
+           [CompilerGenerated]
            internal unsafe partial class {{@class.Name}}
            {
                {{string.Join("\n\n", nativeMethods)}}
 
                [CompilerGenerated]
                [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-               private static ErrorCode Destroy(Native{{nativeObjectName}} obj)
+               private static ErrorCode {{nativeObjectName}}_Destroy(Native{{nativeObjectName}} obj)
                {
+                   ErrorHandler.SetLastMessage(null);
+                   
                    try
                    {
                        {{managedObject}} managedObj = obj.Resolve();
@@ -80,7 +83,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                    }
                    catch (Exception ex)
                    {
-                       return ErrorHandler.Handle(ex);
+                       return ErrorHandler.HandleException(ex);
                    }
                }
            }
@@ -110,14 +113,15 @@ public class NativeObjectGenerator : IIncrementalGenerator
            [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
            private static ErrorCode {{nativeObjectName}}_{{method.Name}}({{parameters}})
            {
+             ErrorHandler.SetLastMessage(null);
+
              try
              {
-               ErrorHandler.Reset();
                return {{methodCall}};
              }
              catch (Exception ex)
              {
-               return ErrorHandler.Handle(ex);
+               return ErrorHandler.HandleException(ex);
              }
            }
            """;
