@@ -34,11 +34,13 @@ unsafe
 
   Console.WriteLine($"Title: {Encoding.UTF8.GetString(buffer)}");
 
-  error = Native.Mod_Create("Test Acronym", out int modHandle);
-  Console.WriteLine(modHandle);
+  error = Native.Mod_Create("DT", out int modHandle);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-  error = Native.Mod_SetSetting(modHandle, "Test Setting", 7.27);
+  error = Native.Mod_Create("EZ", out int modHandle2);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+  error = Native.Mod_SetSetting(modHandle, "speed_change", 1.3);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -50,10 +52,15 @@ unsafe
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
+  error = Native.ModsCollection_Add(modsHandle, modHandle2);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
   Native.Mod_Debug(modHandle);
+  Native.Mod_Debug(modHandle2);
   Native.ModsCollection_Debug(modsHandle);
 
-  error = Native.ModsCollection_Remove(modsHandle, modHandle);
+  error = Native.ModsCollection_Remove(modsHandle, modHandle2);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -66,6 +73,22 @@ unsafe
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
   error = Native.OsuDifficultyCalculator_Calculate(osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+  Console.WriteLine($"StarRating Rating: {attributes.StarRating}");
+  Console.WriteLine($"Aim Difficulty: {attributes.AimDifficulty}");
+  Console.WriteLine($"Aim Difficult Slider Count: {attributes.AimDifficultSliderCount}");
+  Console.WriteLine($"Speed Difficulty: {attributes.SpeedDifficulty}");
+  Console.WriteLine($"Speed Note Count: {attributes.SpeedNoteCount}");
+  Console.WriteLine($"Flashlight Difficulty: {attributes.FlashlightDifficulty}");
+  Console.WriteLine($"Slider Factor: {attributes.SliderFactor}");
+  Console.WriteLine($"Aim Difficult Strain Count: {attributes.AimDifficultStrainCount}");
+  Console.WriteLine($"Speed Difficult Strain Count: {attributes.SpeedDifficultStrainCount}");
+  Console.WriteLine($"Hit Circle Count: {attributes.HitCircleCount}");
+  Console.WriteLine($"Slider Count: {attributes.SliderCount}");
+  Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
+
+  error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, nativeRuleset.Handle, modsHandle, out attributes);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
   Console.WriteLine($"StarRating Rating: {attributes.StarRating}");
@@ -163,6 +186,9 @@ public static unsafe partial class Native
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
   public static partial sbyte OsuDifficultyCalculator_Calculate(int osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
+
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
+  public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int rulesetHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
   public static partial sbyte Ruleset_CreateFromId(int rulesetId, out NativeRuleset attributes);
