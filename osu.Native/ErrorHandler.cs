@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using static osu.Game.Graphics.UserInterface.StarCounter;
 
 namespace osu.Native;
 
@@ -14,6 +13,7 @@ internal static unsafe class ErrorHandler
   /// <summary>
   /// A thread-unique pointer to a string containing the last error message.
   /// </summary>
+  [ThreadStatic]
   private static byte* _lastMessagePtr;
 
   /// <summary>
