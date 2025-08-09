@@ -22,8 +22,5 @@ internal static class OsuNative
   {
     // The entry assembly is null in AOT-compiled assemblies, but is needed for osu!framework's DebugUtils to work correctly.
     Assembly.SetEntryAssembly(typeof(OsuNative).Assembly);
-
-    foreach (Type type in typeof(OsuModDoubleTime).Assembly.GetTypes().Where(x => x.IsAssignableTo(typeof(Mod))))
-      Console.WriteLine(type.FullName);
   }
 }

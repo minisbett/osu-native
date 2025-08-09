@@ -44,8 +44,6 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     Ruleset ruleset = rulesetHandle.Resolve();
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-    Console.WriteLine(mods.Length);
-
     Calculate(calcHandle.Resolve(), mods, attributes);
 
     return ErrorCode.Success;
