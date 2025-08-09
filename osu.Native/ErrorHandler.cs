@@ -62,7 +62,7 @@ internal static unsafe class ErrorHandler
   /// <param name="ex">The thrown exception.</param>
   public static ErrorCode HandleException(Exception ex)
   {
-    SetLastMessage(ex.Message);
+    SetLastMessage(ex.ToString());
 
     return ex switch
     {

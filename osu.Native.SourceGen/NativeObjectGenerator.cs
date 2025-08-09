@@ -89,10 +89,10 @@ public class NativeObjectGenerator : IIncrementalGenerator
            }
            
            [CompilerGenerated]
-           internal unsafe readonly struct Native{{nativeObjectName}}
+           internal unsafe struct Native{{nativeObjectName}}
            {
                [CompilerGenerated]
-               public required readonly int ObjectId { get; init; }
+               public required int ObjectId { get; init; }
 
                {{string.Join("\n\n", nativeFields)}}
 
@@ -134,7 +134,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
     return $$"""
            [CompilerGenerated]
-           public required readonly {{field.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{fieldName}} { get; init; }
+           public required {{field.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{fieldName}} { get; init; }
            """;
   }
 }
