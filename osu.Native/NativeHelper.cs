@@ -23,7 +23,7 @@ internal static class NativeHelper
   /// <returns>The resulting error code.</returns>
   public static unsafe ErrorCode StringBuffer(string str, byte* buffer, int* bufferSize)
   {
-    if (buffer is null && *bufferSize == 0)
+    if (buffer is null)
     {
       *bufferSize = Encoding.UTF8.GetByteCount(str) + 1;
       return ErrorCode.BufferSizeQuery;

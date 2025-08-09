@@ -29,10 +29,11 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
 
   private static NativeBeatmap Create(FlatWorkingBeatmap beatmap)
   {
-    int objectId = ObjectContainer<FlatWorkingBeatmap>.Add(beatmap);
+    ManagedObjectHandle<FlatWorkingBeatmap> handle = ManagedObjectRegistry<FlatWorkingBeatmap>.Register(beatmap);
+
     return new()
     {
-      ObjectId = objectId,
+      Handle = handle,
       ApproachRate = beatmap.BeatmapInfo.Difficulty.ApproachRate,
       DrainRate = beatmap.BeatmapInfo.Difficulty.DrainRate,
       OverallDifficulty = beatmap.BeatmapInfo.Difficulty.OverallDifficulty,
@@ -71,14 +72,14 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetTitle(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
-    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().Metadata.Title, buffer, bufferSize);
+  private static ErrorCode GetTitle(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Title, buffer, bufferSize);
 
   [OsuNativeFunction]
-  private static ErrorCode GetArtist(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
-    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().Metadata.Artist, buffer, bufferSize);
+  private static ErrorCode GetArtist(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Artist, buffer, bufferSize);
 
   [OsuNativeFunction]
-  private static ErrorCode GetVersion(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize)
-    => NativeHelper.StringBuffer(nativeBeatmap.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
+  private static ErrorCode GetVersion(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(beatmapHandle.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
 }

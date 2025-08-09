@@ -9,26 +9,27 @@ namespace osu.Native.Objects;
 internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<OsuDifficultyCalculator>
 {
   [OsuNativeFunction]
-  public static ErrorCode Create(NativeRuleset nativeRuleset, NativeBeatmap nativeBeatmap, NativeOsuDifficultyCalculator* nativeOsuDifficultyCalculatorPtr)
+  public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
+                                 NativeOsuDifficultyCalculator* nativeOsuDifficultyCalculatorPtr)
   {
-    Ruleset ruleset = nativeRuleset.Resolve();
-    FlatWorkingBeatmap beatmap = nativeBeatmap.Resolve();
-    OsuDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    Ruleset ruleset = rulesetHandle.Resolve();
+    FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
 
-    int objectId = ObjectContainer<OsuDifficultyCalculator>.Add(calculator);
+    OsuDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    ManagedObjectHandle<OsuDifficultyCalculator> handle = ManagedObjectRegistry<OsuDifficultyCalculator>.Register(calculator);
     
     *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator()
     {
-      ObjectId = objectId
+      Handle = handle
     };
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Calculate(NativeOsuDifficultyCalculator nativeOsuDifficultyCalculator, NativeOsuDifficultyAttributes* attributes)
+  public static ErrorCode Calculate(ManagedObjectHandle<OsuDifficultyCalculator> calculatorHandle, NativeOsuDifficultyAttributes* attributes)
   {
-    OsuDifficultyCalculator calculator = nativeOsuDifficultyCalculator.Resolve();
+    OsuDifficultyCalculator calculator = calculatorHandle.Resolve();
 
     OsuDifficultyAttributes result = (OsuDifficultyAttributes)calculator.Calculate();
     *attributes = new NativeOsuDifficultyAttributes(result);

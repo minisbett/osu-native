@@ -13,10 +13,11 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 
   private static NativeRuleset Create(RulesetInfo ruleset)
   {
-    int objectId = ObjectContainer<Ruleset>.Add(ruleset.CreateInstance());
+    ManagedObjectHandle<Ruleset> handle = ManagedObjectRegistry<Ruleset>.Register(ruleset.CreateInstance());
+
     return new()
     {
-      ObjectId = objectId,
+      Handle = handle,
       RulesetId = ruleset.OnlineID
     };
   }
@@ -49,6 +50,6 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetShortName(NativeRuleset ruleset, byte* buffer, int* bufferSize)
-    => NativeHelper.StringBuffer(ruleset.Resolve().ShortName, buffer, bufferSize);
+  private static ErrorCode GetShortName(ManagedObjectHandle<Ruleset> rulesetHandle, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(rulesetHandle.Resolve().ShortName, buffer, bufferSize);
 }

@@ -68,17 +68,18 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
                [CompilerGenerated]
                [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-               private static ErrorCode {{nativeObjectName}}_Destroy(Native{{nativeObjectName}} obj)
+               private static ErrorCode {{nativeObjectName}}_Destroy(ManagedObjectHandle<{{managedObject}}> handle)
                {
                    ErrorHandler.SetLastMessage(null);
                    
                    try
                    {
-                       {{managedObject}} managedObj = obj.Resolve();
+                       {{managedObject}} managedObj = handle.Resolve();
                        if (managedObj is IDisposable disposable)
                            disposable.Dispose();
 
-                       ObjectContainer<{{managedObject}}>.Remove(obj.ObjectId);
+                       ManagedObjectRegistry<{{managedObject}}>.Remove(handle);
+
                        return ErrorCode.Success;
                    }
                    catch (Exception ex)
@@ -92,12 +93,9 @@ public class NativeObjectGenerator : IIncrementalGenerator
            internal unsafe struct Native{{nativeObjectName}}
            {
                [CompilerGenerated]
-               public required int ObjectId { get; init; }
+               public required ManagedObjectHandle<{{managedObject}}> Handle { get; init; }
 
                {{string.Join("\n\n", nativeFields)}}
-
-               [CompilerGenerated]
-               public {{managedObject}} Resolve() => ObjectContainer<{{managedObject}}>.Get(ObjectId);
            }
            """;
   }

@@ -8,41 +8,41 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   [OsuNativeFunction]
   public static ErrorCode Create(NativeModsCollection* nativeModsCollectionPtr)
   {
-    int objectId = ObjectContainer<List<APIMod>>.Add([]);
-    *nativeModsCollectionPtr = new NativeModsCollection()
-    {
-      ObjectId = objectId
-    };
+    ManagedObjectHandle<List<APIMod>> handle = ManagedObjectRegistry<List<APIMod>>.Register([]);
+
+    *nativeModsCollectionPtr = new NativeModsCollection { Handle = handle };
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Add(NativeModsCollection nativeModsCollection, NativeMod nativeMod)
+  public static ErrorCode Add(ManagedObjectHandle<List<APIMod>> modsHandle, ManagedObjectHandle<APIMod> modHandle)
   {
-    List<APIMod> mods = nativeModsCollection.Resolve();
-    APIMod mod = nativeMod.Resolve();
+    List<APIMod> mods = modsHandle.Resolve();
+    APIMod mod = modHandle.Resolve();
+
     mods.Add(mod);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Remove(NativeModsCollection nativeModsCollection, NativeMod nativeMod)
+  public static ErrorCode Remove(ManagedObjectHandle<List<APIMod>> modsHandle, ManagedObjectHandle<APIMod> modHandle)
   {
-    List<APIMod> mods = nativeModsCollection.Resolve();
-    APIMod mod = nativeMod.Resolve();
+    List<APIMod> mods = modsHandle.Resolve();
+    APIMod mod = modHandle.Resolve();
+
     mods.Remove(mod);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Debug(NativeModsCollection nativeModsCollection)
+  public static ErrorCode Debug(ManagedObjectHandle<List<APIMod>> modsHandle)
   {
-    List<APIMod> mods = nativeModsCollection.Resolve();
+    List<APIMod> mods = modsHandle.Resolve();
 
-    Console.WriteLine($"ModsCollection({nativeModsCollection.ObjectId}):");
+    Console.WriteLine($"ModsCollection({modsHandle.Id}):");
     foreach (APIMod mod in mods)
     {
       Console.WriteLine($"  Mod: {mod.Acronym}");
