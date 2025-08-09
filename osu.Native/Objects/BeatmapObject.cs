@@ -1,6 +1,7 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.IO;
 using osu.Native.Compiler;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
@@ -44,7 +45,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   [OsuNativeFunction]
   private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* beatmap)
   {
-    string filePath = NativeHelper.ReadUtf8(filePathPtr);
+    string? filePath = Utf8StringMarshaller.ConvertToManaged(filePathPtr);
     if (!File.Exists(filePath))
       return ErrorCode.BeatmapFileNotFound;
 
@@ -58,7 +59,8 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   [OsuNativeFunction]
   private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* beatmap)
   {
-    string text = NativeHelper.ReadUtf8(beatmapTextPtr);
+    string text = Utf8StringMarshaller.ConvertToManaged(beatmapTextPtr) ?? "";
+
     using MemoryStream ms = new(Encoding.UTF8.GetBytes(text));
     using LineBufferedReader reader = new(ms);
     FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));

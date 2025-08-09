@@ -1,6 +1,8 @@
 ﻿using osu.Game.Rulesets.Catch;
 using osu.Game.Rulesets.Mania;
+using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
+using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Rulesets.Taiko;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -20,5 +22,8 @@ internal static class OsuNative
   {
     // The entry assembly is null in AOT-compiled assemblies, but is needed for osu!framework's DebugUtils to work correctly.
     Assembly.SetEntryAssembly(typeof(OsuNative).Assembly);
+
+    foreach (Type type in typeof(OsuModDoubleTime).Assembly.GetTypes().Where(x => x.IsAssignableTo(typeof(Mod))))
+      Console.WriteLine(type.FullName);
   }
 }

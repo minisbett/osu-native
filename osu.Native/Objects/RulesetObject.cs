@@ -1,5 +1,6 @@
 ﻿using osu.Game.Rulesets;
 using osu.Native.Compiler;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace osu.Native.Objects;
 
@@ -36,7 +37,7 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   [OsuNativeFunction]
   private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* nativeRuleset)
   {
-    string shortNameStr = NativeHelper.ReadUtf8(shortName);
+    string shortNameStr = Utf8StringMarshaller.ConvertToManaged(shortName) ?? "";
 
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(shortNameStr);
     if (ruleset is null || !ruleset.Available)

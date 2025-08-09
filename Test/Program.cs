@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 
 
@@ -18,34 +19,20 @@ unsafe
 
   int size;
   int error = Native.Beatmap_GetTitle(nativeBeatmap, null, &size);
-  Console.WriteLine($"Error: {error}");
-  if (error != 0)
-  {
-    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-    return;
-  }
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+  nativeBeatmap.ObjectId = 1;
+
+  error = Native.Beatmap_GetTitle(nativeBeatmap, null, &size);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
   byte[] buffer = new byte[size];
   fixed (byte* p = buffer)
     Native.Beatmap_GetTitle(nativeBeatmap, p, &size);
 
   Console.WriteLine($"Title: {Encoding.UTF8.GetString(buffer)}");
-
-  size = 0;
-  Native.Beatmap_GetArtist(nativeBeatmap, null, &size);
-  buffer = new byte[size];
-  fixed (byte* p = buffer)
-    Native.Beatmap_GetArtist(nativeBeatmap, p, &size);
-
-  Console.WriteLine($"Artist: {Encoding.UTF8.GetString(buffer)}");
-
-  size = 0;
-  Native.Beatmap_GetVersion(nativeBeatmap, null, &size);
-  buffer = new byte[size];
-  fixed (byte* p = buffer)
-    Native.Beatmap_GetVersion(nativeBeatmap, p, &size);
-
-  Console.WriteLine($"Version: {Encoding.UTF8.GetString(buffer)}");
 }
 
 public struct NativeBeatmap
@@ -61,8 +48,8 @@ public struct NativeBeatmap
 
 public static unsafe partial class Native
 {
-  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll",
-    StringMarshalling = StringMarshalling.Utf8)]
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
+  [return: MarshalUsing(typeof(Utf8NoFreeStringMarshaller))]
   public static partial string ErrorHandler_GetLastMessage();
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll",
@@ -77,4 +64,10 @@ public static unsafe partial class Native
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
   public static partial sbyte Beatmap_GetVersion(NativeBeatmap nativeBeatmap, byte* buffer, int* bufferSize);
+}
+
+[CustomMarshaller(typeof(string), MarshalMode.Default, typeof(Utf8NoFreeStringMarshaller))]
+public static unsafe class Utf8NoFreeStringMarshaller
+{
+  public static string? ConvertToManaged(byte* unmanaged) => Utf8StringMarshaller.ConvertToManaged(unmanaged);
 }

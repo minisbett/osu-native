@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 
 namespace osu.Native;
@@ -36,28 +38,5 @@ internal static class NativeHelper
     }
 
     return ErrorCode.Success;
-  }
-
-  /// <summary>
-  /// Converts the UTF-8 byte pointer into a managed string via <see cref="Marshal.PtrToStringUTF8(nint)"/>, returning an empty string for null.
-  /// </summary>
-  /// <param name="ptr">The pointer to the UTF-8 string.</param>
-  /// <returns>The UTF-8 encoded string at the specified pointer.</returns>
-  public static unsafe string ReadUtf8(byte* ptr) => Marshal.PtrToStringUTF8((nint)ptr) ?? string.Empty;
-
-  /// <summary>
-  /// Writes the specified string to the specified byte pointer in UTF-8 encoding.
-  /// </summary>
-  /// <param name="ptr">The pointer to the UTF-8 string.</param>
-  /// <param name="str">The UTF-8 encoded string to write.</param>
-  public static unsafe void WriteUtf8(ref byte* ptr, string str)
-  {
-    str += '\0';
-
-    int length = Encoding.UTF8.GetByteCount(str);
-    ptr = (byte*)Marshal.AllocHGlobal(length);
-
-    fixed (char* p = str)
-      Encoding.UTF8.GetBytes(p, str.Length, ptr, length);
   }
 }

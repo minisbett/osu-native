@@ -1,7 +1,8 @@
 ﻿using osu.Native.Objects;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
+using System.Runtime.InteropServices.Marshalling;
+using static osu.Game.Graphics.UserInterface.StarCounter;
 
 namespace osu.Native;
 
@@ -13,7 +14,6 @@ internal static unsafe class ErrorHandler
   /// <summary>
   /// A thread-unique pointer to a string containing the last error message.
   /// </summary>
-  [ThreadStatic]
   private static byte* _lastMessagePtr;
 
   /// <summary>
@@ -25,17 +25,21 @@ internal static unsafe class ErrorHandler
 
   /// <summary>
   /// Sets the last error message in the calling thread to the specified message.
-  /// If the message is null, the pointer will point to 0.
+  /// If the message is null, the pointer will only be freed, and no new message will be set.
   /// </summary>
   /// <param name="message">The message containing information about the last error.</param>
   public static void SetLastMessage(string? message)
   {
-    Marshal.FreeHGlobal((nint)_lastMessagePtr);
+    if (_lastMessagePtr is not null)
+    {
+      Utf8StringMarshaller.Free(_lastMessagePtr);
+      _lastMessagePtr = null;
+    }
 
     if (message is null)
       return;
 
-    NativeHelper.WriteUtf8(ref _lastMessagePtr, message);
+    _lastMessagePtr = Utf8StringMarshaller.ConvertToUnmanaged(message);
   }
 
   /// <summary>
