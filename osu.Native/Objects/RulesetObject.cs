@@ -22,20 +22,20 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   }
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromId(int rulesetId, NativeRuleset* nativeRuleset)
+  private static ErrorCode CreateFromId(int rulesetId, NativeRuleset* rulesetPtr)
   {
     RulesetInfo? ruleset = _rulesetStore.GetRuleset(rulesetId);
     if (ruleset is null || !ruleset.Available)
       return ErrorCode.RulesetUnavailable;
 
-    *nativeRuleset = Create(ruleset);
+    *rulesetPtr = Create(ruleset);
 
     return ErrorCode.Success;
   }
 
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* nativeRuleset)
+  private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* rulesetPtr)
   {
     string shortNameStr = Utf8StringMarshaller.ConvertToManaged(shortName) ?? "";
 
@@ -43,12 +43,12 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     if (ruleset is null || !ruleset.Available)
       return ErrorCode.RulesetUnavailable;
 
-    *nativeRuleset = Create(ruleset);
+    *rulesetPtr = Create(ruleset);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  private static ErrorCode GetShortName(NativeRuleset nativeRuleset, byte* buffer, int* bufferSize)
-    => NativeHelper.StringBuffer(nativeRuleset.Resolve().ShortName, buffer, bufferSize);
+  private static ErrorCode GetShortName(NativeRuleset ruleset, byte* buffer, int* bufferSize)
+    => NativeHelper.StringBuffer(ruleset.Resolve().ShortName, buffer, bufferSize);
 }

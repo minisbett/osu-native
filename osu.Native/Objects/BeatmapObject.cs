@@ -43,21 +43,21 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   }
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* beatmap)
+  private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* nativeBeatmapPtr)
   {
     string? filePath = Utf8StringMarshaller.ConvertToManaged(filePathPtr);
     if (!File.Exists(filePath))
       return ErrorCode.BeatmapFileNotFound;
 
-    FlatWorkingBeatmap workingBeatmap = new(filePath);
+    FlatWorkingBeatmap beatmap = new(filePath);
 
-    *beatmap = Create(workingBeatmap);
+    *nativeBeatmapPtr = Create(beatmap);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
-  private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* beatmap)
+  private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* nativeBeatmapPtr)
   {
     string text = Utf8StringMarshaller.ConvertToManaged(beatmapTextPtr) ?? "";
 
@@ -65,7 +65,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     using LineBufferedReader reader = new(ms);
     FlatWorkingBeatmap workingBeatmap = new(Decoder.GetDecoder<Beatmap>(reader).Decode(reader));
 
-    *beatmap = Create(workingBeatmap);
+    *nativeBeatmapPtr = Create(workingBeatmap);
 
     return ErrorCode.Success;
   }
