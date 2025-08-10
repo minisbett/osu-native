@@ -1,11 +1,10 @@
-﻿using Microsoft.Diagnostics.Runtime;
-using osu.Game.Beatmaps;
+﻿using osu.Game.Beatmaps;
 using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Native.Compiler;
-using osu.Native.Structures;
+using osu.Native.Structures.Difficulty;
 
 namespace osu.Native.Objects;
 

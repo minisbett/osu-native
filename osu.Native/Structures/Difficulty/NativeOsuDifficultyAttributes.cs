@@ -1,10 +1,11 @@
 ﻿using osu.Game.Rulesets.Osu.Difficulty;
 
-namespace osu.Native.Structures;
+namespace osu.Native.Structures.Difficulty;
 
 internal struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes)
 {
   public double StarRating = attributes.StarRating;
+  public double MaxCombo = attributes.MaxCombo;
   public double AimDifficulty = attributes.AimDifficulty;
   public double AimDifficultSliderCount = attributes.AimDifficultSliderCount;
   public double SpeedDifficulty = attributes.SpeedDifficulty;
