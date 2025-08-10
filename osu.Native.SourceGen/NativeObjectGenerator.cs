@@ -36,14 +36,14 @@ public class NativeObjectGenerator : IIncrementalGenerator
         List<string> nativeMethods = [];
         foreach (IMethodSymbol method in @class.GetMembers().OfType<IMethodSymbol>())
           if (method.IsStatic && method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
-            nativeMethods.Add(GetNativeMethodSource(model, @class, method));
+            nativeMethods.Add(GetNativeMethodSource(@class, method));
 
         List<string> nativeFields = [];
         foreach (IFieldSymbol field in @class.GetMembers().OfType<IFieldSymbol>())
           if (field.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFieldSymbol, SymbolEqualityComparer.Default)))
             nativeFields.Add(GetNativeFieldSource(field));
 
-        string code = GetSource(@class, managedObjectSymbol, nativeMethods, nativeFields);
+        string code = GetNativeObjectSource(@class, managedObjectSymbol, nativeMethods, nativeFields);
 
         code = CSharpSyntaxTree.ParseText(code).GetRoot().NormalizeWhitespace().ToFullString();
         ctx.AddSource($"{@class.Name}.g.cs", code);
@@ -51,7 +51,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
     });
   }
 
-  private static string GetSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> nativeMethods, IEnumerable<string> nativeFields)
+  private static string GetNativeObjectSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> nativeMethods, IEnumerable<string> nativeFields)
   {
     string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
     
@@ -100,7 +100,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
            """;
   }
 
-  private static string GetNativeMethodSource(SemanticModel model, INamedTypeSymbol @class, IMethodSymbol method)
+  private static string GetNativeMethodSource(INamedTypeSymbol @class, IMethodSymbol method)
   {
     string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
     string parameters = string.Join(", ", method.Parameters.Select(p => $"{p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)} {p.Name}"));
