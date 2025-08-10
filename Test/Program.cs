@@ -75,7 +75,8 @@ unsafe
   error = Native.OsuDifficultyCalculator_Calculate(osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-  Console.WriteLine($"StarRating Rating: {attributes.StarRating}");
+  Console.WriteLine($"StarRating: {attributes.StarRating}");
+  Console.WriteLine($"Max Combo: {attributes.MaxCombo}");
   Console.WriteLine($"Aim Difficulty: {attributes.AimDifficulty}");
   Console.WriteLine($"Aim Difficult Slider Count: {attributes.AimDifficultSliderCount}");
   Console.WriteLine($"Speed Difficulty: {attributes.SpeedDifficulty}");
@@ -84,6 +85,7 @@ unsafe
   Console.WriteLine($"Slider Factor: {attributes.SliderFactor}");
   Console.WriteLine($"Aim Difficult Strain Count: {attributes.AimDifficultStrainCount}");
   Console.WriteLine($"Speed Difficult Strain Count: {attributes.SpeedDifficultStrainCount}");
+  Console.WriteLine($"Drain Rate: {attributes.DrainRate}");
   Console.WriteLine($"Hit Circle Count: {attributes.HitCircleCount}");
   Console.WriteLine($"Slider Count: {attributes.SliderCount}");
   Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
@@ -91,7 +93,8 @@ unsafe
   error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, nativeRuleset.Handle, modsHandle, out attributes);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-  Console.WriteLine($"StarRating Rating: {attributes.StarRating}");
+  Console.WriteLine($"StarRating: {attributes.StarRating}");
+  Console.WriteLine($"Max Combo: {attributes.MaxCombo}");
   Console.WriteLine($"Aim Difficulty: {attributes.AimDifficulty}");
   Console.WriteLine($"Aim Difficult Slider Count: {attributes.AimDifficultSliderCount}");
   Console.WriteLine($"Speed Difficulty: {attributes.SpeedDifficulty}");
@@ -100,9 +103,22 @@ unsafe
   Console.WriteLine($"Slider Factor: {attributes.SliderFactor}");
   Console.WriteLine($"Aim Difficult Strain Count: {attributes.AimDifficultStrainCount}");
   Console.WriteLine($"Speed Difficult Strain Count: {attributes.SpeedDifficultStrainCount}");
+  Console.WriteLine($"Drain Rate: {attributes.DrainRate}");
   Console.WriteLine($"Hit Circle Count: {attributes.HitCircleCount}");
   Console.WriteLine($"Slider Count: {attributes.SliderCount}");
   Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
+
+  Native.Ruleset_CreateFromId(2, out NativeRuleset nativeRuleset2);
+  Console.WriteLine($"Ruleset ID: {nativeRuleset2.RulesetId}");
+
+  error = Native.CatchDifficultyCalculator_Create(nativeRuleset2.Handle, nativeBeatmap.Handle, out int catchDifficultyCalculatorHandle);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+  error = Native.CatchDifficultyCalculator_Calculate(catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes catchAttributes);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+  Console.WriteLine($"StarRating: {catchAttributes.StarRating}");
+  Console.WriteLine($"Max Combo: {catchAttributes.MaxCombo}");
 }
 
 public struct NativeBeatmap
@@ -125,6 +141,7 @@ public struct NativeRuleset
 public struct NativeOsuDifficultyAttributes
 {
   public double StarRating;
+  public double MaxCombo;
   public double AimDifficulty;
   public double AimDifficultSliderCount;
   public double SpeedDifficulty;
@@ -137,6 +154,12 @@ public struct NativeOsuDifficultyAttributes
   public int HitCircleCount;
   public int SliderCount;
   public int SpinnerCount;
+}
+
+public struct NativeCatchDifficultyAttributes
+{
+  public double StarRating;
+  public double MaxCombo;
 }
 
 public static unsafe partial class Native
@@ -192,6 +215,12 @@ public static unsafe partial class Native
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
   public static partial sbyte Ruleset_CreateFromId(int rulesetId, out NativeRuleset attributes);
+
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
+  public static partial sbyte CatchDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int catchDifficultyCalculatorHandle);
+
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\net9.0\\win-x64\\native\\osu.Native.dll")]
+  public static partial sbyte CatchDifficultyCalculator_Calculate(int catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes attributes);
 }
 
 [CustomMarshaller(typeof(string), MarshalMode.Default, typeof(Utf8NoFreeStringMarshaller))]
