@@ -29,28 +29,28 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, NativeCatchDifficultyAttributes* attributes)
+  public static ErrorCode Calculate(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, NativeCatchDifficultyAttributes* nativeAttributesPr)
   {
-    Calculate(calcHandle.Resolve(), [], attributes);
+    Calculate(calcHandle.Resolve(), [], nativeAttributesPr);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeCatchDifficultyAttributes* attributes)
+                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeCatchDifficultyAttributes* nativeAttributesPr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-    Calculate(calcHandle.Resolve(), mods, attributes);
+    Calculate(calcHandle.Resolve(), mods, nativeAttributesPr);
 
     return ErrorCode.Success;
   }
 
-  private static void Calculate(CatchDifficultyCalculator calculator, Mod[] mods, NativeCatchDifficultyAttributes* attributes)
+  private static void Calculate(CatchDifficultyCalculator calculator, Mod[] mods, NativeCatchDifficultyAttributes* nativeAttributesPr)
   {
-    CatchDifficultyAttributes result = (CatchDifficultyAttributes)calculator.Calculate(mods);
-    *attributes = new NativeCatchDifficultyAttributes(result);
+    CatchDifficultyAttributes attributes = (CatchDifficultyAttributes)calculator.Calculate(mods);
+    *nativeAttributesPr = new NativeCatchDifficultyAttributes(attributes);
   }
 }

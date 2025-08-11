@@ -29,28 +29,28 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, NativeManiaDifficultyAttributes* attributes)
+  public static ErrorCode Calculate(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
   {
-    Calculate(calcHandle.Resolve(), [], attributes);
+    Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeManiaDifficultyAttributes* attributes)
+                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-    Calculate(calcHandle.Resolve(), mods, attributes);
+    Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
-  private static void Calculate(ManiaDifficultyCalculator calculator, Mod[] mods, NativeManiaDifficultyAttributes* attributes)
+  private static void Calculate(ManiaDifficultyCalculator calculator, Mod[] mods, NativeManiaDifficultyAttributes* nativeAttributesPtr)
   {
-    ManiaDifficultyAttributes result = (ManiaDifficultyAttributes)calculator.Calculate(mods);
-    *attributes = new NativeManiaDifficultyAttributes(result);
+    ManiaDifficultyAttributes attributes = (ManiaDifficultyAttributes)calculator.Calculate(mods);
+    *nativeAttributesPtr = new NativeManiaDifficultyAttributes(attributes);
   }
 }

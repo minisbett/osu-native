@@ -29,28 +29,28 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, NativeOsuDifficultyAttributes* attributes)
+  public static ErrorCode Calculate(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
   {
-    Calculate(calcHandle.Resolve(), [], attributes);
+    Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeOsuDifficultyAttributes* attributes)
+                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-    Calculate(calcHandle.Resolve(), mods, attributes);
+    Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
-  private static void Calculate(OsuDifficultyCalculator calculator, Mod[] mods, NativeOsuDifficultyAttributes* attributes)
+  private static void Calculate(OsuDifficultyCalculator calculator, Mod[] mods, NativeOsuDifficultyAttributes* nativeAttributesPtr)
   {
-    OsuDifficultyAttributes result = (OsuDifficultyAttributes)calculator.Calculate(mods);
-    *attributes = new NativeOsuDifficultyAttributes(result);
+    OsuDifficultyAttributes attributes = (OsuDifficultyAttributes)calculator.Calculate(mods);
+    *nativeAttributesPtr = new NativeOsuDifficultyAttributes(attributes);
   }
 }

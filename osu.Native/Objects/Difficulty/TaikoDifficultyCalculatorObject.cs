@@ -29,28 +29,28 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, NativeTaikoDifficultyAttributes* attributes)
+  public static ErrorCode Calculate(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
   {
-    Calculate(calcHandle.Resolve(), [], attributes);
+    Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeTaikoDifficultyAttributes* attributes)
+                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-    Calculate(calcHandle.Resolve(), mods, attributes);
+    Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;
   }
 
-  private static void Calculate(TaikoDifficultyCalculator calculator, Mod[] mods, NativeTaikoDifficultyAttributes* attributes)
+  private static void Calculate(TaikoDifficultyCalculator calculator, Mod[] mods, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
   {
-    TaikoDifficultyAttributes result = (TaikoDifficultyAttributes)calculator.Calculate(mods);
-    *attributes = new NativeTaikoDifficultyAttributes(result);
+    TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)calculator.Calculate(mods);
+    *nativeAttributesPtr = new NativeTaikoDifficultyAttributes(attributes);
   }
 }
