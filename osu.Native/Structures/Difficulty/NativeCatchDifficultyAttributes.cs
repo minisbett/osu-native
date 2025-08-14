@@ -5,5 +5,5 @@ namespace osu.Native.Structures.Difficulty;
 internal struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attributes)
 {
   public double StarRating = attributes.StarRating;
-  public double MaxCombo = attributes.MaxCombo;
+  public int MaxCombo = attributes.MaxCombo;
 }

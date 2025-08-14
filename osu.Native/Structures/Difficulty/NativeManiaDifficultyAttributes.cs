@@ -5,5 +5,5 @@ namespace osu.Native.Structures.Difficulty;
 internal struct NativeManiaDifficultyAttributes(ManiaDifficultyAttributes attributes)
 {
   public double StarRating = attributes.StarRating;
-  public double MaxCombo = attributes.MaxCombo;
+  public int MaxCombo = attributes.MaxCombo;
 }

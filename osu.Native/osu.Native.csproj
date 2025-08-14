@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PublishAot>true</PublishAot>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 
     <!-- Generate information for sizoscope -->
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
@@ -17,11 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Game" Version="2025.424.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.424.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.424.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.424.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.424.0" />
+    <PackageReference Include="ppy.osu.Game" Version="2025.710.0-lazer" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.710.0-lazer" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.710.0-lazer" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.710.0-lazer" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.710.0-lazer" />
+    
     <PackageReference Include="ppy.osu.Game.Resources" Version="*">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
