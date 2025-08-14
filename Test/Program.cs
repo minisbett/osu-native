@@ -66,7 +66,9 @@ unsafe
 
   Native.ModsCollection_Debug(modsHandle);
 
-  Native.Ruleset_CreateFromId(0, out NativeRuleset nativeRuleset);
+  error = Native.Ruleset_CreateFromId(0, out NativeRuleset nativeRuleset);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
   Console.WriteLine($"Ruleset ID: {nativeRuleset.RulesetId}");
 
   error = Native.OsuDifficultyCalculator_Create(nativeRuleset.Handle, nativeBeatmap.Handle, out int osuDifficultyCalculatorHandle);
