@@ -1,4 +1,10 @@
 ﻿<linker>
+  <assembly fullname="osu.Game">
+    <type fullname="osu.Game.Rulesets.Mods.*">
+      <property name="*"  />
+    </type>
+  </assembly>
+  
   <assembly fullname="osu.Game.Rulesets.Osu">
     <type fullname="osu.Game.Rulesets.Osu.OsuRuleset">
       <method name=".ctor" />
