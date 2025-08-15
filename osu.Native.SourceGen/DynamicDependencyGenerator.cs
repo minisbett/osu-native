@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
 using System.Linq;
-using DynamicDependency = (osu.Native.Analyzers.DynamicallyAccessedMemberTypes MemberTypes, string TypeName);
+using DynamicDependency = (osu.Native.Analyzers.DynamicallyAccessedMemberTypes MemberTypes, string TypeName, string AssemblyName);
 
 namespace osu.Native.Analyzers;
 
@@ -18,21 +18,27 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
         ..GetModDependencies(src)
       ];
 
-      string source =
-      $$"""
-      using System.Runtime.CompilerServices;
-      using System.Diagnostics.CodeAnalysis;
+      string attributes = string.Join("\n", dependencies.Select(x =>
+        $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, \"{x.TypeName}\", \"{x.AssemblyName}\")]"));
 
-      public class DynamicDependencies
-      {
-        [ModuleInitializer]
-        {{string.Join("\n", dependencies.Select(x => $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, typeof({x.TypeName})]"))}}
-        public static void Initialize()
+      string source =
+        $$"""
+        using System.Reflection;
+        using System.Runtime.CompilerServices;
+        using System.Diagnostics.CodeAnalysis;
+
+        namespace osu.Native.Compiler;
+
+        internal static class DynamicDependencies
         {
-          Assembly.SetEntryAssembly(typeof(OsuNative).Assembly);
+          [ModuleInitializer]
+          {{attributes}}
+          public static void Initialize()
+          {
+            Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
+          }
         }
-      }
-      """;
+        """;
 
       source = CSharpSyntaxTree.ParseText(source).GetRoot().NormalizeWhitespace().ToFullString();
       spc.AddSource("DynamicDependencies.g.cs", source);
@@ -41,23 +47,25 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
 
   private static IEnumerable<DynamicDependency> GetStaticDependencies()
   {
-    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Osu.OsuRuleset");
-    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Taiko.TaikoRuleset");
-    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Catch.CatchRuleset");
-    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Mania.ManiaRuleset");
+    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Osu.OsuRuleset", "osu.Game.Rulesets.Osu");
+    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Taiko.TaikoRuleset", "osu.Game.Rulesets.Taiko");
+    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Catch.CatchRuleset", "osu.Game.Rulesets.Catch");
+    yield return (DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, "osu.Game.Rulesets.Mania.ManiaRuleset", "osu.Game.Rulesets.Mania");
   }
 
   private static IEnumerable<DynamicDependency> GetModDependencies(Compilation compilation)
   {
-    string[] modTypes = [
-      ..GetTypeNamesInNamespace(compilation, "osu.Game", "osu.Game.Rulesets.Mods"),
-      ..GetTypeNamesInNamespace(compilation, "osu.Game.Rulesets.Osu", "osu.Game.Rulesets.Osu.Mods"),
-      ..GetTypeNamesInNamespace(compilation, "osu.Game.Rulesets.Taiko", "osu.Game.Rulesets.Taiko.Mods"),
-      ..GetTypeNamesInNamespace(compilation, "osu.Game.Rulesets.Catch", "osu.Game.Rulesets.Catch.Mods"),
-      ..GetTypeNamesInNamespace(compilation, "osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods")
+    (string Assembly, string Namespace)[] modNamespaces = [
+      ("osu.Game", "osu.Game.Rulesets.Mods"),
+      ("osu.Game.Rulesets.Osu", "osu.Game.Rulesets.Osu.Mods"),
+      ("osu.Game.Rulesets.Taiko", "osu.Game.Rulesets.Taiko.Mods"),
+      ("osu.Game.Rulesets.Catch", "osu.Game.Rulesets.Catch.Mods"),
+      ("osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods"),
     ];
 
-    return modTypes.Select(x => (DynamicallyAccessedMemberTypes.PublicProperties, x));
+    foreach (var modNamespace in modNamespaces)
+      foreach (string typeName in GetTypeNamesInNamespace(compilation, modNamespace.Assembly, modNamespace.Namespace))
+        yield return (DynamicallyAccessedMemberTypes.PublicProperties, typeName, modNamespace.Assembly);
   }
 
   private static IEnumerable<string> GetTypeNamesInNamespace(Compilation compilation, string assemblyName, string namespaceName)
@@ -75,7 +83,8 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
     }
 
     foreach (INamedTypeSymbol type in ns.GetTypeMembers())
-      yield return (type.IsGenericType ? type.ConstructUnboundGenericType() : type).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+      yield return (type.IsGenericType ? type.ConstructUnboundGenericType() : type).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+        .Replace("global::", "");
   }
 }
 
