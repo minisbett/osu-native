@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using DynamicDependency = (osu.Native.Analyzers.DynamicallyAccessedMemberTypes MemberTypes, string TypeName, string AssemblyName);
 
@@ -60,15 +61,24 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
       ("osu.Game.Rulesets.Osu", "osu.Game.Rulesets.Osu.Mods"),
       ("osu.Game.Rulesets.Taiko", "osu.Game.Rulesets.Taiko.Mods"),
       ("osu.Game.Rulesets.Catch", "osu.Game.Rulesets.Catch.Mods"),
-      ("osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods"),
+      ("osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods")
     ];
 
-    foreach (var modNamespace in modNamespaces)
-      foreach (string typeName in GetTypeNamesInNamespace(compilation, modNamespace.Assembly, modNamespace.Namespace))
-        yield return (DynamicallyAccessedMemberTypes.PublicProperties, typeName, modNamespace.Assembly);
+    foreach ((string assembly, string ns) in modNamespaces)
+      foreach (INamedTypeSymbol type in GetTypesInNamespace(compilation, assembly, ns))
+      {
+        string name = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
+          .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted) // global::Foo
+          .WithGenericsOptions(SymbolDisplayGenericsOptions.None)); // Foo<T>
+         
+        if (type.IsGenericType)
+          name += $"`{type.TypeParameters.Length}"; // Foo`1
+
+        yield return (DynamicallyAccessedMemberTypes.PublicProperties, name, assembly);
+      }
   }
 
-  private static IEnumerable<string> GetTypeNamesInNamespace(Compilation compilation, string assemblyName, string namespaceName)
+  private static ImmutableArray<INamedTypeSymbol> GetTypesInNamespace(Compilation compilation, string assemblyName, string namespaceName)
   {
     IAssemblySymbol assembly = compilation.References.Select(compilation.GetAssemblyOrModuleSymbol)
      .OfType<IAssemblySymbol>()
@@ -79,12 +89,10 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
     {
       ns = ns.GetNamespaceMembers().FirstOrDefault(n => n.Name == part);
       if (ns is null) // Namespace not found after walking down the path
-        yield break;
+        return [];
     }
 
-    foreach (INamedTypeSymbol type in ns.GetTypeMembers())
-      yield return (type.IsGenericType ? type.ConstructUnboundGenericType() : type).ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-        .Replace("global::", "");
+    return ns.GetTypeMembers();
   }
 }
 
