@@ -27,9 +27,15 @@ internal enum ErrorCode : sbyte
   RulesetUnavailable = 2,
 
   /// <summary>
+  /// Indicates that the specified ruleset instance is not of the expected ruleset for the operation context.
+  /// (eg. Osu ruleset instance passed to a Catch difficulty calculator)
+  /// </summary>
+  UnexpectedRuleset = 3,
+
+  /// <summary>
   /// Indicates that the file in the scope of the operation was not found.
   /// </summary>
-  BeatmapFileNotFound = 3,
+  BeatmapFileNotFound = 4,
 
   /// <summary>
   /// Indicates an unspecific operation failure.

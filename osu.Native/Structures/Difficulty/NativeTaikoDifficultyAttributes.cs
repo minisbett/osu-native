@@ -2,6 +2,9 @@
 
 namespace osu.Native.Structures.Difficulty;
 
+/// <summary>
+/// Represents the Catch difficulty attributes (<see cref="TaikoDifficultyAttributes"/>) on the native layer.
+/// </summary>
 internal struct NativeTaikoDifficultyAttributes(TaikoDifficultyAttributes attributes)
 {
   public double StarRating = attributes.StarRating;

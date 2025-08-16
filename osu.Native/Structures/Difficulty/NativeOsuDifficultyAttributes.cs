@@ -2,6 +2,9 @@
 
 namespace osu.Native.Structures.Difficulty;
 
+/// <summary>
+/// Represents the Catch difficulty attributes (<see cref="OsuDifficultyAttributes"/>) on the native layer.
+/// </summary>
 internal struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes)
 {
   public double StarRating = attributes.StarRating;

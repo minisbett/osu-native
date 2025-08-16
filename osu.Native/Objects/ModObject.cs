@@ -4,8 +4,17 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace osu.Native.Objects;
 
+/// <summary>
+/// Represents a mod, consisting of the acronym and mod settings (<see cref="APIMod"/>).<br/>
+/// The mod is represented via an <see cref="APIMod"/> object, and thus ruleset-agnostic and not validated for existence.
+/// </summary>
 internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
 {
+  /// <summary>
+  /// Creates an instance of an <see cref="APIMod"/> from the specified acronym.
+  /// </summary>
+  /// <param name="acronymPtr">The acronym of the mod.</param>
+  /// <param name="nativeModPtr">A pointer to write the resulting native mod object to.</param>
   [OsuNativeFunction]
   public static ErrorCode Create(byte* acronymPtr, NativeMod* nativeModPtr)
   {
@@ -20,6 +29,12 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     return ErrorCode.Success;
   }
 
+  /// <summary>
+  /// Sets the specified setting of the specified mod to the specified value.
+  /// </summary>
+  /// <param name="modHandle">The handle of the mod.</param>
+  /// <param name="keyPtr">The name of the mod setting.</param>
+  /// <param name="value">The value of the mod setting.</param>
   [OsuNativeFunction]
   public static ErrorCode SetSetting(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, double value)
   {

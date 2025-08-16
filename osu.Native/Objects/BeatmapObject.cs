@@ -7,23 +7,44 @@ using Decoder = osu.Game.Beatmaps.Formats.Decoder;
 
 namespace osu.Native.Objects;
 
+/// <summary>
+/// Represents a beatmap object (<see cref="FlatWorkingBeatmap"/>).
+/// </summary>
 internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
 {
+  /// <summary>
+  /// The approach rate (AR) of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly float _approachRate;
 
+  /// <summary>
+  /// The drain rate (HP) of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly float _drainRate;
 
+  /// <summary>
+  /// The overall difficulty (OD) of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly float _overallDifficulty;
 
+  /// <summary>
+  /// The circle size (CS) of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly float _circleSize;
 
+  /// <summary>
+  /// The slider multiplier of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly double _sliderMultiplier;
 
+  /// <summary>
+  /// The slider tick rate of the beatmap.
+  /// </summary>
   [OsuNativeField]
   private readonly double _sliderTickRate;
 
@@ -43,6 +64,11 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     };
   }
 
+  /// <summary>
+  /// Creates an instance of a <see cref="FlatWorkingBeatmap"/> from the beatmap file at the specified path.
+  /// </summary>
+  /// <param name="filePathPtr">The path to the beatmap file.</param>
+  /// <param name="nativeBeatmapPtr">A pointer to write the resulting native beatmap object to.</param>
   [OsuNativeFunction]
   private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* nativeBeatmapPtr)
   {
@@ -57,6 +83,11 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     return ErrorCode.Success;
   }
 
+  /// <summary>
+  /// Creates an instance of a <see cref="FlatWorkingBeatmap"/> from the specified beatmap text.
+  /// </summary>
+  /// <param name="beatmapTextPtr">The beatmap text.</param>
+  /// <param name="nativeBeatmapPtr">A pointer to write the resulting native beatmap object to.</param>
   [OsuNativeFunction]
   private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* nativeBeatmapPtr)
   {
@@ -71,14 +102,34 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     return ErrorCode.Success;
   }
 
+  /// <summary>
+  /// Writes the title of the beatmap to the provided buffer.
+  /// </summary>
+  /// <param name="beatmapHandle">The handle of the beatmap to retrieve the title of.</param>
+  /// <param name="buffer">The buffer to write the title into.</param>
+  /// <param name="bufferSize">The size of the provided buffer.</param>
   [OsuNativeFunction]
   private static ErrorCode GetTitle(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
     => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Title, buffer, bufferSize);
 
+
+  /// <summary>
+  /// Writes the artist of the beatmap to the provided buffer.
+  /// </summary>
+  /// <param name="beatmapHandle">The handle of the beatmap to retrieve the artist of.</param>
+  /// <param name="buffer">The buffer to write the artist into.</param>
+  /// <param name="bufferSize">The size of the provided buffer.</param>
   [OsuNativeFunction]
   private static ErrorCode GetArtist(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
     => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Artist, buffer, bufferSize);
 
+
+  /// <summary>
+  /// Writes the difficulty name of the beatmap to the provided buffer.
+  /// </summary>
+  /// <param name="beatmapHandle">The handle of the beatmap to retrieve difficulty name of.</param>
+  /// <param name="buffer">The buffer to write the difficulty name into.</param>
+  /// <param name="bufferSize">The size of the provided buffer.</param>
   [OsuNativeFunction]
   private static ErrorCode GetVersion(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
     => NativeHelper.StringBuffer(beatmapHandle.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
