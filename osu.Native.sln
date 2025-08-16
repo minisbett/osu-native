@@ -5,7 +5,7 @@ VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native", "osu.Native\osu.Native.csproj", "{8B077F85-3B67-4C37-935D-9B54F4B7CAEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Analyzers", "osu.Native.SourceGen\osu.Native.Analyzers.csproj", "{C8A14474-CF45-441C-B742-3587A381BFB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Analyzers", "osu.Native.Analyzers\osu.Native.Analyzers.csproj", "{C8A14474-CF45-441C-B742-3587A381BFB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}"
 EndProject
