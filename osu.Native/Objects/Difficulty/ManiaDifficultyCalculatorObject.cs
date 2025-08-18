@@ -1,8 +1,9 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.Online.API;
 using osu.Game.Rulesets;
-using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Mania.Difficulty;
+using osu.Game.Rulesets.Mods;
 using osu.Native.Compiler;
 using osu.Native.Structures.Difficulty;
 
@@ -26,7 +27,10 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     Ruleset ruleset = rulesetHandle.Resolve();
     FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
 
-    ManiaDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    if (ruleset is not ManiaRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    ManiaDifficultyCalculator calculator = (ManiaDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
     ManagedObjectHandle<ManiaDifficultyCalculator> handle = ManagedObjectRegistry<ManiaDifficultyCalculator>.Register(calculator);
 
     *nativeManiaDifficultyCalculatorPtr = new NativeManiaDifficultyCalculator()
@@ -62,8 +66,11 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
                                         ManagedObjectHandle<List<APIMod>> modsHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
-    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
+    if (ruleset is not ManiaRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
     Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;

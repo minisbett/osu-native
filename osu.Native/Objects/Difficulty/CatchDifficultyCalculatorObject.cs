@@ -30,7 +30,7 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     if (ruleset is not CatchRuleset)
       return ErrorCode.UnexpectedRuleset;
 
-    CatchDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    CatchDifficultyCalculator calculator = (CatchDifficultyCalculator) ruleset.CreateDifficultyCalculator(beatmap);
     ManagedObjectHandle<CatchDifficultyCalculator> handle = ManagedObjectRegistry<CatchDifficultyCalculator>.Register(calculator);
 
     *nativeCatchDifficultyCalculatorPtr = new NativeCatchDifficultyCalculator()
@@ -72,7 +72,6 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
       return ErrorCode.UnexpectedRuleset;
 
     Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
-
     Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;

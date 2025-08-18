@@ -2,6 +2,8 @@
 using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu;
+using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Native.Compiler;
 using osu.Native.Structures.Difficulty;
@@ -26,7 +28,10 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     Ruleset ruleset = rulesetHandle.Resolve();
     FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
 
-    TaikoDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    if (ruleset is not TaikoRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    TaikoDifficultyCalculator calculator = (TaikoDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
     ManagedObjectHandle<TaikoDifficultyCalculator> handle = ManagedObjectRegistry<TaikoDifficultyCalculator>.Register(calculator);
 
     *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator()
@@ -62,8 +67,11 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
                                         ManagedObjectHandle<List<APIMod>> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
-    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
+    if (ruleset is not TaikoRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
     Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;

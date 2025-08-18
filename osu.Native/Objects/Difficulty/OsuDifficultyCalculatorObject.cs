@@ -2,6 +2,7 @@
 using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Native.Compiler;
 using osu.Native.Structures.Difficulty;
@@ -26,7 +27,10 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     Ruleset ruleset = rulesetHandle.Resolve();
     FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
 
-    OsuDifficultyCalculator calculator = new(ruleset.RulesetInfo, beatmap);
+    if (ruleset is not OsuRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    OsuDifficultyCalculator calculator = (OsuDifficultyCalculator) ruleset.CreateDifficultyCalculator(beatmap);
     ManagedObjectHandle<OsuDifficultyCalculator> handle = ManagedObjectRegistry<OsuDifficultyCalculator>.Register(calculator);
 
     *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator()
@@ -62,8 +66,11 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
                                         ManagedObjectHandle<List<APIMod>> modsHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
-    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
+    if (ruleset is not OsuRuleset)
+      return ErrorCode.UnexpectedRuleset;
+
+    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
     Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
     return ErrorCode.Success;
