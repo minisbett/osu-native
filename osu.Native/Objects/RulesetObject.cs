@@ -19,11 +19,9 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 
   private static NativeRuleset Create(RulesetInfo ruleset)
   {
-    ManagedObjectHandle<Ruleset> handle = ManagedObjectRegistry<Ruleset>.Register(ruleset.CreateInstance());
-
     return new()
     {
-      Handle = handle,
+      Handle = ManagedObjectRegistry.Register(ruleset.CreateInstance()),
       RulesetId = ruleset.OnlineID
     };
   }

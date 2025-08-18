@@ -12,7 +12,7 @@ internal static class ManagedObjectRegistry<T> where T : notnull
   private static int _nextId = 0;
 
   /// <summary>
-  /// Adds the specified object to the container and returns a handle for it.
+  /// Registers the managed object and returns a handle for it.
   /// </summary>
   /// <param name="obj">The object.</param>
   /// <returns>The handle of the object.</returns>
@@ -47,10 +47,23 @@ internal static class ManagedObjectRegistry<T> where T : notnull
 }
 
 /// <summary>
+/// Helper class for calling <see cref="ManagedObjectRegistry{T}.Register(T)"/>. 
+/// </summary>
+internal static class ManagedObjectRegistry
+{
+  /// <summary>
+  /// Registers the managed object and returns a handle for it.
+  /// </summary>
+  /// <param name="obj">The object.</param>
+  /// <returns>The handle of the object.</returns>
+  public static ManagedObjectHandle<T> Register<T>(T obj) where T : notnull => ManagedObjectRegistry<T>.Register(obj);
+}
+
+/// <summary>
 /// Represents a handle to a managed object, containing the associated object ID assigned by the <see cref="ManagedObjectRegistry{T}"/>.
 /// </summary>
-/// <typeparam name="T"></typeparam>
-/// <param name="objectId"></param>
+/// <typeparam name="T">The managed type.</typeparam>
+/// <param name="objectId">The ID associated with the managed object.</param>
 internal struct ManagedObjectHandle<T>(int objectId) where T : notnull
 {
   /// <summary>

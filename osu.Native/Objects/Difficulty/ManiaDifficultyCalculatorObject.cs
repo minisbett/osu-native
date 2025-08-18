@@ -31,12 +31,8 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
       return ErrorCode.UnexpectedRuleset;
 
     ManiaDifficultyCalculator calculator = (ManiaDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
-    ManagedObjectHandle<ManiaDifficultyCalculator> handle = ManagedObjectRegistry<ManiaDifficultyCalculator>.Register(calculator);
 
-    *nativeManiaDifficultyCalculatorPtr = new NativeManiaDifficultyCalculator()
-    {
-      Handle = handle
-    };
+    *nativeManiaDifficultyCalculatorPtr = new NativeManiaDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
 
     return ErrorCode.Success;
   }

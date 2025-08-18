@@ -15,9 +15,7 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   [OsuNativeFunction]
   public static ErrorCode Create(NativeModsCollection* nativeModsCollectionPtr)
   {
-    ManagedObjectHandle<List<APIMod>> handle = ManagedObjectRegistry<List<APIMod>>.Register([]);
-
-    *nativeModsCollectionPtr = new NativeModsCollection { Handle = handle };
+    *nativeModsCollectionPtr = new NativeModsCollection { Handle = ManagedObjectRegistry.Register(new List<APIMod>()) };
 
     return ErrorCode.Success;
   }

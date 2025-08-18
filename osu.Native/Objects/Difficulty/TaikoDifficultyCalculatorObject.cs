@@ -32,12 +32,8 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
       return ErrorCode.UnexpectedRuleset;
 
     TaikoDifficultyCalculator calculator = (TaikoDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
-    ManagedObjectHandle<TaikoDifficultyCalculator> handle = ManagedObjectRegistry<TaikoDifficultyCalculator>.Register(calculator);
 
-    *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator()
-    {
-      Handle = handle
-    };
+    *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
 
     return ErrorCode.Success;
   }

@@ -31,12 +31,8 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
       return ErrorCode.UnexpectedRuleset;
 
     OsuDifficultyCalculator calculator = (OsuDifficultyCalculator) ruleset.CreateDifficultyCalculator(beatmap);
-    ManagedObjectHandle<OsuDifficultyCalculator> handle = ManagedObjectRegistry<OsuDifficultyCalculator>.Register(calculator);
 
-    *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator()
-    {
-      Handle = handle
-    };
+    *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
 
     return ErrorCode.Success;
   }

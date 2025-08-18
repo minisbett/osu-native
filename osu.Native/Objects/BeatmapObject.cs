@@ -50,11 +50,9 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
 
   private static NativeBeatmap Create(FlatWorkingBeatmap beatmap)
   {
-    ManagedObjectHandle<FlatWorkingBeatmap> handle = ManagedObjectRegistry<FlatWorkingBeatmap>.Register(beatmap);
-
     return new()
     {
-      Handle = handle,
+      Handle = ManagedObjectRegistry.Register(beatmap),
       ApproachRate = beatmap.BeatmapInfo.Difficulty.ApproachRate,
       DrainRate = beatmap.BeatmapInfo.Difficulty.DrainRate,
       OverallDifficulty = beatmap.BeatmapInfo.Difficulty.OverallDifficulty,
