@@ -1,5 +1,4 @@
 ﻿using osu.Game.Beatmaps;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mania;
 using osu.Game.Rulesets.Mania.Difficulty;
@@ -59,7 +58,7 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
   /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
+                                        ManagedObjectHandle<ModsCollection> modsHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
 
@@ -78,3 +77,4 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     *nativeAttributesPtr = new NativeManiaDifficultyAttributes(attributes);
   }
 }
+  

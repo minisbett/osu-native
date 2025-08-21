@@ -60,7 +60,7 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
   /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+                                        ManagedObjectHandle<ModsCollection> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
 

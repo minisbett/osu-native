@@ -93,7 +93,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
            internal unsafe struct Native{{nativeObjectName}}
            {
                [CompilerGenerated]
-               public required ManagedObjectHandle<{{managedObject}}> Handle { get; init; }
+               public required ManagedObjectHandle<{{managedObject}}> Handle;
 
                {{string.Join("\n\n", nativeFields)}}
            }
@@ -132,7 +132,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
     return $$"""
            [CompilerGenerated]
-           public required {{field.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{fieldName}} { get; init; }
+           public required {{field.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}} {{fieldName}};
            """;
   }
 }

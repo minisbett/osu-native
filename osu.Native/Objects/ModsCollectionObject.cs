@@ -6,7 +6,7 @@ namespace osu.Native.Objects;
 /// <summary>
 /// Represents a collection of mods (<see cref="List{T}"/> of <see cref="APIMod"/>).
 /// </summary>
-internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMod>>
+internal unsafe partial class ModsCollectionObject : IOsuNativeObject<ModsCollection>
 {
   /// <summary>
   /// Creates an instance of a <see cref="List{APIMod}"/>.
@@ -15,7 +15,7 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   [OsuNativeFunction]
   public static ErrorCode Create(NativeModsCollection* nativeModsCollectionPtr)
   {
-    *nativeModsCollectionPtr = new NativeModsCollection { Handle = ManagedObjectRegistry.Register(new List<APIMod>()) };
+    *nativeModsCollectionPtr = new NativeModsCollection { Handle = ManagedObjectRegistry.Register(new ModsCollection()) };
 
     return ErrorCode.Success;
   }
@@ -26,9 +26,9 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   /// <param name="modsHandle">The handle of the mods collection.</param>
   /// <param name="modHandle">The handle of the mod to add.</param>
   [OsuNativeFunction]
-  public static ErrorCode Add(ManagedObjectHandle<List<APIMod>> modsHandle, ManagedObjectHandle<APIMod> modHandle)
+  public static ErrorCode Add(ManagedObjectHandle<ModsCollection> modsHandle, ManagedObjectHandle<APIMod> modHandle)
   {
-    List<APIMod> mods = modsHandle.Resolve();
+    ModsCollection mods = modsHandle.Resolve();
     APIMod mod = modHandle.Resolve();
 
     mods.Add(mod);
@@ -43,9 +43,9 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   /// <param name="modsHandle">The handle of the mods collection.</param>
   /// <param name="modHandle">The handle of the mod to remove.</param>
   [OsuNativeFunction]
-  public static ErrorCode Remove(ManagedObjectHandle<List<APIMod>> modsHandle, ManagedObjectHandle<APIMod> modHandle)
+  public static ErrorCode Remove(ManagedObjectHandle<ModsCollection> modsHandle, ManagedObjectHandle<APIMod> modHandle)
   {
-    List<APIMod> mods = modsHandle.Resolve();
+    ModsCollection mods = modsHandle.Resolve();
     APIMod mod = modHandle.Resolve();
 
     mods.Remove(mod);
@@ -54,9 +54,9 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
   }
 
   [OsuNativeFunction]
-  public static ErrorCode Debug(ManagedObjectHandle<List<APIMod>> modsHandle)
+  public static ErrorCode Debug(ManagedObjectHandle<ModsCollection> modsHandle)
   {
-    List<APIMod> mods = modsHandle.Resolve();
+    ModsCollection mods = modsHandle.Resolve();
 
     Console.WriteLine($"ModsCollection({modsHandle.Id}):");
     foreach (APIMod mod in mods)
@@ -69,3 +69,8 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<List<APIMo
     return ErrorCode.Success;
   }
 }
+
+/// <summary>
+/// Represents a managed collection of <see cref="APIMod"/>.
+/// </summary>
+internal class ModsCollection : List<APIMod>;

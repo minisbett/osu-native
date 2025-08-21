@@ -59,7 +59,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
   /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
   [OsuNativeFunction]
   public static ErrorCode CalculateMods(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<List<APIMod>> modsHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
+                                        ManagedObjectHandle<ModsCollection> modsHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
   {
     Ruleset ruleset = rulesetHandle.Resolve();
 
