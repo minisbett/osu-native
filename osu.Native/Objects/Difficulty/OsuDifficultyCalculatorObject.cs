@@ -54,7 +54,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
   /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
   /// </summary>
   /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-  /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods (must match the ruleset of the calculator).</param>
+  /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods.</param>
   /// <param name="modsHandle">The handle of the mods collection to consider.</param>
   /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
   [OsuNativeFunction]

@@ -21,4 +21,25 @@ internal struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes
   public int HitCircleCount = attributes.HitCircleCount;
   public int SliderCount = attributes.SliderCount;
   public int SpinnerCount = attributes.SpinnerCount;
+
+  public OsuDifficultyAttributes ToManaged()
+  {
+    return new OsuDifficultyAttributes()
+    {
+      StarRating = StarRating,
+      MaxCombo = MaxCombo,
+      AimDifficulty = AimDifficulty,
+      AimDifficultSliderCount = AimDifficultSliderCount,
+      SpeedDifficulty = SpeedDifficulty,
+      SpeedNoteCount = SpeedNoteCount,
+      FlashlightDifficulty = FlashlightDifficulty,
+      SliderFactor = SliderFactor,
+      AimDifficultStrainCount = AimDifficultStrainCount,
+      SpeedDifficultStrainCount = SpeedDifficultStrainCount,
+      DrainRate = DrainRate,
+      HitCircleCount = HitCircleCount,
+      SliderCount = SliderCount,
+      SpinnerCount = SpinnerCount
+    };
+  }
 }

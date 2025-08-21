@@ -5,7 +5,7 @@ using System.Text;
 
 unsafe
 {
-  Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\a.osu", out NativeBeatmap nativeBeatmap);
+  Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\test.osu", out NativeBeatmap nativeBeatmap);
   Console.WriteLine($"ID: {nativeBeatmap.Handle}");
   Console.WriteLine($"AR: {nativeBeatmap.ApproachRate}");
   Console.WriteLine($"HP: {nativeBeatmap.DrainRate}");
@@ -121,6 +121,30 @@ unsafe
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
   Console.WriteLine($"StarRating: {catchAttributes.StarRating}");
   Console.WriteLine($"Max Combo: {catchAttributes.MaxCombo}");
+
+  error = Native.OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+  NativeScore score = new()
+  {
+    ModsHandle = modsHandle,
+    MaxCombo = attributes.MaxCombo,
+    Accuracy = 1,
+    CountGreat = attributes.HitCircleCount + attributes.SliderCount + attributes.SpinnerCount,
+    CountSliderTailHit = attributes.SliderCount
+  };
+
+  error = Native.OsuPerformanceCalculator_Calculate(osuPerformanceCalculatorHandle, nativeRuleset.Handle, score, attributes, out NativeOsuPerformanceAttributes performanceAttributes);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+  Console.WriteLine($"Total: {performanceAttributes.Total}");
+  Console.WriteLine($"Aim: {performanceAttributes.Aim}");
+  Console.WriteLine($"Speed: {performanceAttributes.Speed}");
+  Console.WriteLine($"Accuracy: {performanceAttributes.Accuracy}");
+  Console.WriteLine($"Flashlight: {performanceAttributes.Flashlight}");
+  Console.WriteLine($"Effective Miss Count: {performanceAttributes.EffectiveMissCount}");
 }
 
 public struct NativeBeatmap
@@ -162,6 +186,31 @@ public struct NativeCatchDifficultyAttributes
 {
   public double StarRating;
   public int MaxCombo;
+}
+
+public struct NativeScore
+{
+  public int ModsHandle;
+  public int MaxCombo;
+  public double Accuracy;
+  public int CountMiss;
+  public int CountMeh;
+  public int CountOk;
+  public int CountGood;
+  public int CountGreat;
+  public int CountPerfect;
+  public int CountSliderTailHit;
+  public int CountLargeTickMiss;
+}
+
+public struct NativeOsuPerformanceAttributes
+{
+  public double Total;
+  public double Aim;
+  public double Speed;
+  public double Accuracy;
+  public double Flashlight;
+  public double EffectiveMissCount;
 }
 
 public static unsafe partial class Native
@@ -206,7 +255,7 @@ public static unsafe partial class Native
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
   public static partial sbyte ModsCollection_Debug(int modsHandle);
 
-  [LibraryImport( "C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
   public static partial sbyte OsuDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int osuDifficultyCalculatorHandle);
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
@@ -223,6 +272,12 @@ public static unsafe partial class Native
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
   public static partial sbyte CatchDifficultyCalculator_Calculate(int catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes attributes);
+
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+  public static partial sbyte OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
+
+  [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+  public static partial sbyte OsuPerformanceCalculator_Calculate(int osuPerformanceCalculatorHandle, int rulesetHandle, NativeScore score, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
 }
 
 [CustomMarshaller(typeof(string), MarshalMode.Default, typeof(Utf8NoFreeStringMarshaller))]
