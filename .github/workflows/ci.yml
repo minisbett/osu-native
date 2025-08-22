@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Select target platform"
+        required: true
+        type: choice
+        options:
+          - win-x86
+          - win-x64
+          - win-arm64
+          - linux-x64
+          - osx-x64
+          - osx-arm64
+
+jobs:
+  build:
+    name: Build (Native)
+    runs-on: ${{ matrix.config.runner }}
+    strategy:
+      matrix:
+        config:
+          - { runner: windows-latest, platform: win-x86,   ext: dll }
+          - { runner: windows-latest, platform: win-x64,   ext: dll }
+          - { runner: windows-latest, platform: win-arm64, ext: dll }
+          - { runner: ubuntu-latest,  platform: linux-x64, ext: so }
+          - { runner: macos-latest,   platform: osx-x64,   ext: dylib }
+          - { runner: macos-latest,   platform: osx-arm64, ext: dylib }
+
+    steps:
+      - name: Checkout
+        if: ${{ matrix.config.platform == inputs.platform }}
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        if: ${{ matrix.config.platform == inputs.platform }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Build
+        if: ${{ matrix.config.platform == inputs.platform }}
+        run: dotnet publish osu.Native -c Release -r ${{ matrix.config.platform }} -o artifacts
+
+      - name: Upload Artifacts
+        if: ${{ matrix.config.platform == inputs.platform }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.config.platform }}
+          path: artifacts/osu.Native.${{ matrix.config.ext }}
