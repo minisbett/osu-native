@@ -10,12 +10,12 @@ jobs:
     strategy:
       matrix:
         config:
-          - { runner: windows-latest, platform: win-x86,   ext: dll }
+          #- { runner: windows-latest, platform: win-x86,   ext: dll }
           - { runner: windows-latest, platform: win-x64,   ext: dll }
-          - { runner: windows-latest, platform: win-arm64, ext: dll }
+          #- { runner: windows-latest, platform: win-arm64, ext: dll }
           - { runner: ubuntu-latest,  platform: linux-x64, ext: so }
-          - { runner: macos-latest,   platform: osx-x64,   ext: dylib }
-          - { runner: macos-latest,   platform: osx-arm64, ext: dylib }
+          #- { runner: macos-latest,   platform: osx-x64,   ext: dylib }
+          #- { runner: macos-latest,   platform: osx-arm64, ext: dylib }
 
     steps:
       - name: Checkout
