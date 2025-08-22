@@ -1,4 +1,5 @@
-﻿using osu.Game.Rulesets.Taiko.Difficulty;
+﻿using osu.Game.Rulesets.Catch.Difficulty;
+using osu.Game.Rulesets.Taiko.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
@@ -17,4 +18,24 @@ internal struct NativeTaikoDifficultyAttributes(TaikoDifficultyAttributes attrib
   public double RhythmTopStrains = attributes.RhythmTopStrains;
   public double ColourTopStrains = attributes.ColourTopStrains;
   public double StaminaTopStrains = attributes.StaminaTopStrains;
+
+  /// <summary>
+  /// Converts the native difficulty attributes to a managed <see cref="TaikoDifficultyAttributes"/> instance.
+  /// </summary>
+  public TaikoDifficultyAttributes ToManaged()
+  {
+    return new TaikoDifficultyAttributes()
+    {
+      StarRating = StarRating,
+      MaxCombo = MaxCombo,
+      RhythmDifficulty = RhythmDifficulty,
+      ReadingDifficulty = ReadingDifficulty,
+      ColourDifficulty = ColourDifficulty,
+      StaminaDifficulty = StaminaDifficulty,
+      MonoStaminaFactor = MonoStaminaFactor,
+      RhythmTopStrains = RhythmTopStrains,
+      ColourTopStrains = ColourTopStrains,
+      StaminaTopStrains = StaminaTopStrains
+    };
+  }
 }

@@ -22,6 +22,9 @@ internal struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes
   public int SliderCount = attributes.SliderCount;
   public int SpinnerCount = attributes.SpinnerCount;
 
+  /// <summary>
+  /// Converts the native difficulty attributes to a managed <see cref="OsuDifficultyAttributes"/> instance.
+  /// </summary>
   public OsuDifficultyAttributes ToManaged()
   {
     return new OsuDifficultyAttributes()
