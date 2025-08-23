@@ -145,6 +145,10 @@ unsafe
   Console.WriteLine($"Accuracy: {performanceAttributes.Accuracy}");
   Console.WriteLine($"Flashlight: {performanceAttributes.Flashlight}");
   Console.WriteLine($"Effective Miss Count: {performanceAttributes.EffectiveMissCount}");
+  if(performanceAttributes.SpeedDeviation.HasValue)
+    Console.WriteLine($"Speed Deviation: {performanceAttributes.SpeedDeviation}");
+  else
+    Console.WriteLine("Speed Deviation: null");
 }
 
 public struct NativeBeatmap
@@ -211,6 +215,7 @@ public struct NativeOsuPerformanceAttributes
   public double Accuracy;
   public double Flashlight;
   public double EffectiveMissCount;
+  public double? SpeedDeviation;
 }
 
 public static unsafe partial class Native

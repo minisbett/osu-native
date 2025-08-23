@@ -13,4 +13,5 @@ internal struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attribut
   public double Accuracy = attributes.Accuracy;
   public double Flashlight = attributes.Flashlight;
   public double EffectiveMissCount = attributes.EffectiveMissCount;
+  public double? SpeedDeviation = null;
 }
