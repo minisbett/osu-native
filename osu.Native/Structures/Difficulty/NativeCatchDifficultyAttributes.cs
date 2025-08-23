@@ -19,7 +19,7 @@ internal struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attrib
     return new CatchDifficultyAttributes()
     {
       StarRating = StarRating,
-      MaxCombo = MaxCombo,
+      MaxCombo = MaxCombo
     };
   }
 }

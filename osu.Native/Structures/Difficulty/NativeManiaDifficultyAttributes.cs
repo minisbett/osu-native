@@ -19,7 +19,7 @@ internal struct NativeManiaDifficultyAttributes(ManiaDifficultyAttributes attrib
     return new ManiaDifficultyAttributes()
     {
       StarRating = StarRating,
-      MaxCombo = MaxCombo,
+      MaxCombo = MaxCombo
     };
   }
 }

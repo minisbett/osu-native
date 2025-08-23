@@ -92,23 +92,23 @@ unsafe
   Console.WriteLine($"Slider Count: {attributes.SliderCount}");
   Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
 
-  error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, nativeRuleset.Handle, modsHandle, out attributes);
+  error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, nativeRuleset.Handle, modsHandle, out NativeOsuDifficultyAttributes attributes2);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-  Console.WriteLine($"StarRating: {attributes.StarRating}");
-  Console.WriteLine($"Max Combo: {attributes.MaxCombo}");
-  Console.WriteLine($"Aim Difficulty: {attributes.AimDifficulty}");
-  Console.WriteLine($"Aim Difficult Slider Count: {attributes.AimDifficultSliderCount}");
-  Console.WriteLine($"Speed Difficulty: {attributes.SpeedDifficulty}");
-  Console.WriteLine($"Speed Note Count: {attributes.SpeedNoteCount}");
-  Console.WriteLine($"Flashlight Difficulty: {attributes.FlashlightDifficulty}");
-  Console.WriteLine($"Slider Factor: {attributes.SliderFactor}");
-  Console.WriteLine($"Aim Difficult Strain Count: {attributes.AimDifficultStrainCount}");
-  Console.WriteLine($"Speed Difficult Strain Count: {attributes.SpeedDifficultStrainCount}");
-  Console.WriteLine($"Drain Rate: {attributes.DrainRate}");
-  Console.WriteLine($"Hit Circle Count: {attributes.HitCircleCount}");
-  Console.WriteLine($"Slider Count: {attributes.SliderCount}");
-  Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
+  Console.WriteLine($"StarRating: {attributes2.StarRating}");
+  Console.WriteLine($"Max Combo: {attributes2.MaxCombo}");
+  Console.WriteLine($"Aim Difficulty: {attributes2.AimDifficulty}");
+  Console.WriteLine($"Aim Difficult Slider Count: {attributes2.AimDifficultSliderCount}");
+  Console.WriteLine($"Speed Difficulty: {attributes2.SpeedDifficulty}");
+  Console.WriteLine($"Speed Note Count: {attributes2.SpeedNoteCount}");
+  Console.WriteLine($"Flashlight Difficulty: {attributes2.FlashlightDifficulty}");
+  Console.WriteLine($"Slider Factor: {attributes2.SliderFactor}");
+  Console.WriteLine($"Aim Difficult Strain Count: {attributes2.AimDifficultStrainCount}");
+  Console.WriteLine($"Speed Difficult Strain Count: {attributes2.SpeedDifficultStrainCount}");
+  Console.WriteLine($"Drain Rate: {attributes2.DrainRate}");
+  Console.WriteLine($"Hit Circle Count: {attributes2.HitCircleCount}");
+  Console.WriteLine($"Slider Count: {attributes2.SliderCount}");
+  Console.WriteLine($"Spinner Count: {attributes2.SpinnerCount}");
 
   Native.Ruleset_CreateFromId(2, out NativeRuleset nativeRuleset2);
   Console.WriteLine($"Ruleset ID: {nativeRuleset2.RulesetId}");
@@ -125,6 +125,12 @@ unsafe
   error = Native.OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+  error = Native.ModsCollection_Remove(modsHandle, modHandle);
+  Console.WriteLine($"Error code: {error}");
+  Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+  Native.ModsCollection_Debug(modsHandle);
 
   NativeScore score = new()
   {
