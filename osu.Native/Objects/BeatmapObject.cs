@@ -13,6 +13,12 @@ namespace osu.Native.Objects;
 internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
 {
   /// <summary>
+  /// The online ID of the ruleset of the beatmap.
+  /// </summary>
+  [OsuNativeField]
+  private readonly int _rulesetId;
+
+  /// <summary>
   /// The approach rate (AR) of the beatmap.
   /// </summary>
   [OsuNativeField]
@@ -52,6 +58,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
   {
     return new()
     {
+      RulesetId = beatmap.BeatmapInfo.Ruleset.OnlineID,
       Handle = ManagedObjectRegistry.Register(beatmap),
       ApproachRate = beatmap.BeatmapInfo.Difficulty.ApproachRate,
       DrainRate = beatmap.BeatmapInfo.Difficulty.DrainRate,

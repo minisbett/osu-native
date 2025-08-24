@@ -7,6 +7,7 @@ unsafe
 {
   Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\test.osu", out NativeBeatmap nativeBeatmap);
   Console.WriteLine($"ID: {nativeBeatmap.Handle}");
+  Console.WriteLine($"Ruleset ID: {nativeBeatmap.RulesetId}");
   Console.WriteLine($"AR: {nativeBeatmap.ApproachRate}");
   Console.WriteLine($"HP: {nativeBeatmap.DrainRate}");
   Console.WriteLine($"OD: {nativeBeatmap.OverallDifficulty}");
@@ -135,10 +136,13 @@ unsafe
   NativeScore score = new()
   {
     ModsHandle = modsHandle,
-    MaxCombo = attributes.MaxCombo,
-    Accuracy = 1,
-    CountGreat = attributes.HitCircleCount + attributes.SliderCount + attributes.SpinnerCount,
-    CountSliderTailHit = attributes.SliderCount
+    MaxCombo = 342,
+    Accuracy = 0.9304,
+    CountGreat = 938,
+    CountOk = 37,
+    CountMeh = 2,
+    CountMiss = 53,
+    CountSliderTailHit = 299
   };
 
   error = Native.OsuPerformanceCalculator_Calculate(osuPerformanceCalculatorHandle, nativeRuleset.Handle, score, attributes, out NativeOsuPerformanceAttributes performanceAttributes);
@@ -160,6 +164,7 @@ unsafe
 public struct NativeBeatmap
 {
   public int Handle;
+  public int RulesetId;
   public float ApproachRate;
   public float DrainRate;
   public float OverallDifficulty;
