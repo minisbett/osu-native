@@ -1,4 +1,4 @@
-﻿using osu.Game.Online.API;
+﻿using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
@@ -10,8 +10,10 @@ namespace osu.Native.Structures;
 /// <summary>
 /// Holds all information about a score that are relevant for performance calculations.
 /// </summary>
-internal struct NativeScore
+internal struct NativeScoreInfo
 {
+  public ManagedObjectHandle<Ruleset> RulesetHandle;
+  public ManagedObjectHandle<FlatWorkingBeatmap> BeatmapHandle;
   public ManagedObjectHandle<ModsCollection> ModsHandle;
   public int MaxCombo;
   public double Accuracy;
@@ -27,14 +29,16 @@ internal struct NativeScore
   /// <summary>
   /// Constructs a <see cref="ScoreInfo"/> from the native score information.
   /// </summary>
-  /// <param name="ruleset">The ruleset instance used to convert the native mods to their managed implementation.</param>
   /// <returns>The constructed <see cref="ScoreInfo"/>.</returns>
-  public readonly ScoreInfo ToScoreInfo(Ruleset ruleset)
+  public readonly ScoreInfo ToScoreInfo()
   {
+    Ruleset ruleset = RulesetHandle.Resolve();
+    FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
     Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
     return new ScoreInfo
     {
+      BeatmapInfo = beatmap.BeatmapInfo,
       Mods = mods,
       MaxCombo = MaxCombo,
       Accuracy = Accuracy,

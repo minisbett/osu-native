@@ -31,19 +31,16 @@ internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<
   /// Calculates the performance attributes of the specified score, assuming the specified difficulty attributes.
   /// </summary>
   /// <param name="calcHandle">The handle of the performance calculator.</param>
-  /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods.</param>
-  /// <param name="nativeScore">The native score to calculate the performance of.</param>
+  /// <param name="nativeScoreInfo">The native score to calculate the performance of.</param>
   /// <param name="nativeDifficultyAttributes">The difficulty attributes to calculate the performance with.</param>
   /// <param name="nativeAttributesPtr">A pointer to write the resulting performance attributes to.</param>
   [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<OsuPerformanceCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                    NativeScore nativeScore, NativeOsuDifficultyAttributes nativeDifficultyAttributes,
-                                    NativeOsuPerformanceAttributes* nativeAttributesPtr)
+  public static ErrorCode Calculate(ManagedObjectHandle<OsuPerformanceCalculator> calcHandle, NativeScoreInfo nativeScoreInfo,
+                                    NativeOsuDifficultyAttributes nativeDifficultyAttributes, NativeOsuPerformanceAttributes* nativeAttributesPtr)
   {
     OsuPerformanceCalculator calculator = calcHandle.Resolve();
-    Ruleset ruleset = rulesetHandle.Resolve();
 
-    ScoreInfo scoreInfo = nativeScore.ToScoreInfo(ruleset);
+    ScoreInfo scoreInfo = nativeScoreInfo.ToScoreInfo();
 
     OsuDifficultyAttributes difficultyAttributes = nativeDifficultyAttributes.ToManaged();
     OsuPerformanceAttributes attributes = (OsuPerformanceAttributes)calculator.Calculate(scoreInfo, difficultyAttributes);

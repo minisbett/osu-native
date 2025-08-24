@@ -133,8 +133,10 @@ unsafe
 
   Native.ModsCollection_Debug(modsHandle);
 
-  NativeScore score = new()
+  NativeScoreInfo scoreInfo = new()
   {
+    RulesetHandle = nativeRuleset.Handle,
+    BeatmapHandle = nativeBeatmap.Handle,
     ModsHandle = modsHandle,
     MaxCombo = 342,
     Accuracy = 0.9304,
@@ -145,7 +147,7 @@ unsafe
     CountSliderTailHit = 299
   };
 
-  error = Native.OsuPerformanceCalculator_Calculate(osuPerformanceCalculatorHandle, nativeRuleset.Handle, score, attributes, out NativeOsuPerformanceAttributes performanceAttributes);
+  error = Native.OsuPerformanceCalculator_Calculate(osuPerformanceCalculatorHandle, scoreInfo, attributes, out NativeOsuPerformanceAttributes performanceAttributes);
   Console.WriteLine($"Error code: {error}");
   Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -203,8 +205,10 @@ public struct NativeCatchDifficultyAttributes
   public int MaxCombo;
 }
 
-public struct NativeScore
+public struct NativeScoreInfo
 {
+  public int RulesetHandle;
+  public int BeatmapHandle;
   public int ModsHandle;
   public int MaxCombo;
   public double Accuracy;
@@ -293,7 +297,7 @@ public static unsafe partial class Native
   public static partial sbyte OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
 
   [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native-new\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
-  public static partial sbyte OsuPerformanceCalculator_Calculate(int osuPerformanceCalculatorHandle, int rulesetHandle, NativeScore score, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
+  public static partial sbyte OsuPerformanceCalculator_Calculate(int osuPerformanceCalculatorHandle, NativeScoreInfo scoreInfo, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
 }
 
 [CustomMarshaller(typeof(string), MarshalMode.Default, typeof(Utf8NoFreeStringMarshaller))]
