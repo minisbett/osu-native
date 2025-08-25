@@ -77,7 +77,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                    
                    try
                    {
-                       ManagedObjectRegistry<{{managedObject}}>.Remove(handle);
+                       ManagedObjectStore<{{managedObject}}>.Remove(handle);
 
                        return ErrorCode.Success;
                    }
