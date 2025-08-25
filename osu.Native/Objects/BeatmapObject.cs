@@ -77,9 +77,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     [OsuNativeFunction]
     private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* nativeBeatmapPtr)
     {
-        string? filePath = Utf8StringMarshaller.ConvertToManaged(filePathPtr);
-        if (!File.Exists(filePath))
-            return ErrorCode.BeatmapFileNotFound;
+        string? filePath = Utf8StringMarshaller.ConvertToManaged(filePathPtr) ?? "";
 
         FlatWorkingBeatmap beatmap = new(filePath);
 

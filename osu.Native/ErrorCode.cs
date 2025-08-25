@@ -33,11 +33,6 @@ internal enum ErrorCode : sbyte
     UnexpectedRuleset = 3,
 
     /// <summary>
-    /// Indicates that the file in the scope of the operation was not found.
-    /// </summary>
-    BeatmapFileNotFound = 4,
-
-    /// <summary>
     /// Indicates an unspecific operation failure.
     /// </summary>
     Failure = 127
