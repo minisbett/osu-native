@@ -15,31 +15,31 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(context.CompilationProvider, static (spc, src) =>
         {
             List<DynamicDependency> dependencies = [
-          ..GetStaticDependencies(),
-        ..GetModDependencies(src)
-        ];
+                ..GetStaticDependencies(),
+                ..GetModDependencies(src)
+            ];
 
             string attributes = string.Join("\n", dependencies.Select(x =>
-          $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, \"{x.TypeName}\", \"{x.AssemblyName}\")]"));
+                  $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, \"{x.TypeName}\", \"{x.AssemblyName}\")]"));
 
             string source =
-          $$"""
-        using System.Reflection;
-        using System.Runtime.CompilerServices;
-        using System.Diagnostics.CodeAnalysis;
+              $$"""
+              using System.Reflection;
+              using System.Runtime.CompilerServices;
+              using System.Diagnostics.CodeAnalysis;
 
-        namespace osu.Native.Compiler;
+              namespace osu.Native.Compiler;
 
-        internal static class DynamicDependencies
-        {
-          [ModuleInitializer]
-          {{attributes}}
-          public static void Initialize()
-          {
-            Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
-          }
-        }
-        """;
+              internal static class DynamicDependencies
+              {
+                  [ModuleInitializer]
+                  {{attributes}}
+                  public static void Initialize()
+                  {
+                      Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
+                  }
+              }
+              """;
 
             source = CSharpSyntaxTree.ParseText(source).GetRoot().NormalizeWhitespace().ToFullString();
             spc.AddSource("DynamicDependencies.g.cs", source);
@@ -57,22 +57,22 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
     private static IEnumerable<DynamicDependency> GetModDependencies(Compilation compilation)
     {
         (string Assembly, string Namespace)[] modNamespaces = [
-          ("osu.Game", "osu.Game.Rulesets.Mods"),
-      ("osu.Game.Rulesets.Osu", "osu.Game.Rulesets.Osu.Mods"),
-      ("osu.Game.Rulesets.Taiko", "osu.Game.Rulesets.Taiko.Mods"),
-      ("osu.Game.Rulesets.Catch", "osu.Game.Rulesets.Catch.Mods"),
-      ("osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods")
+            ("osu.Game", "osu.Game.Rulesets.Mods"),
+            ("osu.Game.Rulesets.Osu", "osu.Game.Rulesets.Osu.Mods"),
+            ("osu.Game.Rulesets.Taiko", "osu.Game.Rulesets.Taiko.Mods"),
+            ("osu.Game.Rulesets.Catch", "osu.Game.Rulesets.Catch.Mods"),
+            ("osu.Game.Rulesets.Mania", "osu.Game.Rulesets.Mania.Mods")
         ];
 
         foreach ((string assembly, string ns) in modNamespaces)
             foreach (INamedTypeSymbol type in GetTypesInNamespace(compilation, assembly, ns))
             {
                 string name = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
-                  .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted) // global::Foo
-                  .WithGenericsOptions(SymbolDisplayGenericsOptions.None)); // Foo<T>
+                  .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted) // global::Foo<T> -> Foo<T>
+                  .WithGenericsOptions(SymbolDisplayGenericsOptions.None)); // Foo<T> -> Foo
 
                 if (type.IsGenericType)
-                    name += $"`{type.TypeParameters.Length}"; // Foo`1
+                    name += $"`{type.TypeParameters.Length}"; // Foo -> Foo`1
 
                 yield return (DynamicallyAccessedMemberTypes.PublicProperties, name, assembly);
             }

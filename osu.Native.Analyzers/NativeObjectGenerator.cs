@@ -33,15 +33,15 @@ public class NativeObjectGenerator : IIncrementalGenerator
                 if (managedObjectSymbol is null)
                     continue;
 
-                List<string> nativeMethods = [];
+                List<IMethodSymbol> nativeMethods = [];
                 foreach (IMethodSymbol method in @class.GetMembers().OfType<IMethodSymbol>())
                     if (method.IsStatic && method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
-                        nativeMethods.Add(GetNativeMethodSource(@class, method));
+                        nativeMethods.Add(method);
 
-                List<string> nativeFields = [];
+                List<IFieldSymbol> nativeFields = [];
                 foreach (IFieldSymbol field in @class.GetMembers().OfType<IFieldSymbol>())
                     if (field.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFieldSymbol, SymbolEqualityComparer.Default)))
-                        nativeFields.Add(GetNativeFieldSource(field));
+                        nativeFields.Add(field);
 
                 string code = GetNativeObjectSource(@class, managedObjectSymbol, nativeMethods, nativeFields);
 
@@ -51,33 +51,32 @@ public class NativeObjectGenerator : IIncrementalGenerator
         });
     }
 
-    private static string GetNativeObjectSource(INamedTypeSymbol @class, ITypeSymbol managedObject, IEnumerable<string> nativeMethods, IEnumerable<string> nativeFields)
+    private static string GetNativeObjectSource(INamedTypeSymbol classSymbol, ITypeSymbol managedObject, IEnumerable<IMethodSymbol> nativeMethods, IEnumerable<IFieldSymbol> nativeFields)
     {
-        string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
+        string objectName = classSymbol.Name.EndsWith("Object") ? classSymbol.Name.Substring(0, classSymbol.Name.Length - 6) : classSymbol.Name;
+
+        string fieldSource = string.Join("\n\n", nativeFields.Select(GetNativeFieldSource));
+        string methodSource = string.Join("\n\n", nativeMethods.Select(m => GetNativeMethodSource(classSymbol, m)));
 
         return $$"""
            using System.Runtime.InteropServices;
            using System.Runtime.CompilerServices;
 
-           namespace {{@class.ContainingNamespace}};
+           namespace {{classSymbol.ContainingNamespace}};
            
            [CompilerGenerated]
-           internal unsafe partial class {{@class.Name}}
+           internal unsafe partial class {{classSymbol.Name}}
            {
-               {{string.Join("\n\n", nativeMethods)}}
+               {{methodSource}}
 
                [CompilerGenerated]
-               [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-               private static ErrorCode {{nativeObjectName}}_Destroy(ManagedObjectHandle<{{managedObject}}> handle)
+               [UnmanagedCallersOnly(EntryPoint = "{{objectName}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
+               private static ErrorCode {{objectName}}_Destroy(ManagedObjectHandle<{{managedObject}}> handle)
                {
                    ErrorHandler.SetLastMessage(null);
                    
                    try
                    {
-                       {{managedObject}} managedObj = handle.Resolve();
-                       if (managedObj is IDisposable disposable)
-                           disposable.Dispose();
-
                        ManagedObjectRegistry<{{managedObject}}>.Remove(handle);
 
                        return ErrorCode.Success;
@@ -90,32 +89,31 @@ public class NativeObjectGenerator : IIncrementalGenerator
            }
            
            [CompilerGenerated]
-           internal unsafe struct Native{{nativeObjectName}}
+           internal unsafe struct Native{{objectName}}
            {
                [CompilerGenerated]
                public required ManagedObjectHandle<{{managedObject}}> Handle;
 
-               {{string.Join("\n\n", nativeFields)}}
+               {{fieldSource}}
            }
            """;
     }
 
-    private static string GetNativeMethodSource(INamedTypeSymbol @class, IMethodSymbol method)
+    private static string GetNativeMethodSource(INamedTypeSymbol classSymbol, IMethodSymbol method)
     {
-        string nativeObjectName = @class.Name.EndsWith("Object") ? @class.Name.Substring(0, @class.Name.Length - 6) : @class.Name;
+        string objectName = classSymbol.Name.EndsWith("Object") ? classSymbol.Name.Substring(0, classSymbol.Name.Length - 6) : classSymbol.Name;
         string parameters = string.Join(", ", method.Parameters.Select(p => $"{p.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)} {p.Name}"));
-        string methodCall = $"{@class}.{method.Name}({string.Join(", ", method.Parameters.Select(p => p.Name))})";
 
         return $$"""
            [CompilerGenerated]
-           [UnmanagedCallersOnly(EntryPoint = "{{nativeObjectName}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
-           private static ErrorCode {{nativeObjectName}}_{{method.Name}}({{parameters}})
+           [UnmanagedCallersOnly(EntryPoint = "{{objectName}}_{{method.Name}}", CallConvs = [typeof(CallConvCdecl)])]
+           private static ErrorCode {{objectName}}_{{method.Name}}({{parameters}})
            {
              ErrorHandler.SetLastMessage(null);
 
              try
              {
-               return {{methodCall}};
+               return {{classSymbol}}.{{method.Name}}({{string.Join(", ", method.Parameters.Select(p => p.Name))}});
              }
              catch (Exception ex)
              {
