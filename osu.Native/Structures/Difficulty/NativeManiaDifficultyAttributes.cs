@@ -1,5 +1,4 @@
-﻿using osu.Game.Rulesets.Catch.Difficulty;
-using osu.Game.Rulesets.Mania.Difficulty;
+﻿using osu.Game.Rulesets.Mania.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
@@ -8,18 +7,18 @@ namespace osu.Native.Structures.Difficulty;
 /// </summary>
 internal struct NativeManiaDifficultyAttributes(ManiaDifficultyAttributes attributes)
 {
-  public double StarRating = attributes.StarRating;
-  public int MaxCombo = attributes.MaxCombo;
+    public double StarRating = attributes.StarRating;
+    public int MaxCombo = attributes.MaxCombo;
 
-  /// <summary>
-  /// Converts the native difficulty attributes to a managed <see cref="ManiaDifficultyAttributes"/> instance.
-  /// </summary>
-  public ManiaDifficultyAttributes ToManaged()
-  {
-    return new ManiaDifficultyAttributes()
+    /// <summary>
+    /// Converts the native difficulty attributes to a managed <see cref="ManiaDifficultyAttributes"/> instance.
+    /// </summary>
+    public ManiaDifficultyAttributes ToManaged()
     {
-      StarRating = StarRating,
-      MaxCombo = MaxCombo
-    };
-  }
+        return new ManiaDifficultyAttributes()
+        {
+            StarRating = StarRating,
+            MaxCombo = MaxCombo
+        };
+    }
 }

@@ -12,37 +12,37 @@ namespace osu.Native.Structures;
 /// </summary>
 internal struct NativeScoreInfo
 {
-  public ManagedObjectHandle<Ruleset> RulesetHandle;
-  public ManagedObjectHandle<FlatWorkingBeatmap> BeatmapHandle;
-  public ManagedObjectHandle<ModsCollection> ModsHandle;
-  public int MaxCombo;
-  public double Accuracy;
-  public int CountMiss;
-  public int CountMeh;
-  public int CountOk;
-  public int CountGood;
-  public int CountGreat;
-  public int CountPerfect;
-  public int CountSliderTailHit;
-  public int CountLargeTickMiss;
+    public ManagedObjectHandle<Ruleset> RulesetHandle;
+    public ManagedObjectHandle<FlatWorkingBeatmap> BeatmapHandle;
+    public ManagedObjectHandle<ModsCollection> ModsHandle;
+    public int MaxCombo;
+    public double Accuracy;
+    public int CountMiss;
+    public int CountMeh;
+    public int CountOk;
+    public int CountGood;
+    public int CountGreat;
+    public int CountPerfect;
+    public int CountSliderTailHit;
+    public int CountLargeTickMiss;
 
-  /// <summary>
-  /// Constructs a <see cref="ScoreInfo"/> from the native score information.
-  /// </summary>
-  /// <returns>The constructed <see cref="ScoreInfo"/>.</returns>
-  public readonly ScoreInfo ToScoreInfo()
-  {
-    Ruleset ruleset = RulesetHandle.Resolve();
-    FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
-    Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
-
-    return new ScoreInfo
+    /// <summary>
+    /// Constructs a <see cref="ScoreInfo"/> from the native score information.
+    /// </summary>
+    /// <returns>The constructed <see cref="ScoreInfo"/>.</returns>
+    public readonly ScoreInfo ToScoreInfo()
     {
-      BeatmapInfo = beatmap.BeatmapInfo,
-      Mods = mods,
-      MaxCombo = MaxCombo,
-      Accuracy = Accuracy,
-      Statistics =
+        Ruleset ruleset = RulesetHandle.Resolve();
+        FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
+        Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
+
+        return new ScoreInfo
+        {
+            BeatmapInfo = beatmap.BeatmapInfo,
+            Mods = mods,
+            MaxCombo = MaxCombo,
+            Accuracy = Accuracy,
+            Statistics =
       {
         [HitResult.Miss] = CountMiss,
         [HitResult.Meh] = CountMeh,
@@ -53,6 +53,6 @@ internal struct NativeScoreInfo
         [HitResult.SliderTailHit] = CountSliderTailHit,
         [HitResult.LargeTickMiss] = CountLargeTickMiss
       }
-    };
-  }
+        };
+    }
 }

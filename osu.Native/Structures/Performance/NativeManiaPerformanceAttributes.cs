@@ -7,6 +7,6 @@ namespace osu.Native.Structures.Performance;
 /// </summary>
 internal struct NativeManiaPerformanceAttributes(ManiaPerformanceAttributes attributes)
 {
-  public double Total = attributes.Total;
-  public double Difficulty = attributes.Difficulty;
+    public double Total = attributes.Total;
+    public double Difficulty = attributes.Difficulty;
 }

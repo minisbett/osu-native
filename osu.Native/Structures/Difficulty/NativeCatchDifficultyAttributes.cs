@@ -1,5 +1,4 @@
 ﻿using osu.Game.Rulesets.Catch.Difficulty;
-using osu.Game.Rulesets.Osu.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
@@ -8,18 +7,18 @@ namespace osu.Native.Structures.Difficulty;
 /// </summary>
 internal struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attributes)
 {
-  public double StarRating = attributes.StarRating;
-  public int MaxCombo = attributes.MaxCombo;
+    public double StarRating = attributes.StarRating;
+    public int MaxCombo = attributes.MaxCombo;
 
-  /// <summary>
-  /// Converts the native difficulty attributes to a managed <see cref="CatchDifficultyAttributes"/> instance.
-  /// </summary>
-  public CatchDifficultyAttributes ToManaged()
-  {
-    return new CatchDifficultyAttributes()
+    /// <summary>
+    /// Converts the native difficulty attributes to a managed <see cref="CatchDifficultyAttributes"/> instance.
+    /// </summary>
+    public CatchDifficultyAttributes ToManaged()
     {
-      StarRating = StarRating,
-      MaxCombo = MaxCombo
-    };
-  }
+        return new CatchDifficultyAttributes()
+        {
+            StarRating = StarRating,
+            MaxCombo = MaxCombo
+        };
+    }
 }

@@ -1,8 +1,6 @@
 ﻿using osu.Game.Beatmaps;
-using osu.Game.Online.API;
 using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
-using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Native.Compiler;
@@ -15,67 +13,67 @@ namespace osu.Native.Objects;
 /// </summary>
 internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject<TaikoDifficultyCalculator>
 {
-  /// <summary>
-  /// Creates an instance of a <see cref="TaikoDifficultyCalculator"/> for the specified ruleset and beatmap.
-  /// </summary>
-  /// <param name="rulesetHandle">The handle of the ruleset passed into the difficulty calculator.</param>
-  /// <param name="beatmapHandle">The handle of the beatmap the difficulty calculator targets.</param>
-  /// <param name="nativeTaikoDifficultyCalculatorPtr">A pointer to write the resulting native difficulty calculator object to.</param>
-  [OsuNativeFunction]
-  public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
-                                 NativeTaikoDifficultyCalculator* nativeTaikoDifficultyCalculatorPtr)
-  {
-    Ruleset ruleset = rulesetHandle.Resolve();
-    FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
+    /// <summary>
+    /// Creates an instance of a <see cref="TaikoDifficultyCalculator"/> for the specified ruleset and beatmap.
+    /// </summary>
+    /// <param name="rulesetHandle">The handle of the ruleset passed into the difficulty calculator.</param>
+    /// <param name="beatmapHandle">The handle of the beatmap the difficulty calculator targets.</param>
+    /// <param name="nativeTaikoDifficultyCalculatorPtr">A pointer to write the resulting native difficulty calculator object to.</param>
+    [OsuNativeFunction]
+    public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
+                                   NativeTaikoDifficultyCalculator* nativeTaikoDifficultyCalculatorPtr)
+    {
+        Ruleset ruleset = rulesetHandle.Resolve();
+        FlatWorkingBeatmap beatmap = beatmapHandle.Resolve();
 
-    if (ruleset is not TaikoRuleset)
-      return ErrorCode.UnexpectedRuleset;
+        if (ruleset is not TaikoRuleset)
+            return ErrorCode.UnexpectedRuleset;
 
-    TaikoDifficultyCalculator calculator = (TaikoDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
+        TaikoDifficultyCalculator calculator = (TaikoDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
 
-    *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
+        *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
-    return ErrorCode.Success;
-  }
+        return ErrorCode.Success;
+    }
 
-  /// <summary>
-  /// Calculates the difficulty attributes of the beatmap targetted by the specified difficulty calculator.
-  /// </summary>
-  /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-  /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
-  [OsuNativeFunction]
-  public static ErrorCode Calculate(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
-  {
-    Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
+    /// <summary>
+    /// Calculates the difficulty attributes of the beatmap targetted by the specified difficulty calculator.
+    /// </summary>
+    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
+    [OsuNativeFunction]
+    public static ErrorCode Calculate(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    {
+        Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
-    return ErrorCode.Success;
-  }
+        return ErrorCode.Success;
+    }
 
-  /// <summary>
-  /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
-  /// </summary>
-  /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-  /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods.</param>
-  /// <param name="modsHandle">The handle of the mods collection to consider.</param>
-  /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
-  [OsuNativeFunction]
-  public static ErrorCode CalculateMods(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                        ManagedObjectHandle<ModsCollection> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
-  {
-    Ruleset ruleset = rulesetHandle.Resolve();
+    /// <summary>
+    /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
+    /// </summary>
+    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods.</param>
+    /// <param name="modsHandle">The handle of the mods collection to consider.</param>
+    /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
+    [OsuNativeFunction]
+    public static ErrorCode CalculateMods(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
+                                          ManagedObjectHandle<ModsCollection> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    {
+        Ruleset ruleset = rulesetHandle.Resolve();
 
-    if (ruleset is not TaikoRuleset)
-      return ErrorCode.UnexpectedRuleset;
+        if (ruleset is not TaikoRuleset)
+            return ErrorCode.UnexpectedRuleset;
 
-    Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
-    Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
+        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
+        Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
-    return ErrorCode.Success;
-  }
+        return ErrorCode.Success;
+    }
 
-  private static void Calculate(TaikoDifficultyCalculator calculator, Mod[] mods, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
-  {
-    TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)calculator.Calculate(mods);
-    *nativeAttributesPtr = new NativeTaikoDifficultyAttributes(attributes);
-  }
+    private static void Calculate(TaikoDifficultyCalculator calculator, Mod[] mods, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    {
+        TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)calculator.Calculate(mods);
+        *nativeAttributesPtr = new NativeTaikoDifficultyAttributes(attributes);
+    }
 }

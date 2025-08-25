@@ -7,5 +7,5 @@ namespace osu.Native.Structures.Performance;
 /// </summary>
 internal struct NativeCatchPerformanceAttributes(CatchPerformanceAttributes attributes)
 {
-  public double Total = attributes.Total;
+    public double Total = attributes.Total;
 }
