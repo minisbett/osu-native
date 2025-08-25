@@ -33,7 +33,7 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
 
     TaikoDifficultyCalculator calculator = (TaikoDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
 
-    *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeTaikoDifficultyCalculatorPtr = new NativeTaikoDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

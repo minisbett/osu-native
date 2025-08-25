@@ -21,7 +21,7 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
   {
     return new()
     {
-      Handle = ManagedObjectRegistry.Register(ruleset.CreateInstance()),
+      Handle = ManagedObjectStore.Store(ruleset.CreateInstance()),
       RulesetId = ruleset.OnlineID
     };
   }

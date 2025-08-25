@@ -22,7 +22,7 @@ internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObjec
   {
     TaikoPerformanceCalculator calculator = new();
 
-    *nativeTaikoPerformanceCalculatorPtr = new NativeTaikoPerformanceCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeTaikoPerformanceCalculatorPtr = new NativeTaikoPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

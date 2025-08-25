@@ -3,20 +3,20 @@
 namespace osu.Native.Objects;
 
 /// <summary>
-/// A type-specific registry for storing managed objects associated with a handle.
+/// A type-specific store for managed objects associated with a handle.
 /// </summary>
-/// <typeparam name="T">The managed type of the registry.</typeparam>
-internal static class ManagedObjectRegistry<T> where T : notnull
+/// <typeparam name="T">The managed type of the store.</typeparam>
+internal static class ManagedObjectStore<T> where T : notnull
 {
   private static readonly ConcurrentDictionary<int, T> _objects = [];
   private static int _nextId = 0;
 
   /// <summary>
-  /// Registers the managed object and returns a handle for it.
+  /// Stores the managed object and returns a handle for it.
   /// </summary>
   /// <param name="obj">The object.</param>
   /// <returns>The handle of the object.</returns>
-  public static ManagedObjectHandle<T> Register(T obj)
+  public static ManagedObjectHandle<T> Store(T obj)
   {
     int objectId = Interlocked.Increment(ref _nextId);
     _objects[objectId] = obj;
@@ -26,7 +26,7 @@ internal static class ManagedObjectRegistry<T> where T : notnull
   /// <summary>
   /// Returns the managed object associated with the specified handle.
   /// </summary>
-  /// <param name="objectId">The object handle.</param>
+  /// <param name="handle">The object handle.</param>
   /// <returns>The associated managed object.</returns>
   public static T Get(ManagedObjectHandle<T> handle)
   {
@@ -37,7 +37,7 @@ internal static class ManagedObjectRegistry<T> where T : notnull
   }
 
   /// <summary>
-  /// Removes the object associated with the specified handle from the registry.
+  /// Removes the object associated with the specified handle from the store.
   /// </summary>
   /// <param name="objectId">The object ID.</param>
   public static void Remove(ManagedObjectHandle<T> handle)
@@ -47,27 +47,27 @@ internal static class ManagedObjectRegistry<T> where T : notnull
 }
 
 /// <summary>
-/// Helper class for calling <see cref="ManagedObjectRegistry{T}.Register(T)"/>. 
+/// Helper class for calling <see cref="ManagedObjectStore{T}.Store(T)"/>. 
 /// </summary>
-internal static class ManagedObjectRegistry
+internal static class ManagedObjectStore
 {
   /// <summary>
-  /// Registers the managed object and returns a handle for it.
+  /// Stores the managed object and returns a handle for it.
   /// </summary>
   /// <param name="obj">The object.</param>
   /// <returns>The handle of the object.</returns>
-  public static ManagedObjectHandle<T> Register<T>(T obj) where T : notnull => ManagedObjectRegistry<T>.Register(obj);
+  public static ManagedObjectHandle<T> Store<T>(T obj) where T : notnull => ManagedObjectStore<T>.Store(obj);
 }
 
 /// <summary>
-/// Represents a handle to a managed object, containing the associated object ID assigned by the <see cref="ManagedObjectRegistry{T}"/>.
+/// Represents a handle to a managed object, containing the associated object ID assigned by the <see cref="ManagedObjectStore{T}"/>.
 /// </summary>
 /// <typeparam name="T">The managed type.</typeparam>
 /// <param name="objectId">The ID associated with the managed object.</param>
 internal struct ManagedObjectHandle<T>(int objectId) where T : notnull
 {
   /// <summary>
-  /// The ID of the managed object assigned by the <see cref="ManagedObjectRegistry{T}"/>.
+  /// The ID of the managed object assigned by the <see cref="ManagedObjectStore{T}"/>.
   /// </summary>
   public int Id = objectId;
 
@@ -75,10 +75,10 @@ internal struct ManagedObjectHandle<T>(int objectId) where T : notnull
   /// Resolves the managed object handle into the actual managed object.
   /// </summary>
   /// <returns></returns>
-  public readonly T Resolve() => ManagedObjectRegistry<T>.Get(this);
+  public readonly T Resolve() => ManagedObjectStore<T>.Get(this);
 }
 
 /// <summary>
-/// Exception thrown when an object with the specified ID is not found in the container.
+/// Exception thrown when an object is not found in the store.
 /// </summary>
 internal class ObjectNotFoundException(Type type, int id) : Exception($"No '{type.Name}' with ID '{id}' found.");

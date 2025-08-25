@@ -32,7 +32,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
 
     OsuDifficultyCalculator calculator = (OsuDifficultyCalculator) ruleset.CreateDifficultyCalculator(beatmap);
 
-    *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeOsuDifficultyCalculatorPtr = new NativeOsuDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

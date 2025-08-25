@@ -22,7 +22,7 @@ internal unsafe partial class CatchPerformanceCalculatorObject : IOsuNativeObjec
   {
     CatchPerformanceCalculator calculator = new();
 
-    *nativeCatchPerformanceCalculatorPtr = new NativeCatchPerformanceCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeCatchPerformanceCalculatorPtr = new NativeCatchPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

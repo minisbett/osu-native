@@ -31,7 +31,7 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
 
     ManiaDifficultyCalculator calculator = (ManiaDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
 
-    *nativeManiaDifficultyCalculatorPtr = new NativeManiaDifficultyCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeManiaDifficultyCalculatorPtr = new NativeManiaDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

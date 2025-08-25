@@ -22,7 +22,7 @@ internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<
   {
     OsuPerformanceCalculator calculator = new();
 
-    *nativeOsuPerformanceCalculatorPtr = new NativeOsuPerformanceCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeOsuPerformanceCalculatorPtr = new NativeOsuPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

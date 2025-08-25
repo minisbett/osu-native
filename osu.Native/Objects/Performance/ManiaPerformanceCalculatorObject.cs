@@ -22,7 +22,7 @@ internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObjec
   {
     ManiaPerformanceCalculator calculator = new();
 
-    *nativeManiaPerformanceCalculatorPtr = new NativeManiaPerformanceCalculator { Handle = ManagedObjectRegistry.Register(calculator) };
+    *nativeManiaPerformanceCalculatorPtr = new NativeManiaPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
     return ErrorCode.Success;
   }

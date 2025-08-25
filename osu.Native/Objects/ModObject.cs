@@ -20,7 +20,7 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
   {
     string acronym = Utf8StringMarshaller.ConvertToManaged(acronymPtr) ?? "";
 
-    *nativeModPtr = new NativeMod { Handle = ManagedObjectRegistry.Register(new APIMod() { Acronym = acronym }) };
+    *nativeModPtr = new NativeMod { Handle = ManagedObjectStore.Store(new APIMod() { Acronym = acronym }) };
 
     return ErrorCode.Success;
   }
