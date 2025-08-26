@@ -1,0 +1,40 @@
+﻿<linker>
+  <assembly fullname="osu.Framework">
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-RegularItalic_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular.bin" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold.bin" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular.bin" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold.bin" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_1.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_2.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_3.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_1.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_0.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_1.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_2.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_3.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_4.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_5.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_6.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_6.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_7.png" action="remove" />
+    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_8.png" action="remove" />
+  </assembly>
+  <assembly fullname="osu.Game.Rulesets.Taiko">
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitwhistle.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitwhistle.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitclap.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitclap.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitfinish.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitfinish.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitnormal.wav" action="remove" />
+    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitnormal.wav" action="remove" />
+  </assembly>
+</linker>

@@ -3,17 +3,27 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <PublishAot>true</PublishAot>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
+    <Nullable>enable</Nullable>
+    
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+    <!-- NativeAOT configuration -->
+    <PublishAot>true</PublishAot>
+    <OptimizationPreference>Size</OptimizationPreference>
+    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault> <!-- saves 2.2mb huh -->
 
     <!-- Generate information for sizoscope -->
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
   </PropertyGroup>
+
+  <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
+       therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
+  <ItemGroup>
+    <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\osu.Native.Analyzers\osu.Native.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
