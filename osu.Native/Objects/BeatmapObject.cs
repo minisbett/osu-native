@@ -65,7 +65,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
             OverallDifficulty = beatmap.BeatmapInfo.Difficulty.OverallDifficulty,
             CircleSize = beatmap.BeatmapInfo.Difficulty.CircleSize,
             SliderMultiplier = beatmap.BeatmapInfo.Difficulty.SliderMultiplier,
-            SliderTickRate = beatmap.BeatmapInfo.Difficulty.SliderTickRate,
+            SliderTickRate = beatmap.BeatmapInfo.Difficulty.SliderTickRate
         };
     }
 

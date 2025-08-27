@@ -4,3 +4,5 @@ root = true
 indent_style = space
 indent_size = 4
 tab_width = 4
+
+dotnet_diagnostic.CS8500.severity = error
