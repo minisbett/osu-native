@@ -15,7 +15,6 @@ public class NativeObjectGenerator : IIncrementalGenerator
         predicate: static (s, _) => s is ClassDeclarationSyntax,
         transform: static (ctx, _) => (ClassDeclarationSyntax)ctx.Node);
 
-
         IncrementalValueProvider<(Compilation Left, System.Collections.Immutable.ImmutableArray<ClassDeclarationSyntax> Right)> source = context.CompilationProvider.Combine(classes.Collect());
 
         context.RegisterSourceOutput(source, static (ctx, source) =>
