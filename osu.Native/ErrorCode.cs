@@ -4,7 +4,7 @@
 /// Contains all error codes that can be returned from unmanaged functions.<br/>
 /// <![CDATA[< 0 = special codes, 0 = success, > 0 = error]]>
 /// </summary>
-internal enum ErrorCode : sbyte
+public enum ErrorCode : sbyte
 {
     /// <summary>
     /// Indicates that the required size of a buffer was queried.

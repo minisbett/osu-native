@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <ArtifactsPath>$(MSBuildThisFileDirectory)Artifacts/</ArtifactsPath>
+    <OsuNativeArtifactPath>$(ArtifactsPath)publish/osu.Native/release/</OsuNativeArtifactPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.dylib" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.dylib')"/>
+    <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.dll" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.dll')"/>
+    <OsuNativeArtifact Include="$(OsuNativeArtifactPath)osu.Native.so" Condition="Exists('$(OsuNativeArtifactPath)osu.Native.so')"/>
+  </ItemGroup>
+</Project>

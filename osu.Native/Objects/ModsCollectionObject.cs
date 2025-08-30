@@ -73,4 +73,4 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<ModsCollec
 /// <summary>
 /// Represents a managed collection of <see cref="APIMod"/>.
 /// </summary>
-internal class ModsCollection : List<APIMod>;
+public class ModsCollection : List<APIMod>;

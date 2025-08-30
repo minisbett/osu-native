@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Analyzers", "osu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Tests", "osu.Native.Tests\osu.Native.Tests.csproj", "{65DEAEC5-1FD2-41D5-9DBE-A8D3A6C3DD81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{84D27F74-D2BA-6C25-2661-968F101900D9}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +34,15 @@ Global
 		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65DEAEC5-1FD2-41D5-9DBE-A8D3A6C3DD81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65DEAEC5-1FD2-41D5-9DBE-A8D3A6C3DD81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65DEAEC5-1FD2-41D5-9DBE-A8D3A6C3DD81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65DEAEC5-1FD2-41D5-9DBE-A8D3A6C3DD81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {586EE53A-10FB-4AE9-84FB-7316BD3EE9C5}
 	EndGlobalSection
 EndGlobal

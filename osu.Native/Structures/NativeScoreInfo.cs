@@ -10,7 +10,7 @@ namespace osu.Native.Structures;
 /// <summary>
 /// Holds all information about a score that are relevant for performance calculations.
 /// </summary>
-internal struct NativeScoreInfo
+public struct NativeScoreInfo
 {
     public ManagedObjectHandle<Ruleset> RulesetHandle;
     public ManagedObjectHandle<FlatWorkingBeatmap> BeatmapHandle;

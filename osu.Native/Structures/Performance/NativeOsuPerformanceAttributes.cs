@@ -5,7 +5,7 @@ namespace osu.Native.Structures.Performance;
 /// <summary>
 /// Represents the Osu performance attributes (<see cref="OsuPerformanceAttributes"/>) on the native layer.
 /// </summary>
-internal struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attributes)
+public struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attributes)
 {
     public double Total = attributes.Total;
     public double Aim = attributes.Aim;

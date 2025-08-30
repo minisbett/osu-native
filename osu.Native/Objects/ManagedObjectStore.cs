@@ -64,7 +64,7 @@ internal static class ManagedObjectStore
 /// </summary>
 /// <typeparam name="T">The managed type.</typeparam>
 /// <param name="objectId">The ID associated with the managed object.</param>
-internal struct ManagedObjectHandle<T>(int objectId) where T : notnull
+public struct ManagedObjectHandle<T>(int objectId) where T : notnull
 {
     /// <summary>
     /// The ID of the managed object assigned by the <see cref="ManagedObjectStore{T}"/>.

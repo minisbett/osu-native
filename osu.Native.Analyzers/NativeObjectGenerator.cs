@@ -88,7 +88,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
            }
            
            [CompilerGenerated]
-           internal unsafe struct Native{{objectName}}
+           public unsafe struct Native{{objectName}}
            {
                [CompilerGenerated]
                public required ManagedObjectHandle<{{managedObject}}> Handle;
