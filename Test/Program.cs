@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
+using Test;
 
+//OsuDifficultyBenchmark.Main(args);
 
 unsafe
 {
@@ -161,6 +163,10 @@ unsafe
         Console.WriteLine($"Speed Deviation: {performanceAttributes.SpeedDeviation}");
     else
         Console.WriteLine("Speed Deviation: null");
+
+    Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out NativeBeatmap b);
+    Native.Ruleset_CreateFromId(0, out NativeRuleset r);
+    Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out int d);
 }
 
 public struct NativeBeatmap
