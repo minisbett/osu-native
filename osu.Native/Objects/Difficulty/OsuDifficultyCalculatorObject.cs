@@ -1,5 +1,6 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
+using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Osu;
 using osu.Game.Rulesets.Osu.Difficulty;
@@ -69,6 +70,26 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
         Calculate(calcHandle.Resolve(), mods, nativeAttributesPtr);
 
         return ErrorCode.Success;
+    }
+
+    /// <summary>
+    /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
+    /// </summary>
+    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
+    /// <param name="bufferSize">The size of the provided buffer.</param>
+    /// <returns></returns>
+    [OsuNativeFunction]
+    public static ErrorCode CalculateTimed(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle,
+                                           NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    {
+        OsuDifficultyCalculator calculator = calcHandle.Resolve();
+
+        List<TimedDifficultyAttributes> attributes = calculator.CalculateTimed();
+        NativeTimedOsuDifficultyAttributes[] nativeAttributes = [..attributes.Select(
+            x => new NativeTimedOsuDifficultyAttributes(x.Time, (OsuDifficultyAttributes)x.Attributes))];
+
+        return BufferHelper.Unmanaged(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
     }
 
     private static void Calculate(OsuDifficultyCalculator calculator, Mod[] mods, NativeOsuDifficultyAttributes* nativeAttributesPtr)
