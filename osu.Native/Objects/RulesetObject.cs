@@ -70,5 +70,5 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
     private static ErrorCode GetShortName(ManagedObjectHandle<Ruleset> rulesetHandle, byte* buffer, int* bufferSize)
-      => NativeHelper.StringBuffer(rulesetHandle.Resolve().ShortName, buffer, bufferSize);
+      => BufferHelper.String(rulesetHandle.Resolve().ShortName, buffer, bufferSize);
 }

@@ -113,7 +113,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
     private static ErrorCode GetTitle(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
-      => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Title, buffer, bufferSize);
+      => BufferHelper.String(beatmapHandle.Resolve().Metadata.Title, buffer, bufferSize);
 
 
     /// <summary>
@@ -124,7 +124,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
     private static ErrorCode GetArtist(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
-      => NativeHelper.StringBuffer(beatmapHandle.Resolve().Metadata.Artist, buffer, bufferSize);
+      => BufferHelper.String(beatmapHandle.Resolve().Metadata.Artist, buffer, bufferSize);
 
 
     /// <summary>
@@ -135,5 +135,5 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
     private static ErrorCode GetVersion(ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle, byte* buffer, int* bufferSize)
-      => NativeHelper.StringBuffer(beatmapHandle.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
+      => BufferHelper.String(beatmapHandle.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
 }

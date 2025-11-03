@@ -18,26 +18,26 @@ public static unsafe partial class FFI
     #region Mods
 
     [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial ErrorCode Mod_Create(string acronym, out int modHandle);
+    public static partial ErrorCode Mod_Create(string acronym, out NativeMod nativeMod);
 
     [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial ErrorCode Mod_SetSetting(int modHandle, string key, double value);
+    public static partial ErrorCode Mod_SetSetting(int modHandleId, string key, double value);
 
     [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial ErrorCode Mod_Debug(int modHandle);
+    public static partial ErrorCode Mod_Debug(int modHandleId);
 
     #endregion
 
     #region ModsCollection
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode ModsCollection_Create(out int modsHandle);
+    public static partial ErrorCode ModsCollection_Create(out NativeModsCollection nativeModsCollection);
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode ModsCollection_Add(int modsHandle, int modHandle);
+    public static partial ErrorCode ModsCollection_Add(int modsCollectionHandleId, int modHandleId);
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode ModsCollection_Remove(int modsHandle, int modHandle);
+    public static partial ErrorCode ModsCollection_Remove(int modsCollectionHandleId, int modHandleId);
 
     #endregion
 
@@ -47,20 +47,20 @@ public static unsafe partial class FFI
     public static partial ErrorCode Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode Beatmap_GetTitle(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial ErrorCode Beatmap_GetTitle(int beatmapHandleId, byte* buffer, int* bufferSize);
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode Beatmap_GetArtist(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial ErrorCode Beatmap_GetArtist(int beatmapHandleId, byte* buffer, int* bufferSize);
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode Beatmap_GetVersion(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial ErrorCode Beatmap_GetVersion(int beatmapHandleId, byte* buffer, int* bufferSize);
 
     #endregion
 
     #region Ruleset
 
     [LibraryImport("osu.Native-aot.dll")]
-    public static partial ErrorCode Ruleset_CreateFromId(int rulesetId, out NativeRuleset ruleset);
+    public static partial ErrorCode Ruleset_CreateFromId(int rulesetHandleId, out NativeRuleset ruleset);
 
     #endregion
 }

@@ -3,9 +3,9 @@
 namespace osu.Native;
 
 /// <summary>
-/// Provides utility methods for native handling.
+/// Provides utility methods for writing to buffers.
 /// </summary>
-internal static class NativeHelper
+internal static unsafe class BufferHelper
 {
     /// <summary>
     /// Writes the specified string into the provided buffer in UTF-8 encoding.
@@ -18,7 +18,7 @@ internal static class NativeHelper
     /// <param name="buffer">The string buffer.</param>
     /// <param name="bufferSize">The size of the string buffer.</param>
     /// <returns>The resulting error code.</returns>
-    public static unsafe ErrorCode StringBuffer(string str, byte* buffer, int* bufferSize)
+    public static ErrorCode String(string str, byte* buffer, int* bufferSize)
     {
         if (buffer is null)
         {
@@ -34,6 +34,19 @@ internal static class NativeHelper
             buffer[bytesToWrite] = 0x0;
         }
 
+        return ErrorCode.Success;
+    }
+
+    public static ErrorCode Unmanaged<T>(T[] values, T* buffer, int* bufferSize) where T : unmanaged
+    {
+        if (buffer is null)
+        {
+            *bufferSize = values.Length;
+            return ErrorCode.BufferSizeQuery;
+        }
+
+        int elementsToWrite = Math.Min(values.Length, *bufferSize);
+        values.AsSpan(0, elementsToWrite).CopyTo(new(buffer, elementsToWrite));
         return ErrorCode.Success;
     }
 }
