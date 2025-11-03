@@ -15,8 +15,13 @@ public struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes)
     public double SpeedNoteCount = attributes.SpeedNoteCount;
     public double FlashlightDifficulty = attributes.FlashlightDifficulty;
     public double SliderFactor = attributes.SliderFactor;
+    public double AimTopWeightedSliderFactor = attributes.AimTopWeightedSliderFactor;
+    public double SpeedTopWeightedSliderFactor = attributes.SpeedTopWeightedSliderFactor;
     public double AimDifficultStrainCount = attributes.AimDifficultStrainCount;
     public double SpeedDifficultStrainCount = attributes.SpeedDifficultStrainCount;
+    public double NestedScorePerObject = attributes.NestedScorePerObject;
+    public double LegacyScoreBaseMultiplier = attributes.LegacyScoreBaseMultiplier;
+    public double MaximumLegacyComboScore = attributes.MaximumLegacyComboScore;
     public double DrainRate = attributes.DrainRate;
     public int HitCircleCount = attributes.HitCircleCount;
     public int SliderCount = attributes.SliderCount;

@@ -191,8 +191,13 @@ public struct NativeOsuDifficultyAttributes
     public double SpeedNoteCount;
     public double FlashlightDifficulty;
     public double SliderFactor;
+    public double AimTopWeightedSliderFactor;
+    public double SpeedTopWeightedSliderFactor;
     public double AimDifficultStrainCount;
     public double SpeedDifficultStrainCount;
+    public double NestedScorePerObject;
+    public double LegacyScoreBaseMultiplier;
+    public double MaximumLegacyComboScore;
     public double DrainRate;
     public int HitCircleCount;
     public int SliderCount;
@@ -231,72 +236,76 @@ public struct NativeOsuPerformanceAttributes
     public double Flashlight;
     public double EffectiveMissCount;
     public double? SpeedDeviation;
+    public double ComboBasedEstimatedMissCount;
+    public double? ScoreBasedEstimatedMissCount;
+    public double AimEstimatedSliderBreaks;
+    public double SpeedEstimatedSliderBreaks;
 }
 
 public static unsafe partial class Native
 {
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     [return: MarshalUsing(typeof(Utf8NoFreeStringMarshaller))]
     public static partial string ErrorHandler_GetLastMessage();
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll",
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
     public static partial sbyte Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Beatmap_GetTitle(int beatmapHandle, byte* buffer, int* bufferSize);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Beatmap_GetArtist(int beatmapHandle, byte* buffer, int* bufferSize);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Beatmap_GetVersion(int beatmapHandle, byte* buffer, int* bufferSize);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll",
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
     public static partial sbyte Mod_Create(string acronym, out int modHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll",
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
     public static partial sbyte Mod_SetSetting(int modHandle, string key, double value);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte ModsCollection_Create(out int modsHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte ModsCollection_Add(int modsHandle, int modHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte ModsCollection_Remove(int modsHandle, int modHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Mod_Debug(int modHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte ModsCollection_Debug(int modsHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int osuDifficultyCalculatorHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuDifficultyCalculator_Calculate(int osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int rulesetHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Ruleset_CreateFromId(int rulesetId, out NativeRuleset ruleset);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte CatchDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int catchDifficultyCalculatorHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte CatchDifficultyCalculator_Calculate(int catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes attributes);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
 
-    [LibraryImport("C:\\Users\\mini\\source\\repos\\minisbett\\osu-native\\osu.Native\\bin\\Release\\native\\osu.Native.dll")]
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuPerformanceCalculator_Calculate(int osuPerformanceCalculatorHandle, NativeScoreInfo scoreInfo, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
 }
 

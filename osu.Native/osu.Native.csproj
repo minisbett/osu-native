@@ -27,11 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Game" Version="2025.816.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.816.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.816.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.816.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.816.0" />
+    <PackageReference Include="ppy.osu.Game" Version="2025.1029.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.1029.0" />
+    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Resources" Version="*">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
