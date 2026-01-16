@@ -7,44 +7,34 @@ public class OsuDifficultyBenchmark
 {
     private int _rulesetHandle;
     private int _calculatorHandle;
-    private List<int> _modCollectionHandles = [];
+    private NativeBeatmap _beatmap;
+    private int _modsHandle;
+    private NativeOsuDifficultyAttributes _attributes;
 
     [GlobalSetup]
     public void Setup()
     {
-        Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out var beatmap);
+        Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out _beatmap);
         Native.Ruleset_CreateFromId(0, out var ruleset);
         _rulesetHandle = ruleset.Handle;
-        Native.OsuDifficultyCalculator_Create(ruleset.Handle, beatmap.Handle, out _calculatorHandle);
-
-        foreach (string combination in new string[] { "HR", "FL", "DT", "HT", "HRDT", "HRHT", "DTFL", "HRDTFL", "HRHTFL" })
-        {
-            List<int> modHandles = [];
-            foreach (string acronym in combination.Chunk(2).Select(x => new string(x)))
-            {
-                Native.Mod_Create(acronym, out var modHandle);
-                modHandles.Add(modHandle);
-            }
-
-            Native.ModsCollection_Create(out var modCollectionHandle);
-            foreach(int modHandle in modHandles)
-            {
-                Native.ModsCollection_Add(modCollectionHandle, modHandle);
-            }
-
-            _modCollectionHandles.Add(modCollectionHandle);
-        }
+        Native.OsuDifficultyCalculator_Create(ruleset.Handle, _beatmap.Handle, out int diffCalcHandle);
+        Native.OsuPerformanceCalculator_Create(out _calculatorHandle);
+        Native.OsuDifficultyCalculator_Calculate(diffCalcHandle, out _attributes);
+        Native.ModsCollection_Create(out _modsHandle);
     }
 
     [Benchmark]
     public void CalculateDifficulty()
     {
-        Native.OsuDifficultyCalculator_Calculate(_calculatorHandle, out _);
-
-        foreach (int modCollectionHandle in _modCollectionHandles)
+       _ =  Native.OsuPerformanceCalculator_Calculate(_calculatorHandle, new NativeScoreInfo()
         {
-            Native.OsuDifficultyCalculator_CalculateMods(_calculatorHandle, _rulesetHandle, modCollectionHandle, out _);
-        }
+            BeatmapHandle = _beatmap.Handle,
+            ModsHandle = _modsHandle,
+            RulesetHandle = _rulesetHandle,
+            Accuracy = 1,
+            CountGreat = 6361,
+            MaxCombo = 6368,
+        }, _attributes, out _);
     }
 
     public static void Main(string[] args)
