@@ -14,4 +14,8 @@ public struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attributes
     public double Flashlight = attributes.Flashlight;
     public double EffectiveMissCount = attributes.EffectiveMissCount;
     public double? SpeedDeviation = attributes.SpeedDeviation;
+    public double ComboBasedEstimatedMissCount = attributes.ComboBasedEstimatedMissCount;
+    public double? ScoreBasedEstimatedMissCount = attributes.ScoreBasedEstimatedMissCount;
+    public double AimEstimatedSliderBreaks = attributes.AimEstimatedSliderBreaks;
+    public double SpeedEstimatedSliderBreaks = attributes.SpeedEstimatedSliderBreaks;
 }

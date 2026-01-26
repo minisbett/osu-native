@@ -10,6 +10,5 @@ public struct NativeTaikoPerformanceAttributes(TaikoPerformanceAttributes attrib
     public double Total = attributes.Total;
     public double Difficulty = attributes.Difficulty;
     public double Accuracy = attributes.Accuracy;
-    public double EffectiveMissCount = attributes.EffectiveMissCount;
     public double? EstimatedUnstableRate = attributes.EstimatedUnstableRate;
 }

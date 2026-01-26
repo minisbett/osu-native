@@ -21,7 +21,13 @@ public static unsafe partial class FFI
     public static partial ErrorCode Mod_Create(string acronym, out NativeMod nativeMod);
 
     [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial ErrorCode Mod_SetSetting(int modHandleId, string key, double value);
+    public static partial ErrorCode Mod_SetSettingBool(int modHandleId, string key, [MarshalAs(UnmanagedType.I1)] bool value);
+
+    [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
+    public static partial ErrorCode Mod_SetSettingInteger(int modHandleId, string key, int value);
+
+    [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
+    public static partial ErrorCode Mod_SetSettingFloat(int modHandleId, string key, float value);
 
     [LibraryImport("osu.Native-aot.dll", StringMarshalling = StringMarshalling.Utf8)]
     public static partial ErrorCode Mod_Debug(int modHandleId);

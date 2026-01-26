@@ -43,16 +43,16 @@ public struct NativeScoreInfo
             MaxCombo = MaxCombo,
             Accuracy = Accuracy,
             Statistics =
-      {
-        [HitResult.Miss] = CountMiss,
-        [HitResult.Meh] = CountMeh,
-        [HitResult.Ok] = CountOk,
-        [HitResult.Good] = CountGood,
-        [HitResult.Great] = CountGreat,
-        [HitResult.Perfect] = CountPerfect,
-        [HitResult.SliderTailHit] = CountSliderTailHit,
-        [HitResult.LargeTickMiss] = CountLargeTickMiss
-      }
+            {
+              [HitResult.Miss] = CountMiss,
+              [HitResult.Meh] = CountMeh,
+              [HitResult.Ok] = CountOk,
+              [HitResult.Good] = CountGood,
+              [HitResult.Great] = CountGreat,
+              [HitResult.Perfect] = CountPerfect,
+              [HitResult.SliderTailHit] = CountSliderTailHit,
+              [HitResult.LargeTickMiss] = CountLargeTickMiss
+            }
         };
     }
 }
