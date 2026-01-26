@@ -43,7 +43,7 @@ unsafe
     error = Native.Mod_Create("EZ", out int modHandle2);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-    error = Native.Mod_SetSetting(modHandle, "speed_change", 1.3);
+    error = Native.Mod_SetSettingFloat(modHandle, "speed_change", 1.3f);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -273,7 +273,7 @@ public static unsafe partial class Native
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
-    public static partial sbyte Mod_SetSetting(int modHandle, string key, double value);
+    public static partial sbyte Mod_SetSettingFloat(int modHandle, string key, float value);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte ModsCollection_Create(out int modsHandle);

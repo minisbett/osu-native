@@ -13,7 +13,7 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
 {
 #pragma warning disable RS2008
     private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU001", "Native fields must be unmanaged", "Native fields must be of an unmanaged type",
-    "Usage", DiagnosticSeverity.Error, true, "Ensures all native fields are of an unmanaged type.");
+      "Usage", DiagnosticSeverity.Error, true, "Ensures all native fields are of an unmanaged type.");
 
     private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU002", "Native functions must be static", "Native functions must be static",
       "Usage", DiagnosticSeverity.Error, true, "Ensures all native functions are static.");

@@ -26,13 +26,36 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     }
 
     /// <summary>
-    /// Sets the specified setting of the specified mod to the specified value.
+    /// Sets the specified setting of the specified mod to the specified boolean value.
     /// </summary>
     /// <param name="modHandle">The handle of the mod.</param>
     /// <param name="keyPtr">The name of the mod setting.</param>
     /// <param name="value">The value of the mod setting.</param>
     [OsuNativeFunction]
-    public static ErrorCode SetSetting(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, double value)
+    public static ErrorCode SetSettingBool(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, bool value)
+        => SetSetting(modHandle, keyPtr, value);
+
+    /// <summary>
+    /// Sets the specified setting of the specified mod to the specified integer value.
+    /// </summary>
+    /// <param name="modHandle">The handle of the mod.</param>
+    /// <param name="keyPtr">The name of the mod setting.</param>
+    /// <param name="value">The value of the mod setting.</param>
+    [OsuNativeFunction]
+    public static ErrorCode SetSettingInteger(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, int value)
+        => SetSetting(modHandle, keyPtr, value);
+
+    /// <summary>
+    /// Sets the specified setting of the specified mod to the specified float value.
+    /// </summary>
+    /// <param name="modHandle">The handle of the mod.</param>
+    /// <param name="keyPtr">The name of the mod setting.</param>
+    /// <param name="value">The value of the mod setting.</param>
+    [OsuNativeFunction]
+    public static ErrorCode SetSettingFloat(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, float value)
+        => SetSetting(modHandle, keyPtr, value);
+
+    private static ErrorCode SetSetting(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, object value)
     {
         APIMod mod = modHandle.Resolve();
 
