@@ -33,7 +33,7 @@ internal static class ManagedObjectStore<T> where T : notnull
         if (_objects.TryGetValue(handle.Id, out T? value))
             return value;
 
-        throw new ObjectNotFoundException(typeof(T), handle.Id);
+        throw new ObjectNotResolvedException(typeof(T), handle.Id);
     }
 
     /// <summary>
@@ -79,6 +79,6 @@ public struct ManagedObjectHandle<T>(int objectId) where T : notnull
 }
 
 /// <summary>
-/// Exception thrown when an object is not found in the store.
+/// Exception thrown when an object could not be resolved from the store.
 /// </summary>
-internal class ObjectNotFoundException(Type type, int id) : Exception($"No '{type.Name}' with ID '{id}' found.");
+internal class ObjectNotResolvedException(Type type, int id) : Exception($"Object '{type.Name}' with ID '{id}' could not be resolved.");
