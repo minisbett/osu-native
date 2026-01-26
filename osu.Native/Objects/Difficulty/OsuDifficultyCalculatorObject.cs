@@ -114,7 +114,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
     public static ErrorCode CalculateModsTimed(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer, 
+                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer,
                                                int* bufferSize)
     {
         OsuDifficultyCalculator calculator = calcHandle.Resolve();
