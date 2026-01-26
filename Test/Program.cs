@@ -164,9 +164,19 @@ unsafe
     else
         Console.WriteLine("Speed Deviation: null");
 
-    Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out NativeBeatmap b);
     Native.Ruleset_CreateFromId(0, out NativeRuleset r);
+    Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out NativeBeatmap b);
     Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out int d);
+
+    error = Native.OsuDifficultyCalculator_CalculateTimed(d, null, &size);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+    NativeTimedOsuDifficultyAttributes[] attributesBuffer = new NativeTimedOsuDifficultyAttributes[size];
+    fixed (NativeTimedOsuDifficultyAttributes* p = attributesBuffer)
+        Native.OsuDifficultyCalculator_CalculateTimed(d, p, &size);
+
+    ;
 }
 
 public struct NativeBeatmap
@@ -248,6 +258,13 @@ public struct NativeOsuPerformanceAttributes
     public double SpeedEstimatedSliderBreaks;
 }
 
+public struct NativeTimedOsuDifficultyAttributes
+{
+    public double Time;
+    public NativeOsuDifficultyAttributes Attributes;
+}
+
+
 public static unsafe partial class Native
 {
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
@@ -298,6 +315,9 @@ public static unsafe partial class Native
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int rulesetHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
+
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimed(int osuDifficultyCalculatorHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Ruleset_CreateFromId(int rulesetId, out NativeRuleset ruleset);

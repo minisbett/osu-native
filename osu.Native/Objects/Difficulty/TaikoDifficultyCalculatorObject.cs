@@ -1,6 +1,9 @@
 ﻿using osu.Game.Beatmaps;
 using osu.Game.Rulesets;
+using osu.Game.Rulesets.Difficulty;
 using osu.Game.Rulesets.Mods;
+using osu.Game.Rulesets.Osu;
+using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Game.Rulesets.Taiko;
 using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Native.Compiler;
@@ -53,7 +56,7 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="rulesetHandle">The handle of the ruleset use to instantiate the mods.</param>
+    /// <param name="rulesetHandle">The handle of the ruleset used to instantiate the mods.</param>
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
@@ -75,5 +78,66 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     {
         TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)calculator.Calculate(mods);
         *nativeAttributesPtr = new NativeTaikoDifficultyAttributes(attributes);
+    }
+
+    /// <summary>
+    /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
+    /// </summary>
+    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
+    /// <param name="bufferSize">The size of the provided buffer.</param>
+    [OsuNativeFunction]
+    public static ErrorCode CalculateTimed(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle,
+                                           NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    {
+        TaikoDifficultyCalculator calculator = calcHandle.Resolve();
+
+        if (nativeTimedAttributesBuffer is null)
+        {
+            *bufferSize = calculator.CalculateTimed().Count;
+            return ErrorCode.BufferSizeQuery;
+        }
+
+        List<TimedDifficultyAttributes> attributes = calculator.CalculateTimed();
+        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = [..attributes.Select(
+            x => new NativeTimedTaikoDifficultyAttributes(x.Time, (TaikoDifficultyAttributes)x.Attributes))];
+
+        BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
+        return ErrorCode.Success;
+    }
+
+    /// <summary>
+    /// Calculates the timed (per-object) difficulty attributes, including the specified mods, of the beatmap targetted by the specified calculator.
+    /// </summary>
+    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="rulesetHandle">The handle of the ruleset used to instantiate the mods.</param>
+    /// <param name="modsHandle">The handle of the mods collection to consider.</param>
+    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
+    /// <param name="bufferSize">The size of the provided buffer.</param>
+    [OsuNativeFunction]
+    public static ErrorCode CalculateModsTimed(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
+                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer,
+                                               int* bufferSize)
+    {
+        TaikoDifficultyCalculator calculator = calcHandle.Resolve();
+        Ruleset ruleset = rulesetHandle.Resolve();
+
+        if (nativeTimedAttributesBuffer is null)
+        {
+            *bufferSize = calculator.CalculateTimed().Count;
+            return ErrorCode.BufferSizeQuery;
+        }
+
+        if (ruleset is not OsuRuleset)
+            return ErrorCode.UnexpectedRuleset;
+
+        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(ruleset))];
+
+        List<TimedDifficultyAttributes> attributes = calculator.CalculateTimed(mods);
+        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = [..attributes.Select(
+            x => new NativeTimedTaikoDifficultyAttributes(x.Time, (TaikoDifficultyAttributes)x.Attributes))];
+
+        BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
+        return ErrorCode.Success;
     }
 }
