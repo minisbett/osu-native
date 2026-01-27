@@ -11,9 +11,9 @@ using osu.Native.Structures.Difficulty;
 namespace osu.Native.Objects;
 
 /// <summary>
-/// Represents the difficulty calculator for the Catch ruleset (<see cref="CatchDifficultyCalculator"/>).
+/// Represents a <see cref="CatchDifficultyCalculator"/>.
 /// </summary>
-internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject<CatchDifficultyCalculator>
+internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject<CatchDifficultyCalculatorObject>
 {
     /// <summary>
     /// Creates an instance of a <see cref="CatchDifficultyCalculator"/> for the specified ruleset and beatmap.
@@ -22,7 +22,7 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="beatmapHandle">The handle of the beatmap the difficulty calculator targets.</param>
     /// <param name="nativeCatchDifficultyCalculatorPtr">A pointer to write the resulting native difficulty calculator object to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
+    public static ErrorCode Create(RulesetHandle rulesetHandle, BeatmapHandle beatmapHandle,
                                    NativeCatchDifficultyCalculator* nativeCatchDifficultyCalculatorPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
@@ -32,12 +32,8 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
             return ErrorCode.UnexpectedRuleset;
 
         CatchDifficultyCalculator calculator = (CatchDifficultyCalculator)ruleset.CreateDifficultyCalculator(beatmap);
-        ManagedObjectHandle<CatchDifficultyCalculator> handle = ManagedObjectStore.Store(calculator);
 
-        *nativeCatchDifficultyCalculatorPtr = new NativeCatchDifficultyCalculator()
-        {
-            Handle = handle
-        };
+        *nativeCatchDifficultyCalculatorPtr = new NativeCatchDifficultyCalculator { Handle = ManagedObjectStore.Store(calculator) };
 
         return ErrorCode.Success;
     }
@@ -48,7 +44,7 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, NativeCatchDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(CatchDifficultyCalculatorHandle calcHandle, NativeCatchDifficultyAttributes* nativeAttributesPtr)
     {
         Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
@@ -64,8 +60,8 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                          ManagedObjectHandle<ModsCollection> modsHandle, NativeCatchDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode CalculateMods(CatchDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle,
+                                          ModsCollectionHandle modsHandle, NativeCatchDifficultyAttributes* nativeAttributesPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
 
@@ -91,8 +87,8 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle,
-                                           NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(CatchDifficultyCalculatorHandle calcHandle, NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer,
+                                           int* bufferSize)
     {
         CatchDifficultyCalculator calculator = calcHandle.Resolve();
 
@@ -119,9 +115,8 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(ManagedObjectHandle<CatchDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer,
-                                               int* bufferSize)
+    public static ErrorCode CalculateModsTimed(CatchDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                               NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         CatchDifficultyCalculator calculator = calcHandle.Resolve();
         Ruleset ruleset = rulesetHandle.Resolve();

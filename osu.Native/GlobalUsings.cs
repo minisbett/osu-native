@@ -1,0 +1,13 @@
+﻿global using BeatmapHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Beatmaps.FlatWorkingBeatmap>;
+global using CatchDifficultyCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Catch.Difficulty.CatchDifficultyCalculator>;
+global using CatchPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Catch.Difficulty.CatchPerformanceCalculator>;
+global using ManiaDifficultyCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Mania.Difficulty.ManiaDifficultyCalculator>;
+global using ManiaPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Mania.Difficulty.ManiaPerformanceCalculator>;
+global using ModHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Online.API.APIMod>;
+global using ModsCollection = System.Collections.Generic.List<osu.Game.Online.API.APIMod>;
+global using ModsCollectionHandle = osu.Native.Objects.ManagedObjectHandle<System.Collections.Generic.List<osu.Game.Online.API.APIMod>>;
+global using OsuDifficultyCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Osu.Difficulty.OsuDifficultyCalculator>;
+global using OsuPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Osu.Difficulty.OsuPerformanceCalculator>;
+global using RulesetHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Ruleset>;
+global using TaikoDifficultyCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Taiko.Difficulty.TaikoDifficultyCalculator>;
+global using TaikoPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Taiko.Difficulty.TaikoPerformanceCalculator>;

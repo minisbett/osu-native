@@ -7,10 +7,10 @@ using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Native.Compiler;
 using osu.Native.Structures.Difficulty;
 
-namespace osu.Native.Objects;
+namespace osu.Native.Objects.Difficulty;
 
 /// <summary>
-/// Represents the difficulty calculator for the Osu ruleset (<see cref="OsuDifficultyCalculator"/>).
+/// Represents an <see cref="OsuDifficultyCalculator"/>.
 /// </summary>
 internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<OsuDifficultyCalculator>
 {
@@ -21,7 +21,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="beatmapHandle">The handle of the beatmap the difficulty calculator targets.</param>
     /// <param name="nativeOsuDifficultyCalculatorPtr">A pointer to write the resulting native difficulty calculator object to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
+    public static ErrorCode Create(RulesetHandle rulesetHandle, BeatmapHandle beatmapHandle,
                                    NativeOsuDifficultyCalculator* nativeOsuDifficultyCalculatorPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
@@ -49,7 +49,7 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(OsuDifficultyCalculatorHandle calcHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
     {
         Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
@@ -64,8 +64,8 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                          ManagedObjectHandle<ModsCollection> modsHandle, NativeOsuDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode CalculateMods(OsuDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                          NativeOsuDifficultyAttributes* nativeAttributesPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
 
@@ -85,8 +85,8 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle,
-                                           NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(OsuDifficultyCalculatorHandle calcHandle, NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer,
+                                           int* bufferSize)
     {
         OsuDifficultyCalculator calculator = calcHandle.Resolve();
 
@@ -113,9 +113,8 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<O
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(ManagedObjectHandle<OsuDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer,
-                                               int* bufferSize)
+    public static ErrorCode CalculateModsTimed(OsuDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                               NativeTimedOsuDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         OsuDifficultyCalculator calculator = calcHandle.Resolve();
         Ruleset ruleset = rulesetHandle.Resolve();

@@ -8,7 +8,7 @@ using osu.Native.Structures.Performance;
 namespace osu.Native.Objects.Performance;
 
 /// <summary>
-/// Represents the performance calculator for the Osu ruleset (<see cref="OsuPerformanceCalculator"/>).
+/// Represents an <see cref="OsuPerformanceCalculator"/>.
 /// </summary>
 internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<OsuPerformanceCalculator>
 {
@@ -34,7 +34,7 @@ internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<
     /// <param name="nativeDifficultyAttributes">The difficulty attributes to calculate the performance with.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting performance attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<OsuPerformanceCalculator> calcHandle, NativeScoreInfo nativeScoreInfo,
+    public static ErrorCode Calculate(OsuPerformanceCalculatorHandle calcHandle, NativeScoreInfo nativeScoreInfo,
                                       NativeOsuDifficultyAttributes nativeDifficultyAttributes, NativeOsuPerformanceAttributes* nativeAttributesPtr)
     {
         OsuPerformanceCalculator calculator = calcHandle.Resolve();

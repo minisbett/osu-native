@@ -1,21 +1,16 @@
 ﻿using System.Runtime.InteropServices.Marshalling;
 using osu.Game.Rulesets;
 using osu.Native.Compiler;
+using osu.Native.Structures;
 
 namespace osu.Native.Objects;
 
 /// <summary>
-/// Represents a ruleset (<see cref="Ruleset"/>).
+/// Represents a <see cref="Ruleset"/>.
 /// </summary>
 internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 {
     private static readonly AssemblyRulesetStore _rulesetStore = new();
-
-    /// <summary>
-    /// The ID of the ruleset.
-    /// </summary>
-    [OsuNativeField]
-    private readonly int _rulesetId;
 
     private static NativeRuleset Create(RulesetInfo ruleset)
     {
@@ -69,6 +64,6 @@ internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     /// <param name="buffer">The buffer to write the title into.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    private static ErrorCode GetShortName(ManagedObjectHandle<Ruleset> rulesetHandle, byte* buffer, int* bufferSize)
+    private static ErrorCode GetShortName(RulesetHandle rulesetHandle, byte* buffer, int* bufferSize)
       => BufferHelper.String(rulesetHandle.Resolve().ShortName, buffer, bufferSize);
 }

@@ -1,12 +1,13 @@
 ﻿using System.Runtime.InteropServices.Marshalling;
 using osu.Game.Online.API;
 using osu.Native.Compiler;
+using osu.Native.Structures;
 
 namespace osu.Native.Objects;
 
 /// <summary>
 /// Represents a mod, consisting of the acronym and mod settings.<br/>
-/// The mod is represented via an <see cref="APIMod"/> object, and thus ruleset-agnostic and not validated for existance.
+/// The mod is represented via an <see cref="APIMod"/> object, and thus ruleset-agnostic and not validated.
 /// </summary>
 internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
 {
@@ -32,7 +33,7 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     /// <param name="keyPtr">The name of the mod setting.</param>
     /// <param name="value">The value of the mod setting.</param>
     [OsuNativeFunction]
-    public static ErrorCode SetSettingBool(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, bool value)
+    public static ErrorCode SetSettingBool(ModHandle modHandle, byte* keyPtr, bool value)
         => SetSetting(modHandle, keyPtr, value);
 
     /// <summary>
@@ -42,7 +43,7 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     /// <param name="keyPtr">The name of the mod setting.</param>
     /// <param name="value">The value of the mod setting.</param>
     [OsuNativeFunction]
-    public static ErrorCode SetSettingInteger(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, int value)
+    public static ErrorCode SetSettingInteger(ModHandle modHandle, byte* keyPtr, int value)
         => SetSetting(modHandle, keyPtr, value);
 
     /// <summary>
@@ -52,10 +53,10 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     /// <param name="keyPtr">The name of the mod setting.</param>
     /// <param name="value">The value of the mod setting.</param>
     [OsuNativeFunction]
-    public static ErrorCode SetSettingFloat(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, float value)
+    public static ErrorCode SetSettingFloat(ModHandle modHandle, byte* keyPtr, float value)
         => SetSetting(modHandle, keyPtr, value);
 
-    private static ErrorCode SetSetting(ManagedObjectHandle<APIMod> modHandle, byte* keyPtr, object value)
+    private static ErrorCode SetSetting(ModHandle modHandle, byte* keyPtr, object value)
     {
         APIMod mod = modHandle.Resolve();
 
@@ -66,7 +67,7 @@ internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
     }
 
     [OsuNativeFunction]
-    public static ErrorCode Debug(ManagedObjectHandle<APIMod> modHandle)
+    public static ErrorCode Debug(ModHandle modHandle)
     {
         APIMod mod = modHandle.Resolve();
 

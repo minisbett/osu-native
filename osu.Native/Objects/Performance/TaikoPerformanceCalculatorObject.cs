@@ -8,7 +8,7 @@ using osu.Native.Structures.Performance;
 namespace osu.Native.Objects.Performance;
 
 /// <summary>
-/// Represents the performance calculator for the Taiko ruleset (<see cref="TaikoPerformanceCalculator"/>).
+/// Represents a <see cref="TaikoPerformanceCalculator"/>.
 /// </summary>
 internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObject<TaikoPerformanceCalculator>
 {
@@ -34,7 +34,7 @@ internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObjec
     /// <param name="nativeDifficultyAttributes">The difficulty attributes to calculate the performance with.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting performance attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<TaikoPerformanceCalculator> calcHandle, NativeScoreInfo nativeScoreInfo,
+    public static ErrorCode Calculate(TaikoPerformanceCalculatorHandle calcHandle, NativeScoreInfo nativeScoreInfo,
                                       NativeTaikoDifficultyAttributes nativeDifficultyAttributes, NativeTaikoPerformanceAttributes* nativeAttributesPtr)
     {
         TaikoPerformanceCalculator calculator = calcHandle.Resolve();

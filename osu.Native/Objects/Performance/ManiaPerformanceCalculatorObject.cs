@@ -8,7 +8,7 @@ using osu.Native.Structures.Performance;
 namespace osu.Native.Objects.Performance;
 
 /// <summary>
-/// Represents the performance calculator for the Mania ruleset (<see cref="ManiaPerformanceCalculator"/>).
+/// Represents a <see cref="ManiaPerformanceCalculator"/>.
 /// </summary>
 internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObject<ManiaPerformanceCalculator>
 {
@@ -34,7 +34,7 @@ internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObjec
     /// <param name="nativeDifficultyAttributes">The difficulty attributes to calculate the performance with.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting performance attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<ManiaPerformanceCalculator> calcHandle, NativeScoreInfo nativeScoreInfo,
+    public static ErrorCode Calculate(ManiaPerformanceCalculatorHandle calcHandle, NativeScoreInfo nativeScoreInfo,
                                       NativeManiaDifficultyAttributes nativeDifficultyAttributes, NativeManiaPerformanceAttributes* nativeAttributesPtr)
     {
         ManiaPerformanceCalculator calculator = calcHandle.Resolve();
