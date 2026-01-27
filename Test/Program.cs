@@ -164,9 +164,13 @@ unsafe
     else
         Console.WriteLine("Speed Deviation: null");
 
-    Native.Ruleset_CreateFromId(0, out NativeRuleset r);
+    error = Native.Ruleset_CreateFromId(0, out NativeRuleset r);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out NativeBeatmap b);
-    Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out int d);
+    error = Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out int d);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
     error = Native.OsuDifficultyCalculator_CalculateTimed(d, null, &size);
     Console.WriteLine($"Error code: {error}");
@@ -183,6 +187,7 @@ public struct NativeBeatmap
 {
     public int Handle;
     public int RulesetId;
+    public int BeatmapId;
     public float ApproachRate;
     public float DrainRate;
     public float OverallDifficulty;

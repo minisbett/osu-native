@@ -19,7 +19,7 @@ internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatma
         {
             Handle = ManagedObjectStore.Store(beatmap),
             RulesetId = beatmap.BeatmapInfo.Ruleset.OnlineID,
-            BeatmapId = beatmap.BeatmapInfo.Ruleset.OnlineID,
+            BeatmapId = beatmap.BeatmapInfo.OnlineID,
             ApproachRate = beatmap.BeatmapInfo.Difficulty.ApproachRate,
             DrainRate = beatmap.BeatmapInfo.Difficulty.DrainRate,
             OverallDifficulty = beatmap.BeatmapInfo.Difficulty.OverallDifficulty,
