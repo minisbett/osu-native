@@ -11,7 +11,7 @@ using osu.Native.Structures.Difficulty;
 namespace osu.Native.Objects;
 
 /// <summary>
-/// Represents the difficulty calculator for the Mania ruleset (<see cref="ManiaDifficultyCalculator"/>).
+/// Represents a <see cref="ManiaDifficultyCalculator"/>.
 /// </summary>
 internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject<ManiaDifficultyCalculator>
 {
@@ -22,7 +22,7 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="beatmapHandle">The handle of the beatmap the difficulty calculator targets.</param>
     /// <param name="nativeManiaDifficultyCalculatorPtr">A pointer to write the resulting native difficulty calculator object to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Create(ManagedObjectHandle<Ruleset> rulesetHandle, ManagedObjectHandle<FlatWorkingBeatmap> beatmapHandle,
+    public static ErrorCode Create(RulesetHandle rulesetHandle, BeatmapHandle beatmapHandle,
                                    NativeManiaDifficultyCalculator* nativeManiaDifficultyCalculatorPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
@@ -44,7 +44,7 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(ManiaDifficultyCalculatorHandle calcHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
     {
         Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
@@ -59,8 +59,8 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                          ManagedObjectHandle<ModsCollection> modsHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode CalculateMods(ManiaDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                          NativeManiaDifficultyAttributes* nativeAttributesPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
 
@@ -86,8 +86,8 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle,
-                                           NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(ManiaDifficultyCalculatorHandle calcHandle, NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer,
+                                           int* bufferSize)
     {
         ManiaDifficultyCalculator calculator = calcHandle.Resolve();
 
@@ -114,9 +114,8 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(ManagedObjectHandle<ManiaDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer,
-                                               int* bufferSize)
+    public static ErrorCode CalculateModsTimed(ManiaDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                               NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         ManiaDifficultyCalculator calculator = calcHandle.Resolve();
         Ruleset ruleset = rulesetHandle.Resolve();

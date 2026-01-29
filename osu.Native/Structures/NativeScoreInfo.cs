@@ -3,7 +3,6 @@ using osu.Game.Rulesets;
 using osu.Game.Rulesets.Mods;
 using osu.Game.Rulesets.Scoring;
 using osu.Game.Scoring;
-using osu.Native.Objects;
 
 namespace osu.Native.Structures;
 
@@ -12,9 +11,9 @@ namespace osu.Native.Structures;
 /// </summary>
 public struct NativeScoreInfo
 {
-    public ManagedObjectHandle<Ruleset> RulesetHandle;
-    public ManagedObjectHandle<FlatWorkingBeatmap> BeatmapHandle;
-    public ManagedObjectHandle<ModsCollection> ModsHandle;
+    public RulesetHandle RulesetHandle;
+    public BeatmapHandle BeatmapHandle;
+    public ModsCollectionHandle ModsHandle;
     public int MaxCombo;
     public double Accuracy;
     public int CountMiss;
@@ -44,14 +43,14 @@ public struct NativeScoreInfo
             Accuracy = Accuracy,
             Statistics =
             {
-              [HitResult.Miss] = CountMiss,
-              [HitResult.Meh] = CountMeh,
-              [HitResult.Ok] = CountOk,
-              [HitResult.Good] = CountGood,
-              [HitResult.Great] = CountGreat,
-              [HitResult.Perfect] = CountPerfect,
-              [HitResult.SliderTailHit] = CountSliderTailHit,
-              [HitResult.LargeTickMiss] = CountLargeTickMiss
+                [HitResult.Miss] = CountMiss,
+                [HitResult.Meh] = CountMeh,
+                [HitResult.Ok] = CountOk,
+                [HitResult.Good] = CountGood,
+                [HitResult.Great] = CountGreat,
+                [HitResult.Perfect] = CountPerfect,
+                [HitResult.SliderTailHit] = CountSliderTailHit,
+                [HitResult.LargeTickMiss] = CountLargeTickMiss
             }
         };
     }

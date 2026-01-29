@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using osu.Native.Objects;
+using osu.Native.Structures;
 
 namespace osu.Native.Tests;
 

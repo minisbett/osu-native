@@ -8,10 +8,10 @@ using osu.Game.Rulesets.Taiko.Difficulty;
 using osu.Native.Compiler;
 using osu.Native.Structures.Difficulty;
 
-namespace osu.Native.Objects;
+namespace osu.Native.Objects.Difficulty;
 
 /// <summary>
-/// Represents the difficulty calculator for the Taiko ruleset (<see cref="TaikoDifficultyCalculator"/>).
+/// Represents a <see cref="TaikoDifficultyCalculator"/>.
 /// </summary>
 internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject<TaikoDifficultyCalculator>
 {
@@ -44,7 +44,7 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(TaikoDifficultyCalculatorHandle calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
     {
         Calculate(calcHandle.Resolve(), [], nativeAttributesPtr);
 
@@ -59,8 +59,8 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                          ManagedObjectHandle<ModsCollection> modsHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode CalculateMods(TaikoDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                          NativeTaikoDifficultyAttributes* nativeAttributesPtr)
     {
         Ruleset ruleset = rulesetHandle.Resolve();
 
@@ -86,8 +86,8 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle,
-                                           NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(TaikoDifficultyCalculatorHandle calcHandle, NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer,
+                                           int* bufferSize)
     {
         TaikoDifficultyCalculator calculator = calcHandle.Resolve();
 
@@ -114,9 +114,8 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(ManagedObjectHandle<TaikoDifficultyCalculator> calcHandle, ManagedObjectHandle<Ruleset> rulesetHandle,
-                                               ManagedObjectHandle<ModsCollection> modsHandle, NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer,
-                                               int* bufferSize)
+    public static ErrorCode CalculateModsTimed(TaikoDifficultyCalculatorHandle calcHandle, RulesetHandle rulesetHandle, ModsCollectionHandle modsHandle,
+                                               NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         TaikoDifficultyCalculator calculator = calcHandle.Resolve();
         Ruleset ruleset = rulesetHandle.Resolve();
