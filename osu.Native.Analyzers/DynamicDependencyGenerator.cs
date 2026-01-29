@@ -20,26 +20,26 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
             ];
 
             string attributes = string.Join("\n", dependencies.Select(x =>
-                  $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, \"{x.TypeName}\", \"{x.AssemblyName}\")]"));
+                $"[DynamicDependency(DynamicallyAccessedMemberTypes.{x.MemberTypes}, \"{x.TypeName}\", \"{x.AssemblyName}\")]"));
 
             string source =
-              $$"""
-              using System.Reflection;
-              using System.Runtime.CompilerServices;
-              using System.Diagnostics.CodeAnalysis;
+                $$"""
+                using System.Reflection;
+                using System.Runtime.CompilerServices;
+                using System.Diagnostics.CodeAnalysis;
 
-              namespace osu.Native.Compiler;
+                namespace osu.Native.Compiler;
 
-              internal static class DynamicDependencies
-              {
-                  [ModuleInitializer]
-                  {{attributes}}
-                  public static void Initialize()
-                  {
-                      Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
-                  }
-              }
-              """;
+                internal static class DynamicDependencies
+                {
+                    [ModuleInitializer]
+                    {{attributes}}
+                    public static void Initialize()
+                    {
+                        Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
+                    }
+                }
+                """;
 
             source = CSharpSyntaxTree.ParseText(source).GetRoot().NormalizeWhitespace().ToFullString();
             spc.AddSource("DynamicDependencies.g.cs", source);
@@ -68,8 +68,8 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
             foreach (INamedTypeSymbol type in GetTypesInNamespace(compilation, assembly, ns))
             {
                 string name = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat
-                  .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted) // global::Foo<T> -> Foo<T>
-                  .WithGenericsOptions(SymbolDisplayGenericsOptions.None)); // Foo<T> -> Foo
+                    .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted) // global::Foo<T> -> Foo<T>
+                    .WithGenericsOptions(SymbolDisplayGenericsOptions.None)); // Foo<T> -> Foo
 
                 if (type.IsGenericType)
                     name += $"`{type.TypeParameters.Length}"; // Foo -> Foo`1
@@ -81,8 +81,8 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
     private static ImmutableArray<INamedTypeSymbol> GetTypesInNamespace(Compilation compilation, string assemblyName, string namespaceName)
     {
         IAssemblySymbol assembly = compilation.References.Select(compilation.GetAssemblyOrModuleSymbol)
-         .OfType<IAssemblySymbol>()
-         .First(x => x.Name == assemblyName);
+           .OfType<IAssemblySymbol>()
+           .First(x => x.Name == assemblyName);
 
         INamespaceSymbol ns = assembly.GlobalNamespace;
         foreach (string part in namespaceName.Split('.'))

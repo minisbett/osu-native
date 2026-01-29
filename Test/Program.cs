@@ -95,7 +95,7 @@ unsafe
     Console.WriteLine($"Slider Count: {attributes.SliderCount}");
     Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
 
-    error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, nativeRuleset.Handle, modsHandle, out NativeOsuDifficultyAttributes attributes2);
+    error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, modsHandle, out NativeOsuDifficultyAttributes attributes2);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"StarRating: {attributes2.StarRating}");
@@ -319,7 +319,7 @@ public static unsafe partial class Native
     public static partial sbyte OsuDifficultyCalculator_Calculate(int osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int rulesetHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
+    public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte OsuDifficultyCalculator_CalculateTimed(int osuDifficultyCalculatorHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
