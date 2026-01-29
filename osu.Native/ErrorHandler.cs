@@ -66,7 +66,7 @@ internal static unsafe class ErrorHandler
 
         return ex switch
         {
-            ObjectNotResolvedException => ErrorCode.ObjectNotFound,
+            ObjectNotResolvedException => ErrorCode.ObjectNotResolved,
             _ => ErrorCode.Failure
         };
     }

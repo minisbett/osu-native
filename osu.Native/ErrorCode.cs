@@ -17,9 +17,9 @@ public enum ErrorCode : sbyte
     Success = 0,
 
     /// <summary>
-    /// Indicates that the object referenced by a managed object handle was not found.
+    /// Indicates that the object referenced by a managed object handle was not resolved.
     /// </summary>
-    ObjectNotFound = 1,
+    ObjectNotResolved = 1,
 
     /// <summary>
     /// Indicates that the ruleset requested is not available (eg. not found).
