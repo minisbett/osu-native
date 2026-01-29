@@ -37,16 +37,16 @@ internal static unsafe class BufferHelper
         return ErrorCode.Success;
     }
 
-    public static ErrorCode Unmanaged<T>(T[] values, T* buffer, int* bufferSize) where T : unmanaged
+    /// <summary>
+    /// Writes the specified values of unmanaged type into the provided buffer. If the buffer is too small, the array will be truncated.
+    /// </summary>
+    /// <param name="values">The array of values to be written into the buffer.</param>
+    /// <param name="buffer">The buffer.</param>
+    /// <param name="bufferSize">The size of the buffer. This is measured in elements, not bytes.</param>
+    /// <returns>The resulting error code.</returns>
+    public static void Write<T>(T[] values, T* buffer, int* bufferSize) where T : unmanaged
     {
-        if (buffer is null)
-        {
-            *bufferSize = values.Length;
-            return ErrorCode.BufferSizeQuery;
-        }
-
         int elementsToWrite = Math.Min(values.Length, *bufferSize);
         values.AsSpan(0, elementsToWrite).CopyTo(new(buffer, elementsToWrite));
-        return ErrorCode.Success;
     }
 }
