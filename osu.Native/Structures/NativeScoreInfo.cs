@@ -36,9 +36,8 @@ public struct NativeScoreInfo
         FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
         Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-        return new()
+        return new(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {
-            BeatmapInfo = beatmap.BeatmapInfo,
             Mods = mods,
             MaxCombo = MaxCombo,
             Accuracy = Accuracy,
