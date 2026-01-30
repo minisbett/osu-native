@@ -21,7 +21,7 @@ internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObjec
     {
         ManiaPerformanceCalculator calculator = new();
 
-        *nativeManiaPerformanceCalculatorPtr = new NativeManiaPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
+        *nativeManiaPerformanceCalculatorPtr = new() { Handle = ManagedObjectStore.Store(calculator) };
 
         return ErrorCode.Success;
     }
@@ -43,7 +43,7 @@ internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObjec
 
         ManiaDifficultyAttributes difficultyAttributes = nativeDifficultyAttributes.ToManaged();
         ManiaPerformanceAttributes attributes = (ManiaPerformanceAttributes)calculator.Calculate(scoreInfo, difficultyAttributes);
-        *nativeAttributesPtr = new NativeManiaPerformanceAttributes(attributes);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }

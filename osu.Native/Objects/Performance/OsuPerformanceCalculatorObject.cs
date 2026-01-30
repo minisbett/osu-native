@@ -21,7 +21,7 @@ internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<
     {
         OsuPerformanceCalculator calculator = new();
 
-        *nativeOsuPerformanceCalculatorPtr = new NativeOsuPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
+        *nativeOsuPerformanceCalculatorPtr = new() { Handle = ManagedObjectStore.Store(calculator) };
 
         return ErrorCode.Success;
     }
@@ -43,7 +43,7 @@ internal unsafe partial class OsuPerformanceCalculatorObject : IOsuNativeObject<
 
         OsuDifficultyAttributes difficultyAttributes = nativeDifficultyAttributes.ToManaged();
         OsuPerformanceAttributes attributes = (OsuPerformanceAttributes)calculator.Calculate(scoreInfo, difficultyAttributes);
-        *nativeAttributesPtr = new NativeOsuPerformanceAttributes(attributes);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }

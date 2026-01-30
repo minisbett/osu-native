@@ -21,7 +21,7 @@ internal unsafe partial class CatchPerformanceCalculatorObject : IOsuNativeObjec
     {
         CatchPerformanceCalculator calculator = new();
 
-        *nativeCatchPerformanceCalculatorPtr = new NativeCatchPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
+        *nativeCatchPerformanceCalculatorPtr = new() { Handle = ManagedObjectStore.Store(calculator) };
 
         return ErrorCode.Success;
     }
@@ -43,7 +43,7 @@ internal unsafe partial class CatchPerformanceCalculatorObject : IOsuNativeObjec
 
         CatchDifficultyAttributes difficultyAttributes = nativeDifficultyAttributes.ToManaged();
         CatchPerformanceAttributes attributes = (CatchPerformanceAttributes)calculator.Calculate(scoreInfo, difficultyAttributes);
-        *nativeAttributesPtr = new NativeCatchPerformanceAttributes(attributes);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }

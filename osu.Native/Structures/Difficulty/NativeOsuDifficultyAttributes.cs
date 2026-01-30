@@ -30,9 +30,9 @@ public struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes)
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="OsuDifficultyAttributes"/> instance.
     /// </summary>
-    public OsuDifficultyAttributes ToManaged()
+    public readonly OsuDifficultyAttributes ToManaged()
     {
-        return new OsuDifficultyAttributes()
+        return new()
         {
             StarRating = StarRating,
             MaxCombo = MaxCombo,
