@@ -21,9 +21,9 @@ public struct NativeTaikoDifficultyAttributes(TaikoDifficultyAttributes attribut
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="TaikoDifficultyAttributes"/> instance.
     /// </summary>
-    public TaikoDifficultyAttributes ToManaged()
+    public readonly TaikoDifficultyAttributes ToManaged()
     {
-        return new TaikoDifficultyAttributes()
+        return new()
         {
             StarRating = StarRating,
             MaxCombo = MaxCombo,

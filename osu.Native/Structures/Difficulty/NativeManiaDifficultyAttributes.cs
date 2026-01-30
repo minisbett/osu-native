@@ -13,9 +13,9 @@ public struct NativeManiaDifficultyAttributes(ManiaDifficultyAttributes attribut
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="ManiaDifficultyAttributes"/> instance.
     /// </summary>
-    public ManiaDifficultyAttributes ToManaged()
+    public readonly ManiaDifficultyAttributes ToManaged()
     {
-        return new ManiaDifficultyAttributes()
+        return new()
         {
             StarRating = StarRating,
             MaxCombo = MaxCombo

@@ -26,7 +26,7 @@ public class OsuDifficultyBenchmark
     [Benchmark]
     public void CalculateDifficulty()
     {
-       _ =  Native.OsuPerformanceCalculator_Calculate(_calculatorHandle, new NativeScoreInfo()
+       _ =  Native.OsuPerformanceCalculator_Calculate(_calculatorHandle, new()
         {
             BeatmapHandle = _beatmap.Handle,
             ModsHandle = _modsHandle,

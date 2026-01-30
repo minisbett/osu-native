@@ -13,9 +13,9 @@ public struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attribut
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="CatchDifficultyAttributes"/> instance.
     /// </summary>
-    public CatchDifficultyAttributes ToManaged()
+    public readonly CatchDifficultyAttributes ToManaged()
     {
-        return new CatchDifficultyAttributes()
+        return new()
         {
             StarRating = StarRating,
             MaxCombo = MaxCombo

@@ -21,7 +21,7 @@ internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObjec
     {
         TaikoPerformanceCalculator calculator = new();
 
-        *nativeTaikoPerformanceCalculatorPtr = new NativeTaikoPerformanceCalculator { Handle = ManagedObjectStore.Store(calculator) };
+        *nativeTaikoPerformanceCalculatorPtr = new() { Handle = ManagedObjectStore.Store(calculator) };
 
         return ErrorCode.Success;
     }
@@ -43,7 +43,7 @@ internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObjec
 
         TaikoDifficultyAttributes difficultyAttributes = nativeDifficultyAttributes.ToManaged();
         TaikoPerformanceAttributes attributes = (TaikoPerformanceAttributes)calculator.Calculate(scoreInfo, difficultyAttributes);
-        *nativeAttributesPtr = new NativeTaikoPerformanceAttributes(attributes);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }

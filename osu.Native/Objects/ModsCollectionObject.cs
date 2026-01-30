@@ -16,7 +16,7 @@ internal unsafe partial class ModsCollectionObject : IOsuNativeObject<ModsCollec
     [OsuNativeFunction]
     public static ErrorCode Create(NativeModsCollection* nativeModsCollectionPtr)
     {
-        *nativeModsCollectionPtr = new NativeModsCollection { Handle = ManagedObjectStore.Store(new ModsCollection()) };
+        *nativeModsCollectionPtr = new() { Handle = ManagedObjectStore.Store(new ModsCollection()) };
 
         return ErrorCode.Success;
     }

@@ -20,7 +20,7 @@ internal static class ManagedObjectStore<T> where T : notnull
     {
         int objectId = Interlocked.Increment(ref _nextId);
         _objects[objectId] = obj;
-        return new ManagedObjectHandle<T>(objectId);
+        return new(objectId);
     }
 
     /// <summary>
