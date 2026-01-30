@@ -238,6 +238,7 @@ public struct NativeScoreInfo
     public int ModsHandle;
     public int MaxCombo;
     public double Accuracy;
+    public long? LegacyTotalScore;
     public int CountMiss;
     public int CountMeh;
     public int CountOk;
