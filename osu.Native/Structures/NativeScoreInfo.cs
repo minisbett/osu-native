@@ -16,6 +16,7 @@ public struct NativeScoreInfo
     public ModsCollectionHandle ModsHandle;
     public int MaxCombo;
     public double Accuracy;
+    public long? LegacyTotalScore;
     public int CountMiss;
     public int CountMeh;
     public int CountOk;
@@ -35,12 +36,13 @@ public struct NativeScoreInfo
         FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
         Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
-        return new ScoreInfo
+        return new()
         {
             BeatmapInfo = beatmap.BeatmapInfo,
             Mods = mods,
             MaxCombo = MaxCombo,
             Accuracy = Accuracy,
+            LegacyTotalScore = LegacyTotalScore,
             Statistics =
             {
                 [HitResult.Miss] = CountMiss,
