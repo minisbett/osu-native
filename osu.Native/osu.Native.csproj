@@ -1,42 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>enable</Nullable>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
 
-    <!-- NativeAOT configuration -->
-    <PublishAot>true</PublishAot>
-    <OptimizationPreference>Size</OptimizationPreference>
-    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault> <!-- saves 2.2mb huh -->
+        <!-- NativeAOT configuration -->
+        <PublishAot>true</PublishAot>
+        <OptimizationPreference>Size</OptimizationPreference>
+        <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault> <!-- saves 2.2mb huh -->
+        <!--<StackTraceSupport>false</StackTraceSupport>
+        <IlcFoldIdenticalMethodBodies>true</IlcFoldIdenticalMethodBodies>
+        <UseSystemResourceKeys>true</UseSystemResourceKeys>-->
 
-    <!-- Generate information for sizoscope -->
-    <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
-    <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+        <!-- Generate information for sizoscope -->
+        <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+        <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
 
-		<GenerateCabinet>true</GenerateCabinet>
-  </PropertyGroup>
+        <GenerateCabinet>true</GenerateCabinet>
+    </PropertyGroup>
 
-  <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
+    <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
        therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
-  <ItemGroup>
-    <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" />
-  </ItemGroup>
+    <ItemGroup>
+        <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\osu.Native.Analyzers\osu.Native.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\osu.Native.Analyzers\osu.Native.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="cabi.net" Version="0.0.5" />
-    <PackageReference Include="ppy.osu.Game" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Resources" Version="*">
-      <ExcludeAssets>all</ExcludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="cabi.net" Version="0.0.5" />
+        <PackageReference Include="ppy.osu.Game" Version="2025.1029.0" />
+        <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0" />
+        <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
+        <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.1029.0" />
+        <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.1029.0" />
+        <PackageReference Include="ppy.osu.Game.Resources" Version="*">
+            <ExcludeAssets>all</ExcludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
