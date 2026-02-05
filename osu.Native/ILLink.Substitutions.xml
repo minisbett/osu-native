@@ -1,40 +1,258 @@
 ﻿<linker>
-  <assembly fullname="osu.Framework">
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-RegularItalic_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular.bin" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold.bin" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular.bin" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold.bin" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_1.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_2.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_3.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_1.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_0.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_1.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_2.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_3.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_4.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_5.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_6.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_6.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_7.png" action="remove" />
-    <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_8.png" action="remove" />
-  </assembly>
-  <assembly fullname="osu.Game.Rulesets.Taiko">
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitwhistle.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitwhistle.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitclap.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitclap.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitfinish.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitfinish.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitnormal.wav" action="remove" />
-    <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitnormal.wav" action="remove" />
-  </assembly>
+
+    <assembly fullname="osu.Framework">
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-RegularItalic_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_1.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_2.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_3.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_5.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_0.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_4.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_2.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_7.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_1.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-RegularItalic.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_6.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Regular.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Regular.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.RobotoCondensed-Bold.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-Bold.bin" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands_3.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid_8.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular_1.png" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Solid.fnt" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.LICENSE.txt" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.RobotoCondensed.LICENSE.txt" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Brands.fnt" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic_1.png" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Masking.h" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.FontAwesome5.FontAwesome-Regular.fnt" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_CircularProgressUtils.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_CircularBlobUtils.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Blur.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.Internal.sh_GlobalUniforms.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_yuv2rgb.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_CircularBlob.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_CircularProgress.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Fonts.bmfont.bmfc" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Texture2D.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_TextureWrapping.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Texture3D.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Utils.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Particle.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_FastCircle.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Grayscale.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.Internal.sh_Vertex_Output.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Texture.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_SaturationSelectorBackground.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_HueSelectorBackground.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Video.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.Internal.sh_Fragment_Output.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_mipmap.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_mipmap.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Position.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.Internal.sh_Compatibility.h" action="remove" />
+    </assembly>
+    <assembly fullname="osu.Game.Rulesets.Taiko">
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitwhistle.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitwhistle.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitclap.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitfinish.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitclap.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitfinish.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.normal-hitnormal.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Samples.Gameplay.soft-hitnormal.wav" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.diffcalc-test.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.diffcalc-test-strong.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.basic-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-conversion-v6-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-conversion-v14-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-generating-drumroll-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.sample-to-type-conversions-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.file-hitsamples-expected-conversion.json" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.sample-to-type-conversions.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-generating-drumroll.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.basic.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-conversion-v14.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.file-hitsamples.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-generating-drumroll-2.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-conversion-v6.osu" action="remove" />
+        <resource name="osu.Game.Rulesets.Taiko.Resources.Testing.Beatmaps.slider-generating-drumroll-2-expected-conversion.json" action="remove" />
+    </assembly>
+    <assembly fullname="System.Private.Xml">
+        <resource name="xhtml1-frameset.dtd" action="remove" />
+        <resource name="xhtml1-transitional.dtd" action="remove" />
+        <resource name="xhtml1-strict.dtd" action="remove" />
+        <resource name="xhtml-symbol.ent" action="remove" />
+        <resource name="rss-0.91.dtd" action="remove" />
+        <resource name="xhtml-lat1.ent" action="remove" />
+        <resource name="xhtml-special.ent" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer">
+        <resource name="Humanizer.Properties.Resources.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.af.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ar.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.az.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.bg.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.bn-BD.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.cs.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.da.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.de.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.el.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.es.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.fa.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.fi-FI.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.fr.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.fr-BE.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.he.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.hr.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.hu.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.hy.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.id.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.is.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.it.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ja.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ko-KR.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ku.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.lv.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ms-MY.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.mt.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.nb.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.nb-NO.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.nl.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.pl.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.pt.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ro.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.ru.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.sk.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.sl.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.sr.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.sr-Latn.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.sv.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.th-TH.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.tr.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.uk.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.uz-Cyrl-UZ.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.uz-Latn-UZ.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.vi.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.zh-CN.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.zh-Hans.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Humanizer.resources">
+        <resource name="Humanizer.Properties.Resources.zh-Hant.resources" action="remove" />
+    </assembly>
+    <assembly fullname="JetBrains.Annotations">
+        <resource name="JetBrains.Annotations.Source.cs" action="remove" />
+    </assembly>
+    <assembly fullname="Microsoft.CSharp">
+        <resource name="FxResources.Microsoft.CSharp.SR.resources" action="remove" />
+    </assembly>
+    <assembly fullname="Realm">
+        <resource name="Realms.Properties.Realm.rd.xml" action="remove" />
+    </assembly>
+    <assembly fullname="osuTK">
+        <resource name="osuTK.osuTK.dll.config" action="remove" />
+    </assembly>
 </linker>
