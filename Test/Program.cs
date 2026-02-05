@@ -7,7 +7,9 @@ using Test;
 
 unsafe
 {
-    Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\test.osu", out NativeBeatmap nativeBeatmap);
+    int error = Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\test.osu", out NativeBeatmap nativeBeatmap);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"ID: {nativeBeatmap.Handle}");
     Console.WriteLine($"Ruleset ID: {nativeBeatmap.RulesetId}");
     Console.WriteLine($"AR: {nativeBeatmap.ApproachRate}");
@@ -21,7 +23,7 @@ unsafe
     nativeBeatmap.Handle = 2;
 
     int size;
-    int error = Native.Beatmap_GetTitle(nativeBeatmap.Handle, null, &size);
+    error = Native.Beatmap_GetTitle(nativeBeatmap.Handle, null, &size);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 

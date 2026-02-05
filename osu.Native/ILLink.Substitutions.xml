@@ -1,5 +1,4 @@
 ﻿<linker>
-
     <assembly fullname="osu.Framework">
         <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-RegularItalic_0.png" action="remove" />
         <resource name="osu.Framework.Resources.Fonts.Roboto.Roboto-BoldItalic_0.png" action="remove" />

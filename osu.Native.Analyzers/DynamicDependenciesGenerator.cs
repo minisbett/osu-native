@@ -8,7 +8,7 @@ using DynamicDependency = (osu.Native.Analyzers.DynamicallyAccessedMemberTypes M
 namespace osu.Native.Analyzers;
 
 [Generator]
-public class DynamicDependencyGenerator : IIncrementalGenerator
+public class DynamicDependenciesGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

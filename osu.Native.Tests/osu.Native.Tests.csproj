@@ -1,37 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Using Include="NUnit.Framework" />
-  </ItemGroup>
+    <ItemGroup>
+        <Using Include="NUnit.Framework" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-    <PackageReference Include="NUnit" Version="4.3.2" />
-    <PackageReference Include="NUnit.Analyzers" Version="4.7.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.4" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+        <PackageReference Include="NUnit" Version="4.3.2" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.7.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    </ItemGroup>
 
-  <Target Name="ValidateOsuNativeArtifact" BeforeTargets="Build">
-    <Error Text="osu.Native is not built. To build it, run: &#xD;&#xA;dotnet publish --ucr" Condition="'@(OsuNativeArtifact)' == ''" />
-  </Target>
+    <Target Name="ValidateOsuNativeArtifact" BeforeTargets="Build">
+        <Error Text="osu.Native is not built. To build it, run: &#xD;&#xA;dotnet publish --ucr" Condition="'@(OsuNativeArtifact)' == ''" />
+    </Target>
 
-  <ItemGroup>
-    <Content Include="@(OsuNativeArtifact)">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <TargetPath>osu.Native-aot.dll</TargetPath>
-    </Content>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="@(OsuNativeArtifact)">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <TargetPath>osu.Native-aot.dll</TargetPath>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\osu.Native\osu.Native.csproj" />
-  </ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="..\osu.Native\osu.Native.csproj" />
+    </ItemGroup>
 </Project>
