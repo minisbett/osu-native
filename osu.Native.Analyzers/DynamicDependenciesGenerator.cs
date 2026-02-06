@@ -36,7 +36,7 @@ public class DynamicDependenciesGenerator : IIncrementalGenerator
                     {{attributes}}
                     public static void Initialize()
                     {
-                        Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
+                        Assembly.SetEntryAssembly(GetType().Assembly);
                     }
                 }
                 """;
