@@ -64,18 +64,23 @@ internal static class ManagedObjectStore
 /// </summary>
 /// <typeparam name="T">The managed type.</typeparam>
 /// <param name="objectId">The ID associated with the managed object.</param>
-public struct ManagedObjectHandle<T>(uint objectId) where T : notnull
+public readonly struct ManagedObjectHandle<T>(uint objectId) where T : notnull
 {
     /// <summary>
     /// The ID of the managed object assigned by the <see cref="ManagedObjectStore{T}"/>.
     /// </summary>
-    public uint Id = objectId;
+    public readonly uint Id = objectId;
 
     /// <summary>
     /// Resolves the managed object handle into the actual managed object.
     /// </summary>
     /// <returns></returns>
     public readonly T Resolve() => ManagedObjectStore<T>.Get(this);
+
+    /// <summary>
+    /// Bool whether the handle is "null", and is not associated with any managed object.
+    /// </summary>
+    public readonly bool IsNull => Id is 0;
 }
 
 /// <summary>
