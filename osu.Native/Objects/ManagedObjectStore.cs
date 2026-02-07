@@ -3,13 +3,13 @@
 namespace osu.Native.Objects;
 
 /// <summary>
-/// A type-specific store for managed objects associated with a handle.
+/// A type-specific store for managed objects to be associated with a handle.
 /// </summary>
 /// <typeparam name="T">The managed type of the store.</typeparam>
 internal static class ManagedObjectStore<T> where T : notnull
 {
-    private static readonly ConcurrentDictionary<int, T> _objects = [];
-    private static int _nextId = 0;
+    private static readonly ConcurrentDictionary<uint, T> _objects = [];
+    private static uint _nextId = 0; // ID assignment starts at 1
 
     /// <summary>
     /// Stores the managed object and returns a handle for it.
@@ -18,7 +18,7 @@ internal static class ManagedObjectStore<T> where T : notnull
     /// <returns>The handle of the object.</returns>
     public static ManagedObjectHandle<T> Store(T obj)
     {
-        int objectId = Interlocked.Increment(ref _nextId);
+        uint objectId = Interlocked.Increment(ref _nextId);
         _objects[objectId] = obj;
         return new(objectId);
     }
@@ -64,21 +64,26 @@ internal static class ManagedObjectStore
 /// </summary>
 /// <typeparam name="T">The managed type.</typeparam>
 /// <param name="objectId">The ID associated with the managed object.</param>
-public struct ManagedObjectHandle<T>(int objectId) where T : notnull
+public readonly struct ManagedObjectHandle<T>(uint objectId) where T : notnull
 {
     /// <summary>
     /// The ID of the managed object assigned by the <see cref="ManagedObjectStore{T}"/>.
     /// </summary>
-    public int Id = objectId;
+    public readonly uint Id = objectId;
 
     /// <summary>
     /// Resolves the managed object handle into the actual managed object.
     /// </summary>
     /// <returns></returns>
     public readonly T Resolve() => ManagedObjectStore<T>.Get(this);
+
+    /// <summary>
+    /// Bool whether the handle is "null", and is not associated with any managed object.
+    /// </summary>
+    public readonly bool IsNull => Id is 0;
 }
 
 /// <summary>
 /// Exception thrown when an object could not be resolved from the store.
 /// </summary>
-internal class ObjectNotResolvedException(Type type, int id) : Exception($"Object '{type.Name}' with ID '{id}' could not be resolved.");
+internal class ObjectNotResolvedException(Type type, uint id) : Exception($"Object '{type.Name}' with ID '{id}' could not be resolved.");
