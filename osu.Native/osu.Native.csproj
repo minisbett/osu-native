@@ -9,13 +9,14 @@
     <!-- NativeAOT configuration -->
     <PublishAot>true</PublishAot>
     <OptimizationPreference>Size</OptimizationPreference>
-    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault> <!-- saves 2.2mb huh -->
+    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
 
     <!-- Generate information for sizoscope -->
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
 
-		<GenerateCabinet>true</GenerateCabinet>
+    <!-- Generates the cabinet.h C-header file -->
+    <GenerateCabinet>true</GenerateCabinet>
   </PropertyGroup>
 
   <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
@@ -29,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="cabi.net" Version="0.0.5" />
+    <PackageReference Include="cabi.net" Version="0.0.6" />
     <PackageReference Include="ppy.osu.Game" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
