@@ -125,10 +125,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
                    try
                    {
-                       IEnumerator<{{enumType}}> enumerator = handle.Resolve();
-
-                       if (!enumerator.MoveNext())
-                           return ErrorCode.EndOfEnumeration;
+                       IEnumerator<{{enumType}}> enumerator = enumeratorHandle.Resolve();
 
                        *obj = enumerator.Current;
 
@@ -148,7 +145,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                
                    try
                    {
-                       ManagedObjectStore<IEnumerator<{{enumType}}>>.Remove(handle);
+                       ManagedObjectStore<IEnumerator<{{enumType}}>>.Remove(enumeratorHandle);
                        return ErrorCode.Success;
                    }
                    catch (Exception ex)
