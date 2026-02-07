@@ -126,10 +126,10 @@ public class NativeObjectGenerator : IIncrementalGenerator
                    try
                    {
                        IEnumerator<{{enumType}}> enumerator = enumeratorHandle.Resolve();
-
+               
                        *obj = enumerator.Current;
 
-                       return ErrorCode.Success;
+                       return enumerator.MoveNext() ? ErrorCode.Success : ErrorCode.EndOfEnumeration;
                    }
                    catch (Exception ex)
                    {
