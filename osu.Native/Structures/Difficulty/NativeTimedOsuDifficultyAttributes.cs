@@ -1,9 +1,10 @@
-﻿using osu.Game.Rulesets.Osu.Difficulty;
+﻿using osu.Game.Rulesets.Difficulty;
+using osu.Game.Rulesets.Osu.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
-public struct NativeTimedOsuDifficultyAttributes(double time, OsuDifficultyAttributes attributes)
+public struct NativeTimedOsuDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
 {
-    public double Time = time;
-    public NativeOsuDifficultyAttributes Attributes = new(attributes);
+    public double Time = timedAttributes.Time;
+    public NativeOsuDifficultyAttributes Attributes = new((OsuDifficultyAttributes)timedAttributes.Attributes);
 }

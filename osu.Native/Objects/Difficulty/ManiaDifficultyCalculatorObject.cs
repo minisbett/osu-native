@@ -38,38 +38,21 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
         return ErrorCode.Success;
     }
 
-    private static void Calculate(ManiaDifficultyCalculator calculator, Mod[] mods, NativeManiaDifficultyAttributes* nativeAttributesPtr)
-    {
-        ManiaDifficultyAttributes attributes = (ManiaDifficultyAttributes)calculator.Calculate(mods);
-        *nativeAttributesPtr = new(attributes);
-    }
-
     /// <summary>
     /// Calculates the difficulty attributes of the beatmap targetted by the specified difficulty calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
-    [OsuNativeFunction]
-    public static ErrorCode Calculate(ManiaDifficultyCalculatorHandle calcHandle, NativeManiaDifficultyAttributes* nativeAttributesPtr)
-    {
-        Calculate(calcHandle.Resolve().Calculator, [], nativeAttributesPtr);
-
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(ManiaDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                          NativeManiaDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(ManiaDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                      NativeManiaDifficultyAttributes* nativeAttributesPtr)
     {
         DifficultyCalculatorContext<ManiaDifficultyCalculator> context = calcHandle.Resolve();
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
-        Calculate(context.Calculator, mods, nativeAttributesPtr);
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
+
+        ManiaDifficultyAttributes attributes = (ManiaDifficultyAttributes)context.Calculator.Calculate(mods);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }
@@ -78,52 +61,24 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
     /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
-    /// <param name="bufferSize">The size of the provided buffer.</param>
-    [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(ManiaDifficultyCalculatorHandle calcHandle, NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer,
-                                           int* bufferSize)
-    {
-        DifficultyCalculatorContext<ManiaDifficultyCalculator> context = calcHandle.Resolve();
-
-        if (nativeTimedAttributesBuffer is null)
-        {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
-            return ErrorCode.BufferSizeQuery;
-        }
-
-        List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed();
-        NativeTimedManiaDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedManiaDifficultyAttributes(x.Time, (ManiaDifficultyAttributes)x.Attributes))];
-
-        BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the timed (per-object) difficulty attributes, including the specified mods, of the beatmap targetted by the specified calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(ManiaDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                               NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(ManiaDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                           NativeTimedManiaDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         DifficultyCalculatorContext<ManiaDifficultyCalculator> context = calcHandle.Resolve();
-
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
         if (nativeTimedAttributesBuffer is null)
         {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
+            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo, mods).HitObjects.Count;
             return ErrorCode.BufferSizeQuery;
         }
 
         List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed(mods);
-        NativeTimedManiaDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedManiaDifficultyAttributes(x.Time, (ManiaDifficultyAttributes)x.Attributes))];
+        NativeTimedManiaDifficultyAttributes[] nativeAttributes = [.. attributes.Select(x => new NativeTimedManiaDifficultyAttributes(x))];
 
         BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
         return ErrorCode.Success;
