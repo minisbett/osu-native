@@ -38,38 +38,21 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
         return ErrorCode.Success;
     }
 
-    private static void Calculate(TaikoDifficultyCalculator calculator, Mod[] mods, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
-    {
-        TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)calculator.Calculate(mods);
-        *nativeAttributesPtr = new(attributes);
-    }
-
     /// <summary>
     /// Calculates the difficulty attributes of the beatmap targetted by the specified difficulty calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
-    [OsuNativeFunction]
-    public static ErrorCode Calculate(TaikoDifficultyCalculatorHandle calcHandle, NativeTaikoDifficultyAttributes* nativeAttributesPtr)
-    {
-        Calculate(calcHandle.Resolve().Calculator, [], nativeAttributesPtr);
-
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateMods(TaikoDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                          NativeTaikoDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(TaikoDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                      NativeTaikoDifficultyAttributes* nativeAttributesPtr)
     {
         DifficultyCalculatorContext<TaikoDifficultyCalculator> context = calcHandle.Resolve();
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
-        Calculate(context.Calculator, mods, nativeAttributesPtr);
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
+
+        TaikoDifficultyAttributes attributes = (TaikoDifficultyAttributes)context.Calculator.Calculate(mods);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }
@@ -78,52 +61,24 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
     /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
-    /// <param name="bufferSize">The size of the provided buffer.</param>
-    [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(TaikoDifficultyCalculatorHandle calcHandle, NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer,
-                                           int* bufferSize)
-    {
-        DifficultyCalculatorContext<TaikoDifficultyCalculator> context = calcHandle.Resolve();
-
-        if (nativeTimedAttributesBuffer is null)
-        {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
-            return ErrorCode.BufferSizeQuery;
-        }
-
-        List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed();
-        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedTaikoDifficultyAttributes(x.Time, (TaikoDifficultyAttributes)x.Attributes))];
-
-        BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the timed (per-object) difficulty attributes, including the specified mods, of the beatmap targetted by the specified calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
     /// <param name="modsHandle">The handle of the mods collection to consider.</param>
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(TaikoDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                               NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
+    public static ErrorCode CalculateTimed(TaikoDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                           NativeTimedTaikoDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         DifficultyCalculatorContext<TaikoDifficultyCalculator> context = calcHandle.Resolve();
-
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
         if (nativeTimedAttributesBuffer is null)
         {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
+            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo, mods).HitObjects.Count;
             return ErrorCode.BufferSizeQuery;
         }
 
         List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed(mods);
-        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedTaikoDifficultyAttributes(x.Time, (TaikoDifficultyAttributes)x.Attributes))];
+        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = [..attributes.Select(x => new NativeTimedTaikoDifficultyAttributes(x))];
 
         BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
         return ErrorCode.Success;

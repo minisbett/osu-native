@@ -37,17 +37,17 @@ unsafe
 
     Console.WriteLine($"Title: {Encoding.UTF8.GetString(buffer)}");
 
-    error = Native.Mod_Create("DT", out int modHandle);
+    error = Native.Mod_Create("DT", out uint modHandle);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-    error = Native.Mod_Create("EZ", out int modHandle2);
+    error = Native.Mod_Create("EZ", out uint modHandle2);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     error = Native.Mod_SetSettingFloat(modHandle, "speed_change", 1.3f);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
-    error = Native.ModsCollection_Create(out int modsHandle);
+    error = Native.ModsCollection_Create(out uint modsHandle);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -74,10 +74,10 @@ unsafe
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"Ruleset ID: {nativeRuleset.RulesetId}");
 
-    error = Native.OsuDifficultyCalculator_Create(nativeRuleset.Handle, nativeBeatmap.Handle, out int osuDifficultyCalculatorHandle);
+    error = Native.OsuDifficultyCalculator_Create(nativeRuleset.Handle, nativeBeatmap.Handle, out uint osuDifficultyCalculatorHandle);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-    error = Native.OsuDifficultyCalculator_Calculate(osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
+    error = Native.OsuDifficultyCalculator_Calculate(osuDifficultyCalculatorHandle, 0, out NativeOsuDifficultyAttributes attributes);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"StarRating: {attributes.StarRating}");
@@ -95,7 +95,7 @@ unsafe
     Console.WriteLine($"Slider Count: {attributes.SliderCount}");
     Console.WriteLine($"Spinner Count: {attributes.SpinnerCount}");
 
-    error = Native.OsuDifficultyCalculator_CalculateMods(osuDifficultyCalculatorHandle, modsHandle, out NativeOsuDifficultyAttributes attributes2);
+    error = Native.OsuDifficultyCalculator_Calculate(osuDifficultyCalculatorHandle, modsHandle, out NativeOsuDifficultyAttributes attributes2);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"StarRating: {attributes2.StarRating}");
@@ -116,16 +116,16 @@ unsafe
     Native.Ruleset_CreateFromId(2, out NativeRuleset nativeRuleset2);
     Console.WriteLine($"Ruleset ID: {nativeRuleset2.RulesetId}");
 
-    error = Native.CatchDifficultyCalculator_Create(nativeRuleset2.Handle, nativeBeatmap.Handle, out int catchDifficultyCalculatorHandle);
+    error = Native.CatchDifficultyCalculator_Create(nativeRuleset2.Handle, nativeBeatmap.Handle, out uint catchDifficultyCalculatorHandle);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
-    error = Native.CatchDifficultyCalculator_Calculate(catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes catchAttributes);
+    error = Native.CatchDifficultyCalculator_Calculate(catchDifficultyCalculatorHandle, 0, out NativeCatchDifficultyAttributes catchAttributes);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Console.WriteLine($"StarRating: {catchAttributes.StarRating}");
     Console.WriteLine($"Max Combo: {catchAttributes.MaxCombo}");
 
-    error = Native.OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
+    error = Native.OsuPerformanceCalculator_Create(out uint osuPerformanceCalculatorHandle);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -168,7 +168,7 @@ unsafe
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
     Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\w.osu", out NativeBeatmap b);
-    error = Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out int d);
+    error = Native.OsuDifficultyCalculator_Create(r.Handle, b.Handle, out uint d);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
@@ -185,7 +185,7 @@ unsafe
 
 public struct NativeBeatmap
 {
-    public int Handle;
+    public uint Handle;
     public int RulesetId;
     public int BeatmapId;
     public float ApproachRate;
@@ -198,7 +198,7 @@ public struct NativeBeatmap
 
 public struct NativeRuleset
 {
-    public int Handle;
+    public uint Handle;
     public int RulesetId;
 }
 
@@ -233,9 +233,9 @@ public struct NativeCatchDifficultyAttributes
 
 public struct NativeScoreInfo
 {
-    public int RulesetHandle;
-    public int BeatmapHandle;
-    public int ModsHandle;
+    public uint RulesetHandle;
+    public uint BeatmapHandle;
+    public uint ModsHandle;
     public int MaxCombo;
     public double Accuracy;
     public long? LegacyTotalScore;
@@ -282,63 +282,60 @@ public static unsafe partial class Native
     public static partial sbyte Beatmap_CreateFromFile(string file, out NativeBeatmap nativeBeatmap);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte Beatmap_GetTitle(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial sbyte Beatmap_GetTitle(uint beatmapHandle, byte* buffer, int* bufferSize);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte Beatmap_GetArtist(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial sbyte Beatmap_GetArtist(uint beatmapHandle, byte* buffer, int* bufferSize);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte Beatmap_GetVersion(int beatmapHandle, byte* buffer, int* bufferSize);
+    public static partial sbyte Beatmap_GetVersion(uint beatmapHandle, byte* buffer, int* bufferSize);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
-    public static partial sbyte Mod_Create(string acronym, out int modHandle);
+    public static partial sbyte Mod_Create(string acronym, out uint modHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll",
       StringMarshalling = StringMarshalling.Utf8)]
-    public static partial sbyte Mod_SetSettingFloat(int modHandle, string key, float value);
+    public static partial sbyte Mod_SetSettingFloat(uint modHandle, string key, float value);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte ModsCollection_Create(out int modsHandle);
+    public static partial sbyte ModsCollection_Create(out uint modsHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte ModsCollection_Add(int modsHandle, int modHandle);
+    public static partial sbyte ModsCollection_Add(uint modsHandle, uint modHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte ModsCollection_Remove(int modsHandle, int modHandle);
+    public static partial sbyte ModsCollection_Remove(uint modsHandle, uint modHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte Mod_Debug(int modHandle);
+    public static partial sbyte Mod_Debug(uint modHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte ModsCollection_Debug(int modsHandle);
+    public static partial sbyte ModsCollection_Debug(uint modsHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int osuDifficultyCalculatorHandle);
+    public static partial sbyte OsuDifficultyCalculator_Create(uint rulesetHandle, uint beatmapHandle, out uint osuDifficultyCalculatorHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_Calculate(int osuDifficultyCalculatorHandle, out NativeOsuDifficultyAttributes attributes);
+    public static partial sbyte OsuDifficultyCalculator_Calculate(uint osuDifficultyCalculatorHandle, uint modsHandle, out NativeOsuDifficultyAttributes attributes);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_CalculateMods(int osuDifficultyCalculatorHandle, int modsHandle, out NativeOsuDifficultyAttributes attributes);
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimed(uint osuDifficultyCalculatorHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_CalculateTimed(int osuDifficultyCalculatorHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
+    public static partial sbyte Ruleset_CreateFromId(uint rulesetId, out NativeRuleset ruleset);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte Ruleset_CreateFromId(int rulesetId, out NativeRuleset ruleset);
+    public static partial sbyte CatchDifficultyCalculator_Create(uint rulesetHandle, uint beatmapHandle, out uint catchDifficultyCalculatorHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte CatchDifficultyCalculator_Create(int rulesetHandle, int beatmapHandle, out int catchDifficultyCalculatorHandle);
+    public static partial sbyte CatchDifficultyCalculator_Calculate(uint catchDifficultyCalculatorHandle, uint modsHandle, out NativeCatchDifficultyAttributes attributes);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte CatchDifficultyCalculator_Calculate(int catchDifficultyCalculatorHandle, out NativeCatchDifficultyAttributes attributes);
+    public static partial sbyte OsuPerformanceCalculator_Create(out uint osuPerformanceCalculatorHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuPerformanceCalculator_Create(out int osuPerformanceCalculatorHandle);
-
-    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuPerformanceCalculator_Calculate(int osuPerformanceCalculatorHandle, NativeScoreInfo scoreInfo, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
+    public static partial sbyte OsuPerformanceCalculator_Calculate(uint osuPerformanceCalculatorHandle, NativeScoreInfo scoreInfo, NativeOsuDifficultyAttributes difficultyAttributes, out NativeOsuPerformanceAttributes attributes);
 }
 
 [CustomMarshaller(typeof(string), MarshalMode.Default, typeof(Utf8NoFreeStringMarshaller))]

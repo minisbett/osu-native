@@ -38,38 +38,21 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
         return ErrorCode.Success;
     }
 
-    private static void Calculate(CatchDifficultyCalculator calculator, Mod[] mods, NativeCatchDifficultyAttributes* nativeAttributesPtr)
-    {
-        CatchDifficultyAttributes attributes = (CatchDifficultyAttributes)calculator.Calculate(mods);
-        *nativeAttributesPtr = new(attributes);
-    }
-
     /// <summary>
     /// Calculates the difficulty attributes of the beatmap targetted by the specified difficulty calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="modsHandle">The handle of the mods collection to consider. A null-handle equals to an empty mods collection.</param>
     /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
     [OsuNativeFunction]
-    public static ErrorCode Calculate(CatchDifficultyCalculatorHandle calcHandle, NativeCatchDifficultyAttributes* nativeAttributesPtr)
-    {
-        Calculate(calcHandle.Resolve().Calculator, [], nativeAttributesPtr);
-
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the difficulty attributes, including the specified mods, of the beatmap targetted by the specified difficulty calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="modsHandle">The handle of the mods collection to consider.</param>
-    /// <param name="nativeAttributesPtr">A pointer to write the resulting difficulty attributes to.</param>
-    [OsuNativeFunction]
-    public static ErrorCode CalculateMods(CatchDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                          NativeCatchDifficultyAttributes* nativeAttributesPtr)
+    public static ErrorCode Calculate(CatchDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                      NativeCatchDifficultyAttributes* nativeAttributesPtr)
     {
         DifficultyCalculatorContext<CatchDifficultyCalculator> context = calcHandle.Resolve();
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
-        Calculate(context.Calculator, mods, nativeAttributesPtr);
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
+
+        CatchDifficultyAttributes attributes = (CatchDifficultyAttributes)context.Calculator.Calculate(mods);
+        *nativeAttributesPtr = new(attributes);
 
         return ErrorCode.Success;
     }
@@ -78,52 +61,24 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
     /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
     /// </summary>
     /// <param name="calcHandle">The handle of the difficulty calculator.</param>
+    /// <param name="modsHandle">The handle of the mods collection to consider. A null-handle equals to an empty mods collection.</param>
     /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    public static ErrorCode CalculateTimed(CatchDifficultyCalculatorHandle calcHandle, NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer,
-                                           int* bufferSize)
+    public static ErrorCode CalculateTimed(CatchDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
+                                           NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
     {
         DifficultyCalculatorContext<CatchDifficultyCalculator> context = calcHandle.Resolve();
+        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
         if (nativeTimedAttributesBuffer is null)
         {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
-            return ErrorCode.BufferSizeQuery;
-        }
-
-        List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed();
-        NativeTimedCatchDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedCatchDifficultyAttributes(x.Time, (CatchDifficultyAttributes)x.Attributes))];
-
-        BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
-        return ErrorCode.Success;
-    }
-
-    /// <summary>
-    /// Calculates the timed (per-object) difficulty attributes, including the specified mods, of the beatmap targetted by the specified calculator.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="modsHandle">The handle of the mods collection to consider.</param>
-    /// <param name="nativeTimedAttributesBuffer">A pointer to write the resulting timed difficulty attributes to.</param>
-    /// <param name="bufferSize">The size of the provided buffer.</param>
-    [OsuNativeFunction]
-    public static ErrorCode CalculateModsTimed(CatchDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                               NativeTimedCatchDifficultyAttributes* nativeTimedAttributesBuffer, int* bufferSize)
-    {
-        DifficultyCalculatorContext<CatchDifficultyCalculator> context = calcHandle.Resolve();
-
-        Mod[] mods = [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
-
-        if (nativeTimedAttributesBuffer is null)
-        {
-            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo).HitObjects.Count;
+            *bufferSize = context.Beatmap.GetPlayableBeatmap(context.Ruleset.RulesetInfo, mods).HitObjects.Count;
             return ErrorCode.BufferSizeQuery;
         }
 
         List<TimedDifficultyAttributes> attributes = context.Calculator.CalculateTimed(mods);
-        NativeTimedCatchDifficultyAttributes[] nativeAttributes = [..attributes.Select(
-            x => new NativeTimedCatchDifficultyAttributes(x.Time, (CatchDifficultyAttributes)x.Attributes))];
+        NativeTimedCatchDifficultyAttributes[] nativeAttributes = [.. attributes.Select(x => new NativeTimedCatchDifficultyAttributes(x))];
 
         BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
         return ErrorCode.Success;
