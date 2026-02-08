@@ -180,8 +180,17 @@ unsafe
     fixed (NativeTimedOsuDifficultyAttributes* p = attributesBuffer)
         Native.OsuDifficultyCalculator_CalculateTimed(d, 0, p, &size);
 
-    error = Native.OsuDifficultyCalculator_CalculateTimedLazy(d, 0, out uint enumeratorHandle);
-    while(error != -2)
+    error = Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\DJ Sharpnel - WE LUV LAMA 3 (-Tynamo) [WE LUV RSI (54465)].osu", out NativeBeatmap b2);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+    error = Native.OsuDifficultyCalculator_Create(r.Handle, b2.Handle, out uint d2);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+    error = Native.OsuDifficultyCalculator_CalculateTimedLazy(d2, 0, out uint enumeratorHandle);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+    while (error != -2)
     {
         error = Native.OsuDifficultyCalculator_CalculateTimedLazy_Next(enumeratorHandle, out NativeTimedOsuDifficultyAttributes a);
         Console.WriteLine($"{a.Time}: {a.Attributes.MaxCombo}");
