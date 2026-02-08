@@ -79,7 +79,6 @@ public class NativeObjectGenerator : IIncrementalGenerator
                        try
                        {
                             ManagedObjectStore<{{managedObjectSymbol}}>.Remove(handle);
-                
                             return ErrorCode.Success;
                        }
                        catch (Exception ex)

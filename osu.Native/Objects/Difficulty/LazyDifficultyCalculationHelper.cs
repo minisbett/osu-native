@@ -38,7 +38,6 @@ internal static class LazyDifficultyCalculationHelper
         _progressiveBeatmapHitObjects = _progressiveBeatmap.GetField("HitObjects")!;
     }
 
-    [DynamicDependency(DynamicallyAccessedMemberTypes.AllConstructors, "osu.Game.Rulesets.Difficulty.DifficultyCalculator+ProgressiveCalculationBeatmap", "osu.Game")]
     public static IEnumerable<TimedDifficultyAttributes> CalculateTimedLazy(DifficultyCalculator calc, IEnumerable<Mod> mods)
     {
         _preProcess.Invoke(calc, [mods, CancellationToken.None]);
