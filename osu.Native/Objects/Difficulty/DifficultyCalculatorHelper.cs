@@ -42,7 +42,6 @@ internal static class DifficultyCalculatorHelper
     [DynamicDependency(DynamicallyAccessedMemberTypes.AllConstructors, "osu.Game.Rulesets.Difficulty.DifficultyCalculator+ProgressiveCalculationBeatmap", "osu.Game")]
     public static IEnumerable<TimedDifficultyAttributes> CalculateTimedLazy(DifficultyCalculator calc, IEnumerable<Mod> mods)
     {
-        Stopwatch watch = Stopwatch.StartNew();
         _preProcess.Invoke(calc, [mods, CancellationToken.None]);
         IBeatmap beatmap = (IBeatmap)_beatmap.GetValue(calc)!;
 
@@ -54,8 +53,6 @@ internal static class DifficultyCalculatorHelper
         Skill[] skills = (Skill[])_createSkills.Invoke(calc, [beatmap, mods, clockRate])!;
         object progressiveBeatmap = Activator.CreateInstance(_progressiveBeatmap, [beatmap])!;
         DifficultyHitObject[] difficultyObjects = [.. (IEnumerable<DifficultyHitObject>)_getDifficultyHitObjects.Invoke(calc, [])!];
-
-        Console.WriteLine(watch.ElapsedMilliseconds);
 
         return enumerate();
 
