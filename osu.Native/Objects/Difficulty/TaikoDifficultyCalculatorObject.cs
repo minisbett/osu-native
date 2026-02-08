@@ -99,7 +99,7 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
         DifficultyCalculatorContext<TaikoDifficultyCalculator> context = calcHandle.Resolve();
         Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
-        IEnumerator<NativeTimedTaikoDifficultyAttributes> enumerator = DifficultyCalculatorHelper.CalculateTimedLazy(context.Calculator, mods)
+        IEnumerator<NativeTimedTaikoDifficultyAttributes> enumerator = LazyDifficultyCalculationHelper.CalculateTimedLazy(context.Calculator, mods)
             .Select(x => new NativeTimedTaikoDifficultyAttributes(x))
             .GetEnumerator();
 

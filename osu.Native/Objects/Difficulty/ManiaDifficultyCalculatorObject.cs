@@ -99,7 +99,7 @@ internal unsafe partial class ManiaDifficultyCalculatorObject : IOsuNativeObject
         DifficultyCalculatorContext<ManiaDifficultyCalculator> context = calcHandle.Resolve();
         Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
-        IEnumerator<NativeTimedManiaDifficultyAttributes> enumerator = DifficultyCalculatorHelper.CalculateTimedLazy(context.Calculator, mods)
+        IEnumerator<NativeTimedManiaDifficultyAttributes> enumerator = LazyDifficultyCalculationHelper.CalculateTimedLazy(context.Calculator, mods)
             .Select(x => new NativeTimedManiaDifficultyAttributes(x))
             .GetEnumerator();
 

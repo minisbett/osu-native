@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Difficulty;
@@ -11,9 +10,9 @@ using osu.Game.Rulesets.Objects;
 namespace osu.Native.Objects.Difficulty;
 
 /// <summary>
-/// A temporary class assisting with circumventing current limitations of the osu!(lazer) codebase.
+/// A temporary class assisting with circumventing crrent limitations of the osu!(lazer) codebase in regards to calculation difficulty attributes lazily.
 /// </summary>
-internal static class DifficultyCalculatorHelper
+internal static class LazyDifficultyCalculationHelper
 {
     private static readonly MethodInfo _preProcess;
     private static readonly MethodInfo _createSkills;
@@ -26,7 +25,7 @@ internal static class DifficultyCalculatorHelper
     private static readonly Type _progressiveBeatmap;
     private static readonly FieldInfo _progressiveBeatmapHitObjects;
 
-    static DifficultyCalculatorHelper()
+    static LazyDifficultyCalculationHelper()
     {
         _preProcess = typeof(DifficultyCalculator).GetMethod("preProcess", BindingFlags.NonPublic | BindingFlags.Instance)!;
         _createSkills = typeof(DifficultyCalculator).GetMethod("CreateSkills", BindingFlags.NonPublic | BindingFlags.Instance)!;
