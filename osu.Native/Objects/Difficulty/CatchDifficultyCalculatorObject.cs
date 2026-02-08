@@ -99,8 +99,9 @@ internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject
         DifficultyCalculatorContext<CatchDifficultyCalculator> context = calcHandle.Resolve();
         Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
-        IEnumerator<NativeTimedCatchDifficultyAttributes> enumerator = context.Calculator.CalculateTimed(mods)
-            .Select(x => new NativeTimedCatchDifficultyAttributes(x)).GetEnumerator();
+        IEnumerator<NativeTimedCatchDifficultyAttributes> enumerator = DifficultyCalculatorHelper.CalculateTimedLazy(context.Calculator, mods)
+            .Select(x => new NativeTimedCatchDifficultyAttributes(x))
+            .GetEnumerator();
 
         enumerator.MoveNext();
 

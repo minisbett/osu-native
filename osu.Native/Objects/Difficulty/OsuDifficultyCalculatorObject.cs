@@ -99,8 +99,9 @@ internal unsafe partial class OsuDifficultyCalculatorObject : IOsuNativeObject<D
         DifficultyCalculatorContext<OsuDifficultyCalculator> context = calcHandle.Resolve();
         Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
 
-        IEnumerator<NativeTimedOsuDifficultyAttributes> enumerator = context.Calculator.CalculateTimed(mods)
-            .Select(x => new NativeTimedOsuDifficultyAttributes(x)).GetEnumerator();
+        IEnumerator<NativeTimedOsuDifficultyAttributes> enumerator = DifficultyCalculatorHelper.CalculateTimedLazy(context.Calculator, mods)
+            .Select(x => new NativeTimedOsuDifficultyAttributes(x))
+            .GetEnumerator();
 
         enumerator.MoveNext();
 
