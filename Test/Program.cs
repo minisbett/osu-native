@@ -172,15 +172,29 @@ unsafe
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
-    error = Native.OsuDifficultyCalculator_CalculateTimed(d, null, &size);
+    error = Native.OsuDifficultyCalculator_CalculateTimed(d, 0, null, &size);
     Console.WriteLine($"Error code: {error}");
     Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
 
     NativeTimedOsuDifficultyAttributes[] attributesBuffer = new NativeTimedOsuDifficultyAttributes[size];
     fixed (NativeTimedOsuDifficultyAttributes* p = attributesBuffer)
-        Native.OsuDifficultyCalculator_CalculateTimed(d, p, &size);
+        Native.OsuDifficultyCalculator_CalculateTimed(d, 0, p, &size);
 
-    ;
+    error = Native.Beatmap_CreateFromFile(@"C:\Users\mini\Desktop\DJ Sharpnel - WE LUV LAMA 3 (-Tynamo) [WE LUV RSI (54465)].osu", out NativeBeatmap b2);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+    error = Native.OsuDifficultyCalculator_Create(r.Handle, b2.Handle, out uint d2);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+
+    error = Native.OsuDifficultyCalculator_CalculateTimedLazy(d2, 0, out uint enumeratorHandle);
+    Console.WriteLine($"Error code: {error}");
+    Console.WriteLine($"Error message: {Native.ErrorHandler_GetLastMessage()}");
+    while (error != -2)
+    {
+        error = Native.OsuDifficultyCalculator_CalculateTimedLazy_Next(enumeratorHandle, out NativeTimedOsuDifficultyAttributes a);
+        Console.WriteLine($"{a.Time}: {a.Attributes.MaxCombo}");
+    }
 }
 
 public struct NativeBeatmap
@@ -320,7 +334,16 @@ public static unsafe partial class Native
     public static partial sbyte OsuDifficultyCalculator_Calculate(uint osuDifficultyCalculatorHandle, uint modsHandle, out NativeOsuDifficultyAttributes attributes);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
-    public static partial sbyte OsuDifficultyCalculator_CalculateTimed(uint osuDifficultyCalculatorHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimed(uint osuDifficultyCalculatorHandle, uint modsHandle, NativeTimedOsuDifficultyAttributes* attributesBuffer, int* bufferSize);
+
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimedLazy(uint osuDifficultyCalculatorHandle, uint modsHandle, out uint enumeratorHandle);
+
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimedLazy_Next(uint enumeratorHandle, out NativeTimedOsuDifficultyAttributes attributes);
+
+    [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
+    public static partial sbyte OsuDifficultyCalculator_CalculateTimedLazy_Destroy(uint enumeratorHandle);
 
     [LibraryImport(@"C:\Users\mini\source\repos\minisbett\osu-native\Artifacts\bin\osu.Native\release\native\osu.Native.dll")]
     public static partial sbyte Ruleset_CreateFromId(uint rulesetId, out NativeRuleset ruleset);

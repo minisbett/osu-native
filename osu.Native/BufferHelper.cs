@@ -43,7 +43,6 @@ internal static unsafe class BufferHelper
     /// <param name="values">The array of values to be written into the buffer.</param>
     /// <param name="buffer">The buffer.</param>
     /// <param name="bufferSize">The size of the buffer. This is measured in elements, not bytes.</param>
-    /// <returns>The resulting error code.</returns>
     public static void Write<T>(T[] values, T* buffer, int* bufferSize) where T : unmanaged
     {
         int elementsToWrite = Math.Min(values.Length, *bufferSize);
