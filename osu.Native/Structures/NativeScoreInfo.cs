@@ -17,14 +17,17 @@ public struct NativeScoreInfo
     public int MaxCombo;
     public double Accuracy;
     public long? LegacyTotalScore;
-    public int CountMiss;
-    public int CountMeh;
-    public int CountOk;
-    public int CountGood;
-    public int CountGreat;
-    public int CountPerfect;
-    public int CountSliderTailHit;
-    public int CountLargeTickMiss;
+    public int CountMiss;          // osu, taiko, mania
+    public int CountMeh;           // osu, taiko, mania
+    public int CountOk;            // osu, taiko, mania
+    public int CountGood;          // mania
+    public int CountGreat;         // osu, taiko, catch, mania
+    public int CountPerfect;       // mania
+    public int CountSmallTickMiss; // catch
+    public int CountSmallTickHit;  // catch
+    public int CountLargeTickMiss; // osu, catch
+    public int CountLargeTickHit;  // catch
+    public int CountSliderTailHit; // osu
 
     /// <summary>
     /// Constructs a <see cref="ScoreInfo"/> from the native score information.
@@ -50,8 +53,11 @@ public struct NativeScoreInfo
                 [HitResult.Good] = CountGood,
                 [HitResult.Great] = CountGreat,
                 [HitResult.Perfect] = CountPerfect,
-                [HitResult.SliderTailHit] = CountSliderTailHit,
-                [HitResult.LargeTickMiss] = CountLargeTickMiss
+                [HitResult.SmallTickMiss] = CountSmallTickMiss,
+                [HitResult.SmallTickHit] = CountSmallTickHit,
+                [HitResult.LargeTickMiss] = CountLargeTickMiss,
+                [HitResult.LargeTickHit] = CountLargeTickHit,
+                [HitResult.SliderTailHit] = CountSliderTailHit
             }
         };
     }
