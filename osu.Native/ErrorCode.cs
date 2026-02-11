@@ -7,6 +7,11 @@
 public enum ErrorCode : sbyte
 {
     /// <summary>
+    /// Indicates that the end of an enumeration was reached.
+    /// </summary>
+    EndOfEnumeration = -2,
+
+    /// <summary>
     /// Indicates that the required size of a buffer was queried.
     /// </summary>
     BufferSizeQuery = -1,

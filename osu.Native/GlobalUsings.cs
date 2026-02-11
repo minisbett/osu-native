@@ -13,4 +13,9 @@ global using TaikoPerformanceCalculatorHandle = osu.Native.Objects.ManagedObject
 global using CatchPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Catch.Difficulty.CatchPerformanceCalculator>;
 global using ManiaPerformanceCalculatorHandle = osu.Native.Objects.ManagedObjectHandle<osu.Game.Rulesets.Mania.Difficulty.ManiaPerformanceCalculator>;
 
+global using NativeOsuTimedDifficultyAttributesEnumeratorHandle = osu.Native.Objects.ManagedObjectHandle<System.Collections.Generic.IEnumerator<osu.Native.Structures.Difficulty.NativeTimedOsuDifficultyAttributes>>;
+global using NativeTaikoTimedDifficultyAttributesEnumeratorHandle = osu.Native.Objects.ManagedObjectHandle<System.Collections.Generic.IEnumerator<osu.Native.Structures.Difficulty.NativeTimedTaikoDifficultyAttributes>>;
+global using NativeCatchTimedDifficultyAttributesEnumeratorHandle = osu.Native.Objects.ManagedObjectHandle<System.Collections.Generic.IEnumerator<osu.Native.Structures.Difficulty.NativeTimedCatchDifficultyAttributes>>;
+global using NativeManiaTimedDifficultyAttributesEnumeratorHandle = osu.Native.Objects.ManagedObjectHandle<System.Collections.Generic.IEnumerator<osu.Native.Structures.Difficulty.NativeTimedManiaDifficultyAttributes>>;
+
 global using ModsCollection = System.Collections.Generic.List<osu.Game.Online.API.APIMod>;
