@@ -245,8 +245,11 @@ public struct NativeScoreInfo
     public int CountGood;
     public int CountGreat;
     public int CountPerfect;
-    public int CountSliderTailHit;
+    public int CountSmallTickMiss;
+    public int CountSmallTickHit;
     public int CountLargeTickMiss;
+    public int CountLargeTickHit;
+    public int CountSliderTailHit;
 }
 
 public struct NativeOsuPerformanceAttributes
