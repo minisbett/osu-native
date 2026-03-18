@@ -42,6 +42,8 @@ public struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes attributes)
             SpeedNoteCount = SpeedNoteCount,
             FlashlightDifficulty = FlashlightDifficulty,
             SliderFactor = SliderFactor,
+            AimTopWeightedSliderFactor = AimTopWeightedSliderFactor,
+            SpeedTopWeightedSliderFactor = SpeedTopWeightedSliderFactor,
             AimDifficultStrainCount = AimDifficultStrainCount,
             SpeedDifficultStrainCount = SpeedDifficultStrainCount,
             NestedScorePerObject = NestedScorePerObject,
