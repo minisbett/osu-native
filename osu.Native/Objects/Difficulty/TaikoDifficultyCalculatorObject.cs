@@ -83,30 +83,4 @@ internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject
         BufferHelper.Write(nativeAttributes, nativeTimedAttributesBuffer, bufferSize);
         return ErrorCode.Success;
     }
-
-    /// <summary>
-    /// Calculates the timed (per-object) difficulty attributes of the beatmap targetted by the specified calculator.
-    /// This function returns an enumerator allowing to lazily perform calculation of difficulty attributes.
-    /// </summary>
-    /// <param name="calcHandle">The handle of the difficulty calculator.</param>
-    /// <param name="modsHandle">The handle of the mods collection to consider. A null-handle equals to an empty mods collection.</param>
-    /// <param name="timedAttributesEnumeratorHandle">The handle for the enumerator.</param>
-    [OsuNativeFunction]
-    [OsuNativeEnumerator<NativeTimedTaikoDifficultyAttributes>]
-    public static ErrorCode CalculateTimedLazy(TaikoDifficultyCalculatorHandle calcHandle, ModsCollectionHandle modsHandle,
-                                               NativeTaikoTimedDifficultyAttributesEnumeratorHandle* timedAttributesEnumeratorHandle)
-    {
-        DifficultyCalculatorContext<TaikoDifficultyCalculator> context = calcHandle.Resolve();
-        Mod[] mods = modsHandle.IsNull ? [] : [.. modsHandle.Resolve().Select(x => x.ToMod(context.Ruleset))];
-
-        IEnumerator<NativeTimedTaikoDifficultyAttributes> enumerator = LazyDifficultyCalculationHelper.CalculateTimedLazy(context.Calculator, mods)
-            .Select(x => new NativeTimedTaikoDifficultyAttributes(x))
-            .GetEnumerator();
-
-        enumerator.MoveNext();
-
-        *timedAttributesEnumeratorHandle = ManagedObjectStore.Store(enumerator);
-
-        return ErrorCode.Success;
-    }
 }
