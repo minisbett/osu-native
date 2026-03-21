@@ -7,9 +7,19 @@ It is primarily designed to allow the osu!stable client to access osu!(lazer)s' 
 
 Refer to the [wiki](./wiki) for more information.
 
-> [!CAUTION]
+Here is a list of wrappers created for osu-native library in other programming languages:
+
+|Language|Author|Package|
+|-|-|-|
+|Rust|[Chiffa](https://github.com/chiffario)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/chiffario/osu-native-rs)[![](https://img.shields.io/crates/v/osu-native-rs?logo=rust)](https://crates.io/crates/my-lib-rs)
+|Python|[7mochi](https://github.com/7mochi)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/7mochi/osu-native-py) [![](https://img.shields.io/pypi/v/osu-native-py?logo=pypi)](https://pypi.org/project/osu-native-py/)
+|Java|[7mochi](https://github.com/7mochi)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/yourname/my-lib-java) [![](https://img.shields.io/maven-central/v/io.github.7mochi/osu-native-jar?logo=apachemaven)](https://central.sonatype.com/artifact/io.github.7mochi/osu-native-jar)
+|Node|[tosuapp](https://github.com/tosuapp)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/tosuapp/osu-native-napi) [![](https://img.shields.io/npm/v/@tosuapp/osu-native-wrapper?logo=npm)](https://www.npmjs.com/package/@tosuapp/osu-native-wrapper)
+
+> [!NOTE]
+> The listed wrappers are maintained by 3rd-parties, and support for these is not provided via this repository. Please refer to the repository of the wrapper for any help.
 >
-> Work in progress! The API is currently considered unstable.
+> The wrappers may not be entirely up-to-date or may choose to version their releases differently.
 
 ## Features
 
