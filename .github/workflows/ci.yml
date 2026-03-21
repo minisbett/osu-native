@@ -1,37 +1,65 @@
 name: CI
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
-    name: Build
+    name: Build Artifacts
     runs-on: ${{ matrix.config.runner }}
     strategy:
       matrix:
         config:
-          #- { runner: windows-latest, platform: win-x86,   ext: dll }
+          - { runner: windows-latest, platform: win-x86,   ext: dll }
           - { runner: windows-latest, platform: win-x64,   ext: dll }
-          #- { runner: windows-latest, platform: win-arm64, ext: dll }
+          - { runner: windows-latest, platform: win-arm64, ext: dll }
           - { runner: ubuntu-latest,  platform: linux-x64, ext: so }
-          #- { runner: macos-latest,   platform: osx-x64,   ext: dylib }
-          #- { runner: macos-latest,   platform: osx-arm64, ext: dylib }
+          - { runner: macos-latest,   platform: osx-x64,   ext: dylib }
+          - { runner: macos-latest,   platform: osx-arm64, ext: dylib }
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
-          dotnet-quality: 'preview'
+          dotnet-version: '10.0.0'
 
-      - name: Build
-        run: dotnet publish osu.Native -c Release -r ${{ matrix.config.platform }} -o artifacts
+      - name: Publish
+        run: dotnet publish osu.Native -c Release -r ${{ matrix.config.platform }} -o out
 
-      - name: Upload Artifacts
+      - name: Include cabinet Header
+        # only include cabinet header once, despite being generated for every platform
+        if: matrix.config.platform == 'linux-x64'
+        run: |
+          cp out/cabinet.h artifacts/cabinet.h
+
+      - name: Prepare Artifact
+        run: |
+          cp out/osu.Native.${{ matrix.config.ext }} artifacts/osu.Native-${{ matrix.config.platform }}.${{ matrix.config.ext }}
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.config.platform }}
-          path: artifacts/osu.Native.${{ matrix.config.ext }}
+          path: artifacts/*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
