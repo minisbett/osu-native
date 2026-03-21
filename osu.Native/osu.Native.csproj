@@ -15,11 +15,11 @@
     <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
     <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
 
-    <!-- Generates the cabinet.h C-header file -->
+    <!-- Generates the cabinet.h C-header file on publish -->
     <GenerateCabinet>true</GenerateCabinet>
   </PropertyGroup>
-
-  <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
+	
+	<!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
        therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
   <ItemGroup>
     <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" />
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="cabi.net" Version="0.0.6" />
+    <PackageReference Include="cabi.net" Version="0.0.7" />
     <PackageReference Include="ppy.osu.Game" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
