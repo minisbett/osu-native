@@ -36,7 +36,7 @@
     <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.1029.0" />
     <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.1029.0" />
-    <PackageReference Include="ppy.osu.Game.Resources" Version="*">
+    <PackageReference Include="ppy.osu.Game.Resources" Version="2025.1028.0">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
