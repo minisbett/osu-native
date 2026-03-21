@@ -11,9 +11,9 @@ Here is a list of wrappers created for osu-native library in other programming l
 
 |Language|Author|Package|
 |-|-|-|
-|Rust|[Chiffa](https://github.com/chiffario)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/chiffario/osu-native-rs)[![](https://img.shields.io/crates/v/osu-native-rs?logo=rust)](https://crates.io/crates/my-lib-rs)
+|Rust|[Chiffa](https://github.com/chiffario)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/chiffario/osu-native-rs)[![](https://img.shields.io/crates/v/osu-native-rs?logo=rust)](https://crates.io/crates/osu-native-rs)
 |Python|[7mochi](https://github.com/7mochi)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/7mochi/osu-native-py) [![](https://img.shields.io/pypi/v/osu-native-py?logo=pypi)](https://pypi.org/project/osu-native-py/)
-|Java|[7mochi](https://github.com/7mochi)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/yourname/my-lib-java) [![](https://img.shields.io/maven-central/v/io.github.7mochi/osu-native-jar?logo=apachemaven)](https://central.sonatype.com/artifact/io.github.7mochi/osu-native-jar)
+|Java|[7mochi](https://github.com/7mochi)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/7mochi/osu-native-jar) [![](https://img.shields.io/maven-central/v/io.github.7mochi/osu-native-jar?logo=apachemaven)](https://central.sonatype.com/artifact/io.github.7mochi/osu-native-jar)
 |Node|[tosuapp](https://github.com/tosuapp)|[![](https://img.shields.io/badge/source-github-181717?logo=github)](https://github.com/tosuapp/osu-native-napi) [![](https://img.shields.io/npm/v/@tosuapp/osu-native-wrapper?logo=npm)](https://www.npmjs.com/package/@tosuapp/osu-native-wrapper)
 
 > [!NOTE]
