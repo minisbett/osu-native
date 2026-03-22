@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.4.11513.90 insiders
+VisualStudioVersion = 18.4.11513.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native", "osu.Native\osu.Native.csproj", "{8B077F85-3B67-4C37-935D-9B54F4B7CAEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Analyzers", "osu.Native.Analyzers\osu.Native.Analyzers.csproj", "{C8A14474-CF45-441C-B742-3587A381BFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "osu.Native.Tests", "osu.Native.Tests\osu.Native.Tests.csproj", "{0072958C-3FD3-41D4-8A28-D94A5D318093}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{F5D6CC88-8D34-439A-9B87-9BFB6022D747}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +28,10 @@ Global
 		{C8A14474-CF45-441C-B742-3587A381BFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A14474-CF45-441C-B742-3587A381BFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A14474-CF45-441C-B742-3587A381BFB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC32A86B-63C3-4EB0-A3E2-18AF39D2A058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0072958C-3FD3-41D4-8A28-D94A5D318093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0072958C-3FD3-41D4-8A28-D94A5D318093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0072958C-3FD3-41D4-8A28-D94A5D318093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0072958C-3FD3-41D4-8A28-D94A5D318093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
