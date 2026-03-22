@@ -11,7 +11,7 @@ namespace osu.Native.Objects;
 /// <summary>
 /// Represents a <see cref="FlatWorkingBeatmap"/>.
 /// </summary>
-internal unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
+public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
 {
     private static NativeBeatmap Create(FlatWorkingBeatmap beatmap)
     {

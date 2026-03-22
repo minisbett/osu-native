@@ -8,7 +8,7 @@ namespace osu.Native.Objects;
 /// <summary>
 /// Represents a <see cref="Ruleset"/>.
 /// </summary>
-internal unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
+public unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
 {
     private static readonly AssemblyRulesetStore _rulesetStore = new();
 

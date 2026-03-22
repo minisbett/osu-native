@@ -10,7 +10,7 @@ namespace osu.Native.Objects.Performance;
 /// <summary>
 /// Represents a <see cref="ManiaPerformanceCalculator"/>.
 /// </summary>
-internal unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObject<ManiaPerformanceCalculator>
+public unsafe partial class ManiaPerformanceCalculatorObject : IOsuNativeObject<ManiaPerformanceCalculator>
 {
     /// <summary>
     /// Creates an instance of a <see cref="ManiaPerformanceCalculator"/>.

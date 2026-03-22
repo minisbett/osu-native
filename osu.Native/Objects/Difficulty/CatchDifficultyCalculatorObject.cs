@@ -12,7 +12,7 @@ namespace osu.Native.Objects.Difficulty;
 /// <summary>
 /// Represents a <see cref="CatchDifficultyCalculator"/>.
 /// </summary>
-internal unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject<DifficultyCalculatorContext<CatchDifficultyCalculator>>
+public unsafe partial class CatchDifficultyCalculatorObject : IOsuNativeObject<DifficultyCalculatorContext<CatchDifficultyCalculator>>
 {
     /// <summary>
     /// Creates an instance of a <see cref="CatchDifficultyCalculator"/> for the specified ruleset and beatmap.

@@ -6,7 +6,7 @@ namespace osu.Native.Objects;
 /// A type-specific store for managed objects to be associated with a handle.
 /// </summary>
 /// <typeparam name="T">The managed type of the store.</typeparam>
-internal static class ManagedObjectStore<T> where T : notnull
+public static class ManagedObjectStore<T> where T : notnull
 {
     private static readonly ConcurrentDictionary<uint, T> _objects = [];
     private static uint _nextId = 0; // ID assignment starts at 1
@@ -49,7 +49,7 @@ internal static class ManagedObjectStore<T> where T : notnull
 /// <summary>
 /// Helper class for calling <see cref="ManagedObjectStore{T}.Store(T)"/>. 
 /// </summary>
-internal static class ManagedObjectStore
+public static class ManagedObjectStore
 {
     /// <summary>
     /// Stores the managed object and returns a handle for it.
@@ -86,4 +86,4 @@ public readonly struct ManagedObjectHandle<T>(uint objectId) where T : notnull
 /// <summary>
 /// Exception thrown when an object could not be resolved from the store.
 /// </summary>
-internal class ObjectNotResolvedException(Type type, uint id) : Exception($"Object '{type.Name}' with ID '{id}' could not be resolved.");
+public class ObjectNotResolvedException(Type type, uint id) : Exception($"Object '{type.Name}' with ID '{id}' could not be resolved.");
