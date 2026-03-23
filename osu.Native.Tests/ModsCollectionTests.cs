@@ -50,7 +50,7 @@ internal unsafe class ModsCollectionTests
         Assert.That(mods, Does.Contain(mod));
 
         ModsCollectionObject.Remove(nativeModsCollection.Handle, nativeMod.Handle);
-
+        
         Assert.That(mods, Does.Not.Contain(mod));
     }
 }

@@ -27,7 +27,7 @@ public unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     /// <param name="rulesetId">The ID of the ruleset.</param>
     /// <param name="rulesetPtr">A pointer to write the resulting native ruleset object to.</param>
     [OsuNativeFunction]
-    private static ErrorCode CreateFromId(int rulesetId, NativeRuleset* rulesetPtr)
+    public static ErrorCode CreateFromId(int rulesetId, NativeRuleset* rulesetPtr)
     {
         RulesetInfo? ruleset = _rulesetStore.GetRuleset(rulesetId);
         if (ruleset is null || !ruleset.Available)
@@ -44,7 +44,7 @@ public unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     /// <param name="shortName">The short name of the ruleset.</param>
     /// <param name="rulesetPtr">A pointer to write the resulting native ruleset object to.</param>
     [OsuNativeFunction]
-    private static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* rulesetPtr)
+    public static ErrorCode CreateFromShortName(byte* shortName, NativeRuleset* rulesetPtr)
     {
         string shortNameStr = Utf8StringMarshaller.ConvertToManaged(shortName) ?? "";
 
@@ -64,6 +64,6 @@ public unsafe partial class RulesetObject : IOsuNativeObject<Ruleset>
     /// <param name="buffer">The buffer to write the title into.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    private static ErrorCode GetShortName(RulesetHandle rulesetHandle, byte* buffer, int* bufferSize)
+    public static ErrorCode GetShortName(RulesetHandle rulesetHandle, byte* buffer, int* bufferSize)
       => BufferHelper.String(rulesetHandle.Resolve().ShortName, buffer, bufferSize);
 }
