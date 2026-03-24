@@ -8,7 +8,7 @@ namespace osu.Native;
 /// <summary>
 /// Manages error handling for native calls, storing the last thread-specific error messages and handling managed exceptions.
 /// </summary>
-internal static unsafe class ErrorHandler
+public static unsafe class ErrorHandler
 {
     /// <summary>
     /// A thread-unique pointer to a string containing the last error message.
