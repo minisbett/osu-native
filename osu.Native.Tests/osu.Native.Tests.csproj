@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.4" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
 		<PackageReference Include="NUnit" Version="4.3.2" />
@@ -18,6 +18,17 @@
 	<ItemGroup>
 		<Using Include="NUnit.Framework" />
 		<ProjectReference Include="..\osu.Native\osu.Native.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Resources\Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu" />
+		<None Remove="Resources\Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu" />
+		<None Remove="Resources\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu" />
+		<None Remove="Resources\xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu" />
+	  <EmbeddedResource Include="Resources\Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu" />
+	  <EmbeddedResource Include="Resources\Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu" />
+	  <EmbeddedResource Include="Resources\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu" />
+	  <EmbeddedResource Include="Resources\xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu" />
 	</ItemGroup>
 
 </Project>

@@ -35,7 +35,7 @@ public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
     /// <param name="filePathPtr">The path to the beatmap file.</param>
     /// <param name="nativeBeatmapPtr">A pointer to write the resulting native beatmap object to.</param>
     [OsuNativeFunction]
-    private static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* nativeBeatmapPtr)
+    public static ErrorCode CreateFromFile(byte* filePathPtr, NativeBeatmap* nativeBeatmapPtr)
     {
         string? filePath = Utf8StringMarshaller.ConvertToManaged(filePathPtr) ?? "";
 
@@ -52,7 +52,7 @@ public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
     /// <param name="beatmapTextPtr">The beatmap text.</param>
     /// <param name="nativeBeatmapPtr">A pointer to write the resulting native beatmap object to.</param>
     [OsuNativeFunction]
-    private static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* nativeBeatmapPtr)
+    public static ErrorCode CreateFromText(byte* beatmapTextPtr, NativeBeatmap* nativeBeatmapPtr)
     {
         string text = Utf8StringMarshaller.ConvertToManaged(beatmapTextPtr) ?? "";
 
@@ -72,7 +72,7 @@ public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
     /// <param name="buffer">The buffer to write the title into.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    private static ErrorCode GetTitle(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
+    public static ErrorCode GetTitle(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
       => BufferHelper.String(beatmapHandle.Resolve().Metadata.Title, buffer, bufferSize);
 
 
@@ -83,7 +83,7 @@ public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
     /// <param name="buffer">The buffer to write the artist into.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    private static ErrorCode GetArtist(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
+    public static ErrorCode GetArtist(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
       => BufferHelper.String(beatmapHandle.Resolve().Metadata.Artist, buffer, bufferSize);
 
 
@@ -94,6 +94,6 @@ public unsafe partial class BeatmapObject : IOsuNativeObject<FlatWorkingBeatmap>
     /// <param name="buffer">The buffer to write the difficulty name into.</param>
     /// <param name="bufferSize">The size of the provided buffer.</param>
     [OsuNativeFunction]
-    private static ErrorCode GetVersion(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
+    public static ErrorCode GetVersion(BeatmapHandle beatmapHandle, byte* buffer, int* bufferSize)
       => BufferHelper.String(beatmapHandle.Resolve().BeatmapInfo.DifficultyName, buffer, bufferSize);
 }
