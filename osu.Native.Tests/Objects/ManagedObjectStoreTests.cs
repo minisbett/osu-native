@@ -1,6 +1,6 @@
 ﻿using osu.Native.Objects;
 
-namespace osu.Native.Tests;
+namespace osu.Native.Tests.Objects;
 
 [TestFixture]
 internal class ManagedObjectStoreTests

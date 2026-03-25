@@ -3,7 +3,7 @@ using osu.Game.Online.API;
 using osu.Native.Objects;
 using osu.Native.Structures;
 
-namespace osu.Native.Tests;
+namespace osu.Native.Tests.Objects;
 
 [TestFixture]
 internal unsafe class ModsCollectionTests

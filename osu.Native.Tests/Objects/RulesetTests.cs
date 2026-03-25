@@ -8,7 +8,7 @@ using osu.Game.Rulesets.Taiko;
 using osu.Native.Objects;
 using osu.Native.Structures;
 
-namespace osu.Native.Tests;
+namespace osu.Native.Tests.Objects;
 
 [TestFixture]
 internal unsafe class RulesetTests

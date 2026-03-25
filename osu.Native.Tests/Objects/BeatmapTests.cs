@@ -1,9 +1,10 @@
 ﻿using System.Runtime.InteropServices.Marshalling;
 using System.Text;
+using osu.Game.Beatmaps;
 using osu.Native.Objects;
 using osu.Native.Structures;
 
-namespace osu.Native.Tests;
+namespace osu.Native.Tests.Objects;
 
 [TestFixture]
 internal unsafe class BeatmapTests
@@ -26,16 +27,21 @@ internal unsafe class BeatmapTests
     [TestCase("xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu", 480207, 3)]
     public void CreateFromText_SuccessAndCorrectRulesetBeatmapIds(string fileName, int beatmapId, int rulesetId)
     {
-        byte[] beatmap = TestUtils.GetResource(fileName);
+        byte[] beatmapData = TestUtils.GetResource(fileName);
 
         NativeBeatmap nativeBeatmap;
         ErrorCode errorCode;
-        fixed (byte* ptr = beatmap)
+        fixed (byte* ptr = beatmapData)
             errorCode = BeatmapObject.CreateFromText(ptr, &nativeBeatmap);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
         Assert.That(nativeBeatmap.BeatmapId, Is.EqualTo(beatmapId));
         Assert.That(nativeBeatmap.RulesetId, Is.EqualTo(rulesetId));
+
+        FlatWorkingBeatmap beatmap = nativeBeatmap.Handle.Resolve();
+
+        Assert.That(beatmap.BeatmapInfo.OnlineID, Is.EqualTo(beatmapId));
+        Assert.That(beatmap.BeatmapInfo.Ruleset.OnlineID, Is.EqualTo(rulesetId));
     }
 
     [TestCase("Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu", 75, 0)]
@@ -56,6 +62,11 @@ internal unsafe class BeatmapTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
         Assert.That(nativeBeatmap.BeatmapId, Is.EqualTo(beatmapId));
         Assert.That(nativeBeatmap.RulesetId, Is.EqualTo(rulesetId));
+
+        FlatWorkingBeatmap beatmap = nativeBeatmap.Handle.Resolve();
+
+        Assert.That(beatmap.BeatmapInfo.OnlineID, Is.EqualTo(beatmapId));
+        Assert.That(beatmap.BeatmapInfo.Ruleset.OnlineID, Is.EqualTo(rulesetId));
     }
 
     [Test]
