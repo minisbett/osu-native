@@ -14,17 +14,17 @@ internal unsafe class BeatmapTests
     [SetUp]
     public void Setup()
     {
-        byte[] beatmap = TestUtils.GetResource("Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu");
+        byte[] beatmap = TestUtils.GetResource("beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu");
 
         fixed (byte* ptr = beatmap)
         fixed (NativeBeatmap* nativePtr = &_nativeBeatmap)
             BeatmapObject.CreateFromText(ptr, nativePtr);
     }
 
-    [TestCase("Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu", 75, 0)]
-    [TestCase("Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu", 1625591, 1)]
-    [TestCase("Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu", 481938, 2)]
-    [TestCase("xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu", 480207, 3)]
+    [TestCase("beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu", 75, 0)]
+    [TestCase("beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu", 1625591, 1)]
+    [TestCase("beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu", 481938, 2)]
+    [TestCase("beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu", 480207, 3)]
     public void CreateFromText_SuccessAndCorrectRulesetBeatmapIds(string fileName, int beatmapId, int rulesetId)
     {
         byte[] beatmapData = TestUtils.GetResource(fileName);
@@ -44,10 +44,10 @@ internal unsafe class BeatmapTests
         Assert.That(beatmap.BeatmapInfo.Ruleset.OnlineID, Is.EqualTo(rulesetId));
     }
 
-    [TestCase("Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu", 75, 0)]
-    [TestCase("Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu", 1625591, 1)]
-    [TestCase("Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu", 481938, 2)]
-    [TestCase("xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu", 480207, 3)]
+    [TestCase("beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu", 75, 0)]
+    [TestCase("beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu", 1625591, 1)]
+    [TestCase("beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu", 481938, 2)]
+    [TestCase("beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu", 480207, 3)]
     public void CreateFromFile_SuccessAndCorrectRulesetBeatmapIds(string fileName, int beatmapId, int rulesetId)
     {
         string tempFilePath = Path.GetTempFileName();
