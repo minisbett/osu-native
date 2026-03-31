@@ -1,4 +1,6 @@
-﻿using osu.Native.Objects;
+﻿using osu.Game.Rulesets.Osu.Difficulty;
+using osu.Game.Rulesets.Taiko.Difficulty;
+using osu.Native.Objects;
 using osu.Native.Objects.Difficulty;
 using osu.Native.Structures;
 using osu.Native.Structures.Difficulty;
@@ -43,7 +45,7 @@ internal unsafe class TaikoDifficultyCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.UnexpectedRuleset));
     }
 
-    [TestCaseSource(nameof(GetTestCases))]
+    [TestCaseSource(nameof(CalculateTestCases))]
     public void Calculate_Success(string beatmapFilename, string? mods, NativeTaikoDifficultyAttributes expectedAttributes)
     {
         NativeBeatmap nativeBeatmap = TestUtils.CreateBeatmap(beatmapFilename);
@@ -60,7 +62,27 @@ internal unsafe class TaikoDifficultyCalculatorTests
         Assert.That(nativeAttributes, Is.EqualTo(expectedAttributes));
     }
 
-    private static IEnumerable<TestCaseData> GetTestCases()
+    [TestCaseSource(nameof(CalculateTimedTestCases))]
+    public void CalculateTimed_Success(string beatmapFilename, string? mods, int attributesIndex, NativeTimedTaikoDifficultyAttributes expectedAttributes)
+    {
+        NativeBeatmap nativeBeatmap = TestUtils.CreateBeatmap(beatmapFilename);
+        NativeModsCollection nativeModsCollection = TestUtils.CreateNativeModsCollection(mods);
+
+        NativeTaikoDifficultyCalculator nativeDifficultyCalculator;
+        TaikoDifficultyCalculatorObject.Create(_nativeRuleset.Handle, nativeBeatmap.Handle, &nativeDifficultyCalculator);
+
+        int size = 0;
+        TaikoDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, null, &size);
+        NativeTimedTaikoDifficultyAttributes[] nativeAttributes = new NativeTimedTaikoDifficultyAttributes[size];
+        ErrorCode errorCode;
+        fixed (NativeTimedTaikoDifficultyAttributes* ptr = nativeAttributes)
+            errorCode = TaikoDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
+
+        Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
+        Assert.That(nativeAttributes[attributesIndex], Is.EqualTo(expectedAttributes));
+    }
+
+    private static IEnumerable<TestCaseData> CalculateTestCases()
     {
         yield return new(
             "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
@@ -132,6 +154,85 @@ internal unsafe class TaikoDifficultyCalculatorTests
                 ConsistencyFactor = 0.7365465128799001,
                 StaminaTopStrains = 304.45808068546506
             })
+        );
+    }
+
+    private static IEnumerable<TestCaseData> CalculateTimedTestCases()
+    {
+        yield return new(
+            "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+            null,
+            112,
+            new NativeTimedTaikoDifficultyAttributes(new(81368, new TaikoDifficultyAttributes()
+            {
+                StarRating = 1.1098320129641495,
+                MaxCombo = 106,
+                MechanicalDifficulty = 1.0604533327053272,
+                RhythmDifficulty = 0.04937868007513404,
+                ReadingDifficulty = 1.836883991158528E-10,
+                ColourDifficulty = 0.19860377525560924,
+                StaminaDifficulty = 0.8618495574497179,
+                MonoStaminaFactor = 0.7720121953149288,
+                ConsistencyFactor = 0.6708255013231751,
+                StaminaTopStrains = 32.34253680705717
+            }))
+        );
+
+        yield return new(
+            "beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu",
+            null,
+            387,
+            new NativeTimedTaikoDifficultyAttributes(new(69687, new TaikoDifficultyAttributes()
+            {
+                StarRating = 4.11242111015801,
+                MaxCombo = 388,
+                MechanicalDifficulty = 3.175040354229718,
+                RhythmDifficulty = 0.9373792794516127,
+                ReadingDifficulty = 1.4764766786072943E-06,
+                ColourDifficulty = 0.9882162567571725,
+                StaminaDifficulty = 2.1868240974725457,
+                MonoStaminaFactor = 7.869817236005582E-09,
+                ConsistencyFactor = 0.7997705233931964,
+                StaminaTopStrains = 165.398224897263
+            }))
+        );
+
+        yield return new(
+            "beatmaps/taiko/AliA - Kakurenbo (Santi199) [From Here].osu",
+            "HDDT",
+            971,
+            new NativeTimedTaikoDifficultyAttributes(new(145410, new TaikoDifficultyAttributes()
+            {
+                StarRating = 6.770099393569792,
+                MaxCombo = 972,
+                MechanicalDifficulty = 5.04386048822962,
+                RhythmDifficulty = 1.4174179017169288,
+                ReadingDifficulty = 0.3088210036232424,
+                ColourDifficulty = 1.4432878759657388,
+                StaminaDifficulty = 3.600572612263881,
+                MonoStaminaFactor = 1.703595911720861E-08,
+                ConsistencyFactor = 0.7443737731512136,
+                StaminaTopStrains = 244.09359807054483
+            }))
+        );
+
+        yield return new(
+            "beatmaps/taiko/The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu",
+            "FLSR",
+            474,
+            new NativeTimedTaikoDifficultyAttributes(new(73077, new TaikoDifficultyAttributes()
+            {
+                StarRating = 5.03445225816122,
+                MaxCombo = 475,
+                MechanicalDifficulty = 4.194497362649164,
+                RhythmDifficulty = 0.8399543162218412,
+                ReadingDifficulty = 5.792902144577381E-07,
+                ColourDifficulty = 1.3248447829121202,
+                StaminaDifficulty = 2.869652579737044,
+                MonoStaminaFactor = 8.47015536456639E-05,
+                ConsistencyFactor = 0.7405942248649898,
+                StaminaTopStrains = 170.27077455498798
+            }))
         );
     }
 }
