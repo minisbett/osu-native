@@ -3,8 +3,8 @@ using osu.Game.Rulesets.Osu.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
-public struct NativeTimedOsuDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
+public readonly struct NativeTimedOsuDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
 {
-    public double Time = timedAttributes.Time;
-    public NativeOsuDifficultyAttributes Attributes = new((OsuDifficultyAttributes)timedAttributes.Attributes);
+    public readonly double Time = timedAttributes.Time;
+    public readonly NativeOsuDifficultyAttributes Attributes = new((OsuDifficultyAttributes)timedAttributes.Attributes);
 }

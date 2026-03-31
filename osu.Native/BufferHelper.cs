@@ -5,7 +5,7 @@ namespace osu.Native;
 /// <summary>
 /// Provides utility methods for writing to buffers.
 /// </summary>
-internal static unsafe class BufferHelper
+public static unsafe class BufferHelper
 {
     /// <summary>
     /// Writes the specified string into the provided buffer in UTF-8 encoding.
