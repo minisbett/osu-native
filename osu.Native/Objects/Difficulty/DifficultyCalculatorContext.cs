@@ -15,7 +15,13 @@ public class DifficultyCalculatorContext<TCalculator>(Ruleset ruleset, FlatWorki
     //       However, we are doing this for convenience, as it avoids having to pass rulesets whenever mods are to be instantiated.
     public Ruleset Ruleset { get; } = ruleset;
 
+    /// <summary>
+    /// The beatmap used to create the difficulty calculator. This is not exposed via the calculator itself, hence why it is provided here.
+    /// </summary>
     public FlatWorkingBeatmap Beatmap { get; } = beatmap;
 
+    /// <summary>
+    /// The difficulty calculator this context is wrapping.
+    /// </summary>
     public TCalculator Calculator { get; } = calculator;
 }
