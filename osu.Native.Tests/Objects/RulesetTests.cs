@@ -13,6 +13,9 @@ namespace osu.Native.Tests.Objects;
 [TestFixture]
 internal unsafe class RulesetTests
 {
+    /// <summary>
+    /// Creates a ruleset object by its' ID (0 = osu, 1 = taiko, ...), resolves the handle and expects it to be of the correct type.
+    /// </summary>
     [TestCase(0, typeof(OsuRuleset))]
     [TestCase(1, typeof(TaikoRuleset))]
     [TestCase(2, typeof(CatchRuleset))]
@@ -29,6 +32,11 @@ internal unsafe class RulesetTests
         Assert.That(ruleset, Is.TypeOf(rulesetType));
     }
 
+    /// <summary>
+    /// Creates a ruleset object by its' shortname (osu, taiko, ...), resolves the handle and expects it to be of the correct type.
+    /// </summary>
+    /// <param name="shortName"></param>
+    /// <param name="rulesetType"></param>
     [TestCase("osu", typeof(OsuRuleset))]
     [TestCase("taiko", typeof(TaikoRuleset))]
     [TestCase("fruits", typeof(CatchRuleset))]
@@ -45,6 +53,9 @@ internal unsafe class RulesetTests
         Assert.That(ruleset, Is.TypeOf(rulesetType));
     }
 
+    /// <summary>
+    /// Creates a ruleset object with a ruleset ID that does not exist, and expects the method to return RulesetUnavailable.
+    /// </summary>
     [Test]
     public void Create_UnknownRulesetFromId_ReturnsRulesetUnavailable()
     {
@@ -54,6 +65,9 @@ internal unsafe class RulesetTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.RulesetUnavailable));
     }
 
+    /// <summary>
+    /// Creates a ruleset object with a ruleset shortname that does not exist, and expects the method to return RulesetUnavailable.
+    /// </summary>
     [Test]
     public void Create_UnknownRulesetFromShortName_ReturnsRulesetUnavailable()
     {
@@ -63,6 +77,10 @@ internal unsafe class RulesetTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.RulesetUnavailable));
     }
 
+    /// <summary>
+    /// Creates a ruleset object by its' shortname (osu, taiko, ...), retrieves the shortname and expects it to match the origin shortname.
+    /// </summary>
+    /// <param name="shortName"></param>
     [TestCase("osu")]
     [TestCase("taiko")]
     [TestCase("fruits")]

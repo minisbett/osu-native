@@ -8,6 +8,9 @@ namespace osu.Native.Tests.Objects;
 [TestFixture]
 internal unsafe class ModTests
 {
+    /// <summary>
+    /// Creates a mod object by its acronym, resolves the managed object and checks that the acronym on it matches.
+    /// </summary>
     [Test]
     public void Create_Mod_Success()
     {
@@ -21,6 +24,9 @@ internal unsafe class ModTests
         Assert.That(mod.Acronym, Is.EqualTo("DT"));
     }
 
+    /// <summary>
+    /// Sets a bool, integer and float setting on a mod object, resolves the managed object and expects that the settings were applied correctly.
+    /// </summary>
     [Test]
     public void SetSetting_Success()
     {

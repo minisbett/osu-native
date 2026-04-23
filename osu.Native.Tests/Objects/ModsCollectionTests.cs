@@ -8,6 +8,9 @@ namespace osu.Native.Tests.Objects;
 [TestFixture]
 internal unsafe class ModsCollectionTests
 {
+    /// <summary>
+    /// Creates a mods collection object, resolves the handle and expects the collection to be empty.
+    /// </summary>
     [Test]
     public void Create_Collection_SuccessAndEmpty()
     {
@@ -18,6 +21,9 @@ internal unsafe class ModsCollectionTests
         Assert.That(nativeModsCollection.Handle.Resolve(), Is.Empty);
     }
 
+    /// <summary>
+    /// Creates a mod and a mods collection object containing it, resolves the collection and mod and checks if the mod is contained.
+    /// </summary>
     [Test]
     public void Add_Mod_Success()
     {
@@ -34,6 +40,9 @@ internal unsafe class ModsCollectionTests
         Assert.That(mods, Contains.Item(mod));
     }
 
+    /// <summary>
+    /// Creates a mod and a mods collection object containing it, removes it again, resolves the collection and checks if it does not contain the mod.
+    /// </summary>
     [Test]
     public void Remove_Mod_Success()
     {
