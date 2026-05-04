@@ -5,8 +5,14 @@ namespace osu.Native.Tests.Objects;
 [TestFixture]
 internal class ManagedObjectStoreTests
 {
+    /// <summary>
+    /// Serves as a reference type that is exclusively used for tests in this class.
+    /// </summary>
     private class DummyObject;
 
+    /// <summary>
+    /// Stores a dummy object to the managed object store and expects it to successfully resolve and be equal on reference.
+    /// </summary>
     [Test]
     public void Store_Object_Resolves()
     {
@@ -19,6 +25,9 @@ internal class ManagedObjectStoreTests
         Assert.That(obj1, Is.EqualTo(obj2));
     }
 
+    /// <summary>
+    /// Stores two dummy objects to the managed object store and expects the handle ID to have incremented by 1.
+    /// </summary>
     [Test]
     public void Store_TwoObjects_IncreasesId()
     {
@@ -31,6 +40,9 @@ internal class ManagedObjectStoreTests
         Assert.That(handle2.Id, Is.EqualTo(handle1.Id + 1));
     }
 
+    /// <summary>
+    /// Resolves a null-handle and expects an ObjectNotResolvedException to be thrown.
+    /// </summary>
     [Test]
     public void Resolve_NonExistentHandle_Throws()
     {
@@ -39,14 +51,15 @@ internal class ManagedObjectStoreTests
         Assert.Throws<ObjectNotResolvedException>(() => handle.Resolve());
     }
 
+    /// <summary>
+    /// Stores a dummy object, removes it again, resolves it and expects an ObjectNotResolvedException to be thrown.
+    /// </summary>
     [Test]
     public void Remove_Object_ThrowsOnResolve()
     {
         DummyObject obj = new();
 
         ManagedObjectHandle<DummyObject> handle = ManagedObjectStore.Store(obj);
-
-        Assert.DoesNotThrow(() => handle.Resolve());
 
         ManagedObjectStore<DummyObject>.Remove(handle);
 
