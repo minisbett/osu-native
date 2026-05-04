@@ -14,7 +14,7 @@ namespace osu.Native.Tests.Objects;
 internal unsafe class RulesetTests
 {
     /// <summary>
-    /// Creates a ruleset object by its' ID (0 = osu, 1 = taiko, ...), resolves the handle and expects it to be of the correct type.
+    /// Creates a ruleset object by its ID (0 = osu, 1 = taiko, ...), resolves the handle and expects it to be of the correct type.
     /// </summary>
     [TestCase(0, typeof(OsuRuleset))]
     [TestCase(1, typeof(TaikoRuleset))]
@@ -33,10 +33,8 @@ internal unsafe class RulesetTests
     }
 
     /// <summary>
-    /// Creates a ruleset object by its' shortname (osu, taiko, ...), resolves the handle and expects it to be of the correct type.
+    /// Creates a ruleset object by its shortname (osu, taiko, ...), resolves the handle and expects it to be of the correct type.
     /// </summary>
-    /// <param name="shortName"></param>
-    /// <param name="rulesetType"></param>
     [TestCase("osu", typeof(OsuRuleset))]
     [TestCase("taiko", typeof(TaikoRuleset))]
     [TestCase("fruits", typeof(CatchRuleset))]
@@ -78,9 +76,8 @@ internal unsafe class RulesetTests
     }
 
     /// <summary>
-    /// Creates a ruleset object by its' shortname (osu, taiko, ...), retrieves the shortname and expects it to match the origin shortname.
+    /// Creates a ruleset object by its shortname (osu, taiko, ...), retrieves the shortname and expects it to match the origin shortname.
     /// </summary>
-    /// <param name="shortName"></param>
     [TestCase("osu")]
     [TestCase("taiko")]
     [TestCase("fruits")]
@@ -94,9 +91,8 @@ internal unsafe class RulesetTests
         RulesetObject.GetShortName(nativeRuleset.Handle, null, &size);
 
         byte[] buffer = new byte[size];
-        ErrorCode errorCode;
         fixed (byte* bufferPtr = buffer)
-            errorCode = RulesetObject.GetShortName(nativeRuleset.Handle, bufferPtr, &size);
+            RulesetObject.GetShortName(nativeRuleset.Handle, bufferPtr, &size);
 
         Assert.That(Encoding.UTF8.GetString(buffer).TrimEnd(char.MinValue), Is.EqualTo(shortName));
     }

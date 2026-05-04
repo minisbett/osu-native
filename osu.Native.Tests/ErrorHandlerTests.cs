@@ -9,6 +9,9 @@ internal unsafe class ErrorHandlerTests
     private static string? GetLastMessage()
         => Utf8StringMarshaller.ConvertToManaged(((delegate* unmanaged[Cdecl]<byte*>)&ErrorHandler.GetLastMessage)());
 
+    /// <summary>
+    /// Sets the last error message and expects GetLastMessage() to return said message.
+    /// </summary>
     [Test]
     public void SetLastMessage_SameThread_ReturnsSameMessage()
     {
@@ -17,6 +20,9 @@ internal unsafe class ErrorHandlerTests
         Assert.That(GetLastMessage(), Is.EqualTo("Foo"));
     }
 
+    /// <summary>
+    /// Sets the last error message to a string, followed by null and expects GetLastMessage() to return null / a null pointer.
+    /// </summary>
     [Test]
     public void SetLastMessage_Null_NullifiesPointer()
     {
@@ -26,6 +32,9 @@ internal unsafe class ErrorHandlerTests
         Assert.That(GetLastMessage(), Is.Null);
     }
 
+    /// <summary>
+    /// Sets the last error message twice and expects GetLastMessage() to return the second one.
+    /// </summary>
     [Test]
     public void SetLastMessage_Twice_KeepsLatest()
     {
@@ -35,8 +44,11 @@ internal unsafe class ErrorHandlerTests
         Assert.That(GetLastMessage(), Is.EqualTo("Bar"));
     }
 
+    /// <summary>
+    /// Sets the last error message in the current and a newly created thread and expects the calls to GetLastMessage() return the correct messages.
+    /// </summary>
     [Test]
-    public async Task SetLastMessage_DifferentThreads_IsThreadLocal()
+    public void SetLastMessage_DifferentThreads_IsThreadLocal()
     {
         ErrorHandler.SetLastMessage("A");
         string? messageA = GetLastMessage();
@@ -45,11 +57,8 @@ internal unsafe class ErrorHandlerTests
 
         Thread otherThread = new(() =>
         {
-            unsafe
-            {
-                ErrorHandler.SetLastMessage("B");
-                messageB = GetLastMessage();
-            }
+            ErrorHandler.SetLastMessage("B");
+            messageB = GetLastMessage();
         });
 
 
@@ -60,20 +69,21 @@ internal unsafe class ErrorHandlerTests
         Assert.That(messageB, Is.EqualTo("B"));
     }
 
+    /// <summary>
+    /// Handles an error via Return() and expects the correct last error message to be set and correct error code to be returned.
+    /// </summary>
     [Test]
     public void Return_SetsMessageAndReturnsCode()
     {
-        ErrorCode errorCode1 = ErrorHandler.Return(ErrorCode.Failure, "Baz");
+        ErrorCode errorCode = ErrorHandler.Return(ErrorCode.RulesetUnavailable, "Baz");
 
-        Assert.That(errorCode1, Is.EqualTo(ErrorCode.Failure));
+        Assert.That(errorCode, Is.EqualTo(ErrorCode.RulesetUnavailable));
         Assert.That(GetLastMessage(), Is.EqualTo("Baz"));
-
-        ErrorCode errorCode2 = ErrorHandler.Return(ErrorCode.RulesetUnavailable, "osu");
-
-        Assert.That(errorCode2, Is.EqualTo(ErrorCode.RulesetUnavailable));
-        Assert.That(GetLastMessage(), Is.EqualTo("osu"));
     }
 
+    /// <summary>
+    /// Handles an ObjectNotResolvedException via HandleException() and expects ObjectNotResolved to be returned.
+    /// </summary>
     [Test]
     public void HandleException_ObjectNotResolved_ReturnsObjectNotResolved()
     {
@@ -82,14 +92,20 @@ internal unsafe class ErrorHandlerTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.ObjectNotResolved));
     }
 
+    /// <summary>
+    /// Handles an unspecific exception via HandleException() and expects Failure to be returned.
+    /// </summary>
     [Test]
     public void HandleException_Any_ReturnsFailure()
     {
-        ErrorCode errorCode = ErrorHandler.HandleException(new Exception());
+        ErrorCode errorCode = ErrorHandler.HandleException(new());
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Failure));
     }
 
+    /// <summary>
+    /// Handles an exception via HandleException() and expects the last error message to be the exceptions' string representation.
+    /// </summary>
     [Test]
     public void HandleException_Any_SetsLastErrorMessage()
     {
