@@ -26,13 +26,10 @@ public static unsafe class BufferHelper
             return ErrorCode.BufferSizeQuery;
         }
 
-        if (buffer is not null)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(str);
-            int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
-            bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
-            buffer[bytesToWrite] = 0x0;
-        }
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
+        bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
+        buffer[bytesToWrite] = 0x0;
 
         return ErrorCode.Success;
     }

@@ -21,7 +21,7 @@ internal unsafe class BufferHelperTests
         fixed (byte* bufferPtr = buffer)
             BufferHelper.String("Dean Herbert", bufferPtr, &size);
 
-        Assert.That(buffer, Is.EquivalentTo(new byte[] { (byte)'D', (byte)'e', (byte)'a', (byte)'n', 0, 0, 0, 0, 0, 0 }));
+        Assert.That(buffer, Is.EquivalentTo("Dean\0\0\0\0\0\0"u8.ToArray()));
     }
     [Test]
     public void Write_InsufficientSize_TruncatesData()
