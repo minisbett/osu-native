@@ -1,55 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\beatmaps\catch\Hanatan - Airman ga Taosenai %28SOUND HOLIC Ver.%29 %28Natsu%29 [Zero%27s Overdose].osu" />
-    <None Remove="Resources\beatmaps\catch\Icon For Hire - Make a Move %28Speed Up Ver.%29 %28Sotarks%29 [Ascendance%27s Overdose].osu" />
-    <None Remove="Resources\beatmaps\catch\Lite Show Magic %28t+pazolite vs C-Show%29 - Crack Traxxxx %28Fatfan Kolek%29 [Spec%27s Hi-Speed Overdose].osu" />
-    <None Remove="Resources\beatmaps\mania\MYTH &amp; ROID - STYX HELIX %28Tsukuyomi%29 [victorica%27s Hard].osu" />
-    <None Remove="Resources\beatmaps\mania\Soleily - Renatus %28ExPew%29 [Another].osu" />
-    <None Remove="Resources\beatmaps\mania\xi - FREEDOM DiVE %28razlteh%29 [Blocko%27s 7K Black Another].osu" />
-    <None Remove="Resources\beatmaps\osu\Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate %28Nightcore &amp; Cut Ver.%29 %28My Angel Ram%29 [Fearless Rockstar].osu" />
-    <None Remove="Resources\beatmaps\osu\Cardboard Box - The Limit Does Not Exist %28Omekyu%29 [lim x - U+221E].osu" />
-    <None Remove="Resources\beatmaps\osu\Kenji Ninuma - DISCOPRINCE %28peppy%29 [Normal].osu" />
-    <None Remove="Resources\beatmaps\osu\kradness&amp;Reol - Remote Control %28Taeyang%29 [Max Control!].osu" />
-    <None Remove="Resources\beatmaps\taiko\AliA - Kakurenbo %28Santi199%29 [From Here].osu" />
-    <None Remove="Resources\beatmaps\taiko\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai %28eiri-%29 [Oni].osu" />
-    <None Remove="Resources\beatmaps\taiko\The Quick Brown Fox - The Big Black %28Blue Dragon%29 [Ono%27s Taiko Oni].osu" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\beatmaps\catch\Hanatan - Airman ga Taosenai %28SOUND HOLIC Ver.%29 %28Natsu%29 [Zero%27s Overdose].osu"/>
+        <None Remove="Resources\beatmaps\catch\Icon For Hire - Make a Move %28Speed Up Ver.%29 %28Sotarks%29 [Ascendance%27s Overdose].osu"/>
+        <None Remove="Resources\beatmaps\catch\Lite Show Magic %28t+pazolite vs C-Show%29 - Crack Traxxxx %28Fatfan Kolek%29 [Spec%27s Hi-Speed Overdose].osu"/>
+        <None Remove="Resources\beatmaps\mania\MYTH &amp; ROID - STYX HELIX %28Tsukuyomi%29 [victorica%27s Hard].osu"/>
+        <None Remove="Resources\beatmaps\mania\Soleily - Renatus %28ExPew%29 [Another].osu"/>
+        <None Remove="Resources\beatmaps\mania\xi - FREEDOM DiVE %28razlteh%29 [Blocko%27s 7K Black Another].osu"/>
+        <None Remove="Resources\beatmaps\osu\Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate %28Nightcore &amp; Cut Ver.%29 %28My Angel Ram%29 [Fearless Rockstar].osu"/>
+        <None Remove="Resources\beatmaps\osu\Cardboard Box - The Limit Does Not Exist %28Omekyu%29 [lim x - U+221E].osu"/>
+        <None Remove="Resources\beatmaps\osu\Kenji Ninuma - DISCOPRINCE %28peppy%29 [Normal].osu"/>
+        <None Remove="Resources\beatmaps\osu\kradness&amp;Reol - Remote Control %28Taeyang%29 [Max Control!].osu"/>
+        <None Remove="Resources\beatmaps\taiko\AliA - Kakurenbo %28Santi199%29 [From Here].osu"/>
+        <None Remove="Resources\beatmaps\taiko\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai %28eiri-%29 [Oni].osu"/>
+        <None Remove="Resources\beatmaps\taiko\The Quick Brown Fox - The Big Black %28Blue Dragon%29 [Ono%27s Taiko Oni].osu"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\beatmaps\catch\Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\catch\Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\catch\Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\mania\MYTH &amp; ROID - STYX HELIX (Tsukuyomi) [victorica's Hard].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\mania\Soleily - Renatus (ExPew) [Another].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\mania\xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\osu\Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate (Nightcore &amp; Cut Ver.) (My Angel Ram) [Fearless Rockstar].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\osu\Cardboard Box - The Limit Does Not Exist (Omekyu) [lim x - U+221E].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\osu\Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\osu\kradness&amp;Reol - Remote Control (Taeyang) [Max Control!].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\taiko\AliA - Kakurenbo (Santi199) [From Here].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\taiko\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu" />
-    <EmbeddedResource Include="Resources\beatmaps\taiko\The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu" />
-  </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\beatmaps\catch\Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\catch\Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\catch\Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\mania\MYTH &amp; ROID - STYX HELIX (Tsukuyomi) [victorica's Hard].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\mania\Soleily - Renatus (ExPew) [Another].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\mania\xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\osu\Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate (Nightcore &amp; Cut Ver.) (My Angel Ram) [Fearless Rockstar].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\osu\Cardboard Box - The Limit Does Not Exist (Omekyu) [lim x - U+221E].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\osu\Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\osu\kradness&amp;Reol - Remote Control (Taeyang) [Max Control!].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\taiko\AliA - Kakurenbo (Santi199) [From Here].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\taiko\Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu"/>
+        <EmbeddedResource Include="Resources\beatmaps\taiko\The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="coverlet.collector" Version="6.0.4" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-		<PackageReference Include="NUnit" Version="4.5.1" />
-		<PackageReference Include="NUnit.Analyzers" Version="4.7.0" />
-		<PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.4"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0"/>
+        <PackageReference Include="NUnit" Version="4.5.1"/>
+        <PackageReference Include="NUnit.Analyzers" Version="4.7.0"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="5.0.0"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<Using Include="NUnit.Framework" />
-		<ProjectReference Include="..\osu.Native\osu.Native.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <Using Include="NUnit.Framework"/>
+        <ProjectReference Include="..\osu.Native\osu.Native.csproj"/>
+    </ItemGroup>
 
 </Project>
