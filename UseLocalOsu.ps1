@@ -11,10 +11,13 @@ $DEPENDENCIES=@(
 
 dotnet sln osu.Native.sln add $DEPENDENCIES
 
-dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game
-dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Osu
-dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Taiko
-dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Catch
-dotnet remove osu.Native\osu.Native.csproj package ppy.osu.Game.Rulesets.Mania
+cd osu.Native
+dotnet remove package ppy.osu.Game
+dotnet remove package ppy.osu.Game.Rulesets.Osu
+dotnet remove package ppy.osu.Game.Rulesets.Taiko
+dotnet remove package ppy.osu.Game.Rulesets.Catch
+dotnet remove package ppy.osu.Game.Rulesets.Mania
+dotnet remove package ppy.osu.Game.Resources
+cd ..
 
-dotnet add osu.Native\osu.Native.csproj reference $DEPENDENCIES
+dotnet add osu.Native/osu.Native.csproj reference $DEPENDENCIES

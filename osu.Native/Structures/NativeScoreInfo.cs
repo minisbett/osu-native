@@ -37,7 +37,7 @@ public struct NativeScoreInfo
     {
         Ruleset ruleset = RulesetHandle.Resolve();
         FlatWorkingBeatmap beatmap = BeatmapHandle.Resolve();
-        Mod[] mods = [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
+        Mod[] mods = ModsHandle.IsNull ? [] : [.. ModsHandle.Resolve().Select(x => x.ToMod(ruleset))];
 
         return new(beatmap.BeatmapInfo, ruleset.RulesetInfo)
         {

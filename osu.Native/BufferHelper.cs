@@ -5,7 +5,7 @@ namespace osu.Native;
 /// <summary>
 /// Provides utility methods for writing to buffers.
 /// </summary>
-internal static unsafe class BufferHelper
+public static unsafe class BufferHelper
 {
     /// <summary>
     /// Writes the specified string into the provided buffer in UTF-8 encoding.
@@ -26,13 +26,10 @@ internal static unsafe class BufferHelper
             return ErrorCode.BufferSizeQuery;
         }
 
-        if (buffer is not null)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(str);
-            int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
-            bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
-            buffer[bytesToWrite] = 0x0;
-        }
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
+        bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
+        buffer[bytesToWrite] = 0x0;
 
         return ErrorCode.Success;
     }
