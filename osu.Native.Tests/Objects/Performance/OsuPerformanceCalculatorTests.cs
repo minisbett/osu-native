@@ -10,7 +10,6 @@ namespace osu.Native.Tests.Objects.Performance;
 internal unsafe class OsuPerformanceCalculatorTests
 {
     private NativeRuleset _nativeRuleset;
-    private NativeBeatmap _nativeBeatmap;
     private NativeOsuPerformanceCalculator _nativePerformanceCalculator;
 
     [SetUp]
@@ -19,12 +18,13 @@ internal unsafe class OsuPerformanceCalculatorTests
         fixed (NativeRuleset* ptr = &_nativeRuleset)
             RulesetObject.CreateFromId(0, ptr);
 
-        _nativeBeatmap = TestUtils.CreateBeatmap("beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu");
-
         fixed (NativeOsuPerformanceCalculator* ptr = &_nativePerformanceCalculator)
             OsuPerformanceCalculatorObject.Create(ptr);
     }
-
+    
+    /// <summary>
+    /// Creates a performance calculator and expects Success to return.
+    /// </summary>
     [Test]
     public void Create_Success()
     {
@@ -34,6 +34,9 @@ internal unsafe class OsuPerformanceCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
 
+    /// <summary>
+    /// Creates a performance calculator, performs performance calculation for the specified score and expects the attributes to match the provided ones.
+    /// </summary>
     [TestCaseSource(nameof(GetTestCases))]
     public void Calculate_Success(string beatmapFilename, string? mods, NativeScoreInfo scoreInfo, NativeOsuPerformanceAttributes expectedAttributes)
     {

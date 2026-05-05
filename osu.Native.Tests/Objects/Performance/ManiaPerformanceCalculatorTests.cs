@@ -25,6 +25,9 @@ internal unsafe class ManiaPerformanceCalculatorTests
             ManiaPerformanceCalculatorObject.Create(ptr);
     }
 
+    /// <summary>
+    /// Creates a performance calculator and expects Success to return.
+    /// </summary>
     [Test]
     public void Create_Success()
     {
@@ -34,6 +37,9 @@ internal unsafe class ManiaPerformanceCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
 
+    /// <summary>
+    /// Creates a performance calculator, performs performance calculation for the specified score and expects the attributes to match the provided ones.
+    /// </summary>
     [TestCaseSource(nameof(GetTestCases))]
     public void Calculate_Success(string beatmapFilename, string? mods, NativeScoreInfo scoreInfo, NativeManiaPerformanceAttributes expectedAttributes)
     {

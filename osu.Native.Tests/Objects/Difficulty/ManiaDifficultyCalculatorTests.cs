@@ -21,6 +21,9 @@ internal unsafe class ManiaDifficultyCalculatorTests
         _nativeBeatmap = TestUtils.CreateBeatmap("beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu");
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator while providing the correct ruleset and expects Success to return.
+    /// </summary>
     [Test]
     public void Create_ExpectedRuleset_Success()
     {
@@ -31,6 +34,9 @@ internal unsafe class ManiaDifficultyCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator while providing an incorrect ruleset and expects UnexpectedRuleset to return.
+    /// </summary>
     [Test]
     public void Create_UnexpectedRuleset_Errors()
     {
@@ -44,6 +50,9 @@ internal unsafe class ManiaDifficultyCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.UnexpectedRuleset));
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator, performs difficulty calculation and expects the attributes to match the provided ones.
+    /// </summary>
     [TestCaseSource(nameof(CalculateTestCases))]
     public void Calculate_Success(string beatmapFilename, string? mods, NativeManiaDifficultyAttributes expectedAttributes)
     {

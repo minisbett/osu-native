@@ -21,6 +21,9 @@ internal unsafe class OsuDifficultyCalculatorTests
         _nativeBeatmap = TestUtils.CreateBeatmap("beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu");
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator while providing the correct ruleset and expects Success to return.
+    /// </summary>
     [Test]
     public void Create_ExpectedRuleset_Success()
     {
@@ -31,6 +34,9 @@ internal unsafe class OsuDifficultyCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator while providing an incorrect ruleset and expects UnexpectedRuleset to return.
+    /// </summary>
     [Test]
     public void Create_UnexpectedRuleset_Errors()
     {
@@ -44,6 +50,9 @@ internal unsafe class OsuDifficultyCalculatorTests
         Assert.That(errorCode, Is.EqualTo(ErrorCode.UnexpectedRuleset));
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator, performs difficulty calculation and expects the attributes to match the provided ones.
+    /// </summary>
     [TestCaseSource(nameof(CalculateTestCases))]
     public void Calculate_Success(string beatmapFilename, string? mods, NativeOsuDifficultyAttributes expectedAttributes)
     {
@@ -61,6 +70,9 @@ internal unsafe class OsuDifficultyCalculatorTests
         Assert.That(nativeAttributes, Is.EqualTo(expectedAttributes));
     }
 
+    /// <summary>
+    /// Creates a difficulty calculator, performs timed difficulty calculation and expects a sample of timed attributes to match the provided ones.
+    /// </summary>
     [TestCaseSource(nameof(CalculateTimedTestCases))]
     public void CalculateTimed_Success(string beatmapFilename, string? mods, int attributesIndex, NativeTimedOsuDifficultyAttributes expectedAttributes)
     {
