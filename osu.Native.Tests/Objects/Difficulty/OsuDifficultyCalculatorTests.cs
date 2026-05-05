@@ -100,11 +100,11 @@ internal unsafe class OsuDifficultyCalculatorTests
             null,
             new NativeOsuDifficultyAttributes(new()
             {
-                StarRating = 2.6269498953955925,
+                StarRating = 2.6269498953955934,
                 MaxCombo = 314,
-                AimDifficulty = 1.3985304840104509,
+                AimDifficulty = 1.3985304840104513,
                 AimDifficultSliderCount = 11.074653391431971,
-                SpeedDifficulty = 1.1298267572899297,
+                SpeedDifficulty = 1.1298267572899294,
                 SpeedNoteCount = 83.85579111772137,
                 FlashlightDifficulty = 0,
                 SliderFactor = 0.9733515644468542,
@@ -127,7 +127,7 @@ internal unsafe class OsuDifficultyCalculatorTests
             "HRHD",
             new NativeOsuDifficultyAttributes(new()
             {
-                StarRating = 9.474923684013236,
+                StarRating = 9.474923684013238,
                 MaxCombo = 1547,
                 AimDifficulty = 4.512804471827263,
                 AimDifficultSliderCount = 218.4431214276953,
@@ -154,11 +154,11 @@ internal unsafe class OsuDifficultyCalculatorTests
             "DT",
             new NativeOsuDifficultyAttributes(new()
             {
-                StarRating = 8.325912502004124,
+                StarRating = 8.325912502004126,
                 MaxCombo = 267,
-                AimDifficulty = 4.722356007610924,
+                AimDifficulty = 4.722356007610923,
                 AimDifficultSliderCount = 34.000149522102646,
-                SpeedDifficulty = 2.951886559818673,
+                SpeedDifficulty = 2.9518865598186736,
                 SpeedNoteCount = 149.5487196306236,
                 FlashlightDifficulty = 0,
                 SliderFactor = 0.9934874916205908,
@@ -181,11 +181,11 @@ internal unsafe class OsuDifficultyCalculatorTests
             "EZFL",
             new NativeOsuDifficultyAttributes(new()
             {
-                StarRating = 6.217650101667546,
+                StarRating = 6.217650101667548,
                 MaxCombo = 1774,
-                AimDifficulty = 2.9251267451559255,
+                AimDifficulty = 2.925126745155926,
                 AimDifficultSliderCount = 123.46283726466135,
-                SpeedDifficulty = 2.107421220228791,
+                SpeedDifficulty = 2.1074212202287907,
                 SpeedNoteCount = 365.58004278300075,
                 FlashlightDifficulty = 1.894058240433308,
                 SliderFactor = 0.9978743821004423,
@@ -212,7 +212,7 @@ internal unsafe class OsuDifficultyCalculatorTests
             97,
             new NativeTimedOsuDifficultyAttributes(new(82368, new OsuDifficultyAttributes()
             {
-                StarRating = 2.322986708074882,
+                StarRating = 2.322986708074883,
                 MaxCombo = 146,
                 AimDifficulty = 1.2240760089684632,
                 AimDifficultSliderCount = 5.927815799050609,
@@ -240,7 +240,7 @@ internal unsafe class OsuDifficultyCalculatorTests
             525,
             new NativeTimedOsuDifficultyAttributes(new(68628, new OsuDifficultyAttributes()
             {
-                StarRating = 8.26719418585876,
+                StarRating = 8.267194185858758,
                 MaxCombo = 857,
                 AimDifficulty = 4.016530753310711,
                 AimDifficultSliderCount = 164.7655871057952,
@@ -268,11 +268,11 @@ internal unsafe class OsuDifficultyCalculatorTests
             99,
             new NativeTimedOsuDifficultyAttributes(new(52643, new OsuDifficultyAttributes()
             {
-                StarRating = 7.4834248180501595,
+                StarRating = 7.483424818050162,
                 MaxCombo = 141,
-                AimDifficulty = 4.23398552909992,
+                AimDifficulty = 4.233985529099921,
                 AimDifficultSliderCount = 16.813469572637004,
-                SpeedDifficulty = 2.6830682368098024,
+                SpeedDifficulty = 2.683068236809803,
                 SpeedNoteCount = 69.00674647936822,
                 FlashlightDifficulty = 0,
                 SliderFactor = 0.9887893456375428,
@@ -296,11 +296,11 @@ internal unsafe class OsuDifficultyCalculatorTests
             586,
             new NativeTimedOsuDifficultyAttributes(new(147131.81818181818, new OsuDifficultyAttributes()
             {
-                StarRating = 5.3352111227460375,
+                StarRating = 5.335211122746037,
                 MaxCombo = 833,
                 AimDifficulty = 2.5880861302750824,
                 AimDifficultSliderCount = 66.23259026381031,
-                SpeedDifficulty = 2.0446132016066256,
+                SpeedDifficulty = 2.044613201606625,
                 SpeedNoteCount = 194.574748613241,
                 FlashlightDifficulty = 1.2747775350768742,
                 SliderFactor = 0.9942995663295898,

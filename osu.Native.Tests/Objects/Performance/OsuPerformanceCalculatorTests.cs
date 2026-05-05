@@ -85,9 +85,9 @@ internal unsafe class OsuPerformanceCalculatorTests
             },
             new NativeOsuPerformanceAttributes(new()
             {
-                Total = 37.854264515735835,
-                Aim = 9.76830276704173,
-                Speed = 5.004194451118395,
+                Total = 37.85426451573584,
+                Aim = 9.768302767041742,
+                Speed = 5.004194451118389,
                 Accuracy = 21.343561429982746,
                 Flashlight = 0,
                 EffectiveMissCount = 0,
@@ -121,9 +121,9 @@ internal unsafe class OsuPerformanceCalculatorTests
             },
             new NativeOsuPerformanceAttributes(new()
             {
-                Total = 299.1931642341429,
+                Total = 299.19316423414296,
                 Aim = 136.97888271541498,
-                Speed = 99.73731592800607,
+                Speed = 99.73731592800611,
                 Accuracy = 5.052688839946082,
                 Flashlight = 47.62348841677981,
                 EffectiveMissCount = 9,
@@ -193,8 +193,8 @@ internal unsafe class OsuPerformanceCalculatorTests
             },
             new NativeOsuPerformanceAttributes(new()
             {
-                Total = 620.2994603384528,
-                Aim = 316.59188215083833,
+                Total = 620.2994603384533,
+                Aim = 316.59188215083867,
                 Speed = 136.57334656099067,
                 Accuracy = 143.1726562251678,
                 Flashlight = 0,
