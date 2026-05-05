@@ -21,4 +21,4 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Run Tests
-        run: dotnet test
+        run: dotnet test -c Release
