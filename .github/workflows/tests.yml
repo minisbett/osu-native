@@ -1,14 +1,15 @@
-name: Test
+name: Tests
 
 on:
   pull_request:
     branches:
       - main
-      
+
   workflow_dispatch:
 
 jobs:
-  test:
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
