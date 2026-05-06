@@ -3,8 +3,8 @@ using osu.Game.Rulesets.Taiko.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
-public struct NativeTimedTaikoDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
+public readonly struct NativeTimedTaikoDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
 {
-    public double Time = timedAttributes.Time;
-    public NativeTaikoDifficultyAttributes Attributes = new((TaikoDifficultyAttributes)timedAttributes.Attributes);
+    public readonly double Time = timedAttributes.Time;
+    public readonly NativeTaikoDifficultyAttributes Attributes = new((TaikoDifficultyAttributes)timedAttributes.Attributes);
 }

@@ -5,10 +5,10 @@ namespace osu.Native.Structures.Difficulty;
 /// <summary>
 /// Represents the Catch difficulty attributes (<see cref="CatchDifficultyAttributes"/>) on the native layer.
 /// </summary>
-public struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attributes)
+public readonly struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes attributes)
 {
-    public double StarRating = attributes.StarRating;
-    public int MaxCombo = attributes.MaxCombo;
+    public readonly double StarRating = attributes.StarRating;
+    public readonly int MaxCombo = attributes.MaxCombo;
 
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="CatchDifficultyAttributes"/> instance.

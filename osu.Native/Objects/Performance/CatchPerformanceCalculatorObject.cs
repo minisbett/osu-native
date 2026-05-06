@@ -10,7 +10,7 @@ namespace osu.Native.Objects.Performance;
 /// <summary>
 /// Represents a <see cref="CatchPerformanceCalculator"/>.
 /// </summary>
-internal unsafe partial class CatchPerformanceCalculatorObject : IOsuNativeObject<CatchPerformanceCalculator>
+public unsafe partial class CatchPerformanceCalculatorObject : IOsuNativeObject<CatchPerformanceCalculator>
 {
     /// <summary>
     /// Creates an instance of a <see cref="CatchPerformanceCalculator"/>.

@@ -28,16 +28,13 @@ public class DynamicDependencyGenerator : IIncrementalGenerator
                 using System.Runtime.CompilerServices;
                 using System.Diagnostics.CodeAnalysis;
 
-                namespace osu.Native.Compiler;
+                namespace osu.Native;
 
                 internal static class DynamicDependencies
                 {
                     [ModuleInitializer]
                     {{attributes}}
-                    public static void Initialize()
-                    {
-                        Assembly.SetEntryAssembly(typeof(OsuNativeMarker).Assembly);
-                    }
+                    public static void Initialize() { }
                 }
                 """;
 

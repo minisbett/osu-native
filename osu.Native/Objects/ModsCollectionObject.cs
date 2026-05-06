@@ -7,7 +7,7 @@ namespace osu.Native.Objects;
 /// <summary>
 /// Represents a collection of mods (<see cref="List{T}"/> of <see cref="APIMod"/>).
 /// </summary>
-internal unsafe partial class ModsCollectionObject : IOsuNativeObject<ModsCollection>
+public unsafe partial class ModsCollectionObject : IOsuNativeObject<ModsCollection>
 {
     /// <summary>
     /// Creates an instance of a <see cref="List{APIMod}"/>.

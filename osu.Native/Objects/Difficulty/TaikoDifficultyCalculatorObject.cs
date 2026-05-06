@@ -12,7 +12,7 @@ namespace osu.Native.Objects.Difficulty;
 /// <summary>
 /// Represents a <see cref="TaikoDifficultyCalculator"/>.
 /// </summary>
-internal unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject<DifficultyCalculatorContext<TaikoDifficultyCalculator>>
+public unsafe partial class TaikoDifficultyCalculatorObject : IOsuNativeObject<DifficultyCalculatorContext<TaikoDifficultyCalculator>>
 {
     /// <summary>
     /// Creates an instance of a <see cref="TaikoDifficultyCalculator"/> for the specified ruleset and beatmap.

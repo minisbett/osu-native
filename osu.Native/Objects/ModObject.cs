@@ -9,7 +9,7 @@ namespace osu.Native.Objects;
 /// Represents a mod, consisting of the acronym and mod settings.<br/>
 /// The mod is represented via an <see cref="APIMod"/> object, and thus ruleset-agnostic and not validated.
 /// </summary>
-internal unsafe partial class ModObject : IOsuNativeObject<APIMod>
+public unsafe partial class ModObject : IOsuNativeObject<APIMod>
 {
     /// <summary>
     /// Creates an instance of an <see cref="APIMod"/> from the specified acronym.

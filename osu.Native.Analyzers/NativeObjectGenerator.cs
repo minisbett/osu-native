@@ -66,7 +66,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                namespace {{classSymbol.ContainingNamespace}};
                
                [CompilerGenerated]
-               internal unsafe partial class {{classSymbol.Name}}
+               public unsafe partial class {{classSymbol.Name}}
                {
                    {{string.Join("\n\n", members)}}
                
@@ -118,7 +118,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
         return $$"""
                [CompilerGenerated]
                [UnmanagedCallersOnly(EntryPoint = "{{objName}}_{{method.Name}}_Next", CallConvs = [typeof(CallConvCdecl)])]
-               public static ErrorCode {{objName}}_{{method.Name}}_Next(ManagedObjectHandle<IEnumerator<{{enumType}}>> enumeratorHandle, {{enumType}}* obj)
+               private static ErrorCode {{objName}}_{{method.Name}}_Next(ManagedObjectHandle<IEnumerator<{{enumType}}>> enumeratorHandle, {{enumType}}* obj)
                {
                    ErrorHandler.SetLastMessage(null);
 
@@ -138,7 +138,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                
                [CompilerGenerated]
                [UnmanagedCallersOnly(EntryPoint = "{{objName}}_{{method.Name}}_Destroy", CallConvs = [typeof(CallConvCdecl)])]
-               public static ErrorCode {{objName}}_{{method.Name}}_Destroy(ManagedObjectHandle<IEnumerator<{{enumType}}>> enumeratorHandle)
+               private static ErrorCode {{objName}}_{{method.Name}}_Destroy(ManagedObjectHandle<IEnumerator<{{enumType}}>> enumeratorHandle)
                {
                    ErrorHandler.SetLastMessage(null);
                
