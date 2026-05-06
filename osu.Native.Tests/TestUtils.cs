@@ -71,7 +71,7 @@ internal static unsafe class TestUtils
             foreach (FieldInfo field in typeof(T).GetFields())
             {
                 EqualConstraint constraint = Is.EqualTo(field.GetValue(expected));
-                if (field.DeclaringType == typeof(float) || field.DeclaringType == typeof(double))
+                if (field.FieldType == typeof(float) || field.FieldType == typeof(double))
                     constraint = constraint.Within(0.00001);
 
                 Assert.That(field.GetValue(actual), constraint, $"{field.Name} does not match.");
