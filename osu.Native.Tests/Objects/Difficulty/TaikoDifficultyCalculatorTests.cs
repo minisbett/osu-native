@@ -68,7 +68,7 @@ internal unsafe class TaikoDifficultyCalculatorTests
             nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, &nativeAttributes);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        Assert.That(nativeAttributes, Is.EqualTo(expectedAttributes));
+        TestUtils.AssertEqualAttributes(nativeAttributes, expectedAttributes);
     }
 
     [TestCaseSource(nameof(CalculateTimedTestCases))]
@@ -88,7 +88,7 @@ internal unsafe class TaikoDifficultyCalculatorTests
             errorCode = TaikoDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        Assert.That(nativeAttributes[attributesIndex], Is.EqualTo(expectedAttributes));
+        TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex], expectedAttributes);
     }
 
     private static IEnumerable<TestCaseData> CalculateTestCases()

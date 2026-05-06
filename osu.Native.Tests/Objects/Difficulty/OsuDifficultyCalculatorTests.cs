@@ -1,4 +1,5 @@
-﻿using osu.Game.Rulesets.Osu.Difficulty;
+﻿using System.Reflection;
+using osu.Game.Rulesets.Osu.Difficulty;
 using osu.Native.Objects;
 using osu.Native.Objects.Difficulty;
 using osu.Native.Structures;
@@ -54,7 +55,8 @@ internal unsafe class OsuDifficultyCalculatorTests
     /// Creates a difficulty calculator, performs difficulty calculation and expects the attributes to match the provided ones.
     /// </summary>
     [TestCaseSource(nameof(CalculateTestCases))]
-    public void Calculate_Success(string beatmapFilename, string? mods, NativeOsuDifficultyAttributes expectedAttributes)
+    public void Calculate_Success(string beatmapFilename, string? mods,
+        NativeOsuDifficultyAttributes expectedAttributes)
     {
         NativeBeatmap nativeBeatmap = TestUtils.CreateBeatmap(beatmapFilename);
         NativeModsCollection nativeModsCollection = TestUtils.CreateNativeModsCollection(mods);
@@ -67,14 +69,15 @@ internal unsafe class OsuDifficultyCalculatorTests
             nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, &nativeAttributes);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        Assert.That(nativeAttributes, Is.EqualTo(expectedAttributes));
+        TestUtils.AssertEqualAttributes(nativeAttributes, expectedAttributes);
     }
 
     /// <summary>
     /// Creates a difficulty calculator, performs timed difficulty calculation and expects a sample of timed attributes to match the provided ones.
     /// </summary>
     [TestCaseSource(nameof(CalculateTimedTestCases))]
-    public void CalculateTimed_Success(string beatmapFilename, string? mods, int attributesIndex, NativeTimedOsuDifficultyAttributes expectedAttributes)
+    public void CalculateTimed_Success(string beatmapFilename, string? mods, int attributesIndex,
+        NativeTimedOsuDifficultyAttributes expectedAttributes)
     {
         NativeBeatmap nativeBeatmap = TestUtils.CreateBeatmap(beatmapFilename);
         NativeModsCollection nativeModsCollection = TestUtils.CreateNativeModsCollection(mods);
@@ -83,14 +86,16 @@ internal unsafe class OsuDifficultyCalculatorTests
         OsuDifficultyCalculatorObject.Create(_nativeRuleset.Handle, nativeBeatmap.Handle, &nativeDifficultyCalculator);
 
         int size = 0;
-        OsuDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, null, &size);
+        OsuDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle,
+            null, &size);
         NativeTimedOsuDifficultyAttributes[] nativeAttributes = new NativeTimedOsuDifficultyAttributes[size];
         ErrorCode errorCode;
         fixed (NativeTimedOsuDifficultyAttributes* ptr = nativeAttributes)
-            errorCode = OsuDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
+            errorCode = OsuDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle,
+                nativeModsCollection.Handle, ptr, &size);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        Assert.That(nativeAttributes[attributesIndex], Is.EqualTo(expectedAttributes));
+        TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex], expectedAttributes);
     }
 
     private static IEnumerable<TestCaseData> CalculateTestCases()

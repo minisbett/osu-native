@@ -61,7 +61,7 @@ internal unsafe class CatchPerformanceCalculatorTests
             _nativePerformanceCalculator.Handle, scoreInfo, nativeDifficultyAttributes, &nativeAttributes);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        Assert.That(nativeAttributes, Is.EqualTo(expectedAttributes));
+        TestUtils.AssertEqualAttributes(nativeAttributes, expectedAttributes);
     }
 
     private static IEnumerable<TestCaseData> GetTestCases()

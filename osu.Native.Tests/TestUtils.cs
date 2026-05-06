@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices.Marshalling;
+using NUnit.Framework.Constraints;
 using osu.Native.Objects;
 using osu.Native.Structures;
+using osu.Native.Structures.Difficulty;
 
 namespace osu.Native.Tests;
 
@@ -60,5 +62,20 @@ internal static unsafe class TestUtils
         }
 
         return nativeModsCollection;
+    }
+
+    public static void AssertEqualAttributes<T>(T actual, T expected)
+    {
+        Assert.Multiple(() =>
+        {
+            foreach (FieldInfo field in typeof(T).GetFields())
+            {
+                EqualConstraint constraint = Is.EqualTo(field.GetValue(expected));
+                if (field.DeclaringType == typeof(float) || field.DeclaringType == typeof(double))
+                    constraint = constraint.Within(0.00001);
+
+                Assert.That(field.GetValue(actual), constraint, $"{field.Name} does not match.");
+            }
+        });
     }
 }
