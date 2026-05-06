@@ -87,7 +87,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             errorCode = CatchDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
-        TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex], expectedAttributes);
+        TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex].Attributes, expectedAttributes.Attributes);
     }
 
     private static IEnumerable<TestCaseData> CalculateTestCases()

@@ -64,6 +64,12 @@ internal static unsafe class TestUtils
         return nativeModsCollection;
     }
 
+    /// <summary>
+    /// Performs an assertion for equality on every field of the actual and expected attributes. If the field is a <see langword="float"/> or <see langword="double"/>,
+    /// a tolerance in order to counter floating point inaccuracies between systems these tests run on is added.
+    /// </summary>
+    /// <param name="actual">The actual attributes.</param>
+    /// <param name="expected">The expected attributes.</param>
     public static void AssertEqualAttributes<T>(T actual, T expected)
     {
         Assert.Multiple(() =>
