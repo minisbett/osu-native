@@ -31,8 +31,8 @@ internal unsafe class ManiaPerformanceCalculatorTests
     [Test]
     public void Create_Success()
     {
-        NativeOsuPerformanceCalculator nativePerformanceCalculator;
-        ErrorCode errorCode = OsuPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
+        NativeManiaPerformanceCalculator nativePerformanceCalculator;
+        ErrorCode errorCode = ManiaPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
