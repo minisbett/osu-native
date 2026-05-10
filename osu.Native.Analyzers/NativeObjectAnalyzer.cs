@@ -12,16 +12,16 @@ namespace osu.Native.Analyzers;
 public class NativeObjectAnalyzer : DiagnosticAnalyzer
 {
 #pragma warning disable RS2008
-    private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU001", "Native functions must be static",
-        "Native functions must be static", "Usage", DiagnosticSeverity.Error, true);
-
-    private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU002", "Native functions return an ErrorCode",
-        "Native functions must return an ErrorCode", "Usage", DiagnosticSeverity.Error, true);
-
-    private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU003", "Native functions may only exist in a native object",
+    private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU001", "Native functions may only exist in a native object",
         "Native functions may only exist in a native object (IOsuNativeObject<T>)", "Usage", DiagnosticSeverity.Error, true);
 
-    private static readonly DiagnosticDescriptor RuleOSU004 = new("OSU003", "Strings should be UTF-8",
+    private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU002", "Native functions must be static",
+        "Native functions must be static", "Usage", DiagnosticSeverity.Error, true);
+
+    private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU003", "Native functions return an ErrorCode",
+        "Native functions must return an ErrorCode", "Usage", DiagnosticSeverity.Error, true);
+
+    private static readonly DiagnosticDescriptor RuleOSU004 = new("OSU004", "Strings should be UTF-8",
         "Strings should be handled with UTF-8 encoding", "Usage", DiagnosticSeverity.Warning, true);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU002, RuleOSU003, RuleOSU001, RuleOSU004];
