@@ -11,6 +11,15 @@
         <OptimizationPreference>Size</OptimizationPreference>
         <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
 
+        <!-- Removes the libicu runtime dependency of the native library -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+
+        <!-- Excludes the localized resource satellite assemblies (Humanizer.Core.*, osu.Game.Resources)
+             from the AOT publish. In globalization-invariant mode, RulesetStore fails when enumerating
+             assemblies with a non-invariant culture. "xx" does not match any real language, so no
+             satellite assemblies are included -->
+        <SatelliteResourceLanguages>xx</SatelliteResourceLanguages>
+
         <!-- Generate information for sizoscope -->
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
         <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
