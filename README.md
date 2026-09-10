@@ -5,7 +5,7 @@ It allows other languages and runtimes to interface with parts of osu!(lazer) wi
 
 It is primarily designed to allow the osu!stable client to access osu!(lazer)s' difficulty and performance calculation algorithms, but furthermore aims to provide the ability for certain parts of osu! to be integrated in other languages.
 
-Refer to the [wiki](./wiki) for more information.
+Refer to the [wiki](https://github.com/minisbett/osu-native/wiki) for more information.
 
 Here is a list of wrappers created for osu-native library in other programming languages:
 
@@ -32,4 +32,4 @@ If you would like to see support for more osu!(lazer) features in `osu-native`, 
 ## Concept
 `osu-native` aims to mirror the OOP infrastructure of osu!(lazer). Managed C# objects are created via a function and stored in osu-native, and handles are returned that will be used for the caller to refer to them.
 
-In a similar fashion, exception handling is kept simple, offering a similar experience to interacting with osu!(lazer) directly. Exceptions thrown are directly exposed in error-messages. For more information see [Error Handling (wiki)](./wiki/Error-Handling).
+In a similar fashion, exception handling is kept simple, offering a similar experience to interacting with osu!(lazer) directly. Exceptions thrown are directly exposed in error-messages. For more information see [Error Handling (wiki)](https://github.com/minisbett/osu-native/wiki/Error-Handling).
