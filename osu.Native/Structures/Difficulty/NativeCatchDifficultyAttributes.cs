@@ -13,7 +13,7 @@ public readonly struct NativeCatchDifficultyAttributes(CatchDifficultyAttributes
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="CatchDifficultyAttributes"/> instance.
     /// </summary>
-    public readonly CatchDifficultyAttributes ToManaged()
+    public CatchDifficultyAttributes ToManaged()
     {
         return new()
         {

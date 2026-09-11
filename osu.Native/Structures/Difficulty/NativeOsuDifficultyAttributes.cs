@@ -14,15 +14,16 @@ public readonly struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes att
     public readonly double SpeedDifficulty = attributes.SpeedDifficulty;
     public readonly double SpeedNoteCount = attributes.SpeedNoteCount;
     public readonly double FlashlightDifficulty = attributes.FlashlightDifficulty;
+    public readonly double ReadingDifficulty = attributes.ReadingDifficulty;
     public readonly double SliderFactor = attributes.SliderFactor;
     public readonly double AimTopWeightedSliderFactor = attributes.AimTopWeightedSliderFactor;
     public readonly double SpeedTopWeightedSliderFactor = attributes.SpeedTopWeightedSliderFactor;
     public readonly double AimDifficultStrainCount = attributes.AimDifficultStrainCount;
     public readonly double SpeedDifficultStrainCount = attributes.SpeedDifficultStrainCount;
+    public readonly double ReadingDifficultNoteCount = attributes.ReadingDifficultNoteCount;
     public readonly double NestedScorePerObject = attributes.NestedScorePerObject;
     public readonly double LegacyScoreBaseMultiplier = attributes.LegacyScoreBaseMultiplier;
     public readonly double MaximumLegacyComboScore = attributes.MaximumLegacyComboScore;
-    public readonly double DrainRate = attributes.DrainRate;
     public readonly int HitCircleCount = attributes.HitCircleCount;
     public readonly int SliderCount = attributes.SliderCount;
     public readonly int SpinnerCount = attributes.SpinnerCount;
@@ -30,7 +31,7 @@ public readonly struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes att
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="OsuDifficultyAttributes"/> instance.
     /// </summary>
-    public readonly OsuDifficultyAttributes ToManaged()
+    public OsuDifficultyAttributes ToManaged()
     {
         return new()
         {
@@ -41,15 +42,16 @@ public readonly struct NativeOsuDifficultyAttributes(OsuDifficultyAttributes att
             SpeedDifficulty = SpeedDifficulty,
             SpeedNoteCount = SpeedNoteCount,
             FlashlightDifficulty = FlashlightDifficulty,
+            ReadingDifficulty = ReadingDifficulty,
             SliderFactor = SliderFactor,
             AimTopWeightedSliderFactor = AimTopWeightedSliderFactor,
             SpeedTopWeightedSliderFactor = SpeedTopWeightedSliderFactor,
             AimDifficultStrainCount = AimDifficultStrainCount,
             SpeedDifficultStrainCount = SpeedDifficultStrainCount,
+            ReadingDifficultNoteCount =  ReadingDifficultNoteCount,
             NestedScorePerObject = NestedScorePerObject,
             LegacyScoreBaseMultiplier = LegacyScoreBaseMultiplier,
             MaximumLegacyComboScore = MaximumLegacyComboScore,
-            DrainRate = DrainRate,
             HitCircleCount = HitCircleCount,
             SliderCount = SliderCount,
             SpinnerCount = SpinnerCount

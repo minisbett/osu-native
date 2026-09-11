@@ -13,7 +13,7 @@ public readonly struct NativeManiaDifficultyAttributes(ManiaDifficultyAttributes
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="ManiaDifficultyAttributes"/> instance.
     /// </summary>
-    public readonly ManiaDifficultyAttributes ToManaged()
+    public ManiaDifficultyAttributes ToManaged()
     {
         return new()
         {
