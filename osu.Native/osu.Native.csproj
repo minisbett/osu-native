@@ -20,7 +20,7 @@
     </PropertyGroup>
 
     <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
-       therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
+         therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
     <ItemGroup>
         <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>
     </ItemGroup>
@@ -31,12 +31,12 @@
 
     <ItemGroup>
         <PackageReference Include="cabi.net" Version="0.0.7"/>
-        <PackageReference Include="ppy.osu.Game" Version="2025.1029.0"/>
-        <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2025.1029.0"/>
-        <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2025.1029.0"/>
-        <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2025.1029.0"/>
-        <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2025.1029.0"/>
-        <PackageReference Include="ppy.osu.Game.Resources" Version="2025.1028.0">
+        <PackageReference Include="ppy.osu.Game" Version="2026.730.0"/>
+        <PackageReference Include="ppy.osu.Game.Rulesets.Catch" Version="2026.730.0"/>
+        <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2026.730.0"/>
+        <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2026.730.0"/>
+        <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2026.730.0"/>
+        <PackageReference Include="ppy.osu.Game.Resources" Version="2026.730.0">
             <ExcludeAssets>all</ExcludeAssets>
         </PackageReference>
     </ItemGroup>
