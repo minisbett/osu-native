@@ -3,7 +3,6 @@ using System.Runtime.InteropServices.Marshalling;
 using NUnit.Framework.Constraints;
 using osu.Native.Objects;
 using osu.Native.Structures;
-using osu.Native.Structures.Difficulty;
 
 namespace osu.Native.Tests;
 

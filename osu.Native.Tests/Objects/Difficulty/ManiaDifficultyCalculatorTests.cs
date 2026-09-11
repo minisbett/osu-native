@@ -87,6 +87,7 @@ internal unsafe class ManiaDifficultyCalculatorTests
             errorCode = ManiaDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
+        Assert.That(nativeAttributes[attributesIndex].Time, Is.EqualTo(expectedAttributes.Time));
         TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex].Attributes, expectedAttributes.Attributes);
     }
 
@@ -104,7 +105,7 @@ internal unsafe class ManiaDifficultyCalculatorTests
 
         yield return new(
             "beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu",
-            "HDHR",
+            null,
             new NativeManiaDifficultyAttributes(new()
             {
                 StarRating = 8.343351334085787,

@@ -87,6 +87,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             errorCode = CatchDifficultyCalculatorObject.CalculateTimed(nativeDifficultyCalculator.Handle, nativeModsCollection.Handle, ptr, &size);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
+        Assert.That(nativeAttributes[attributesIndex].Time, Is.EqualTo(expectedAttributes.Time));
         TestUtils.AssertEqualAttributes(nativeAttributes[attributesIndex].Attributes, expectedAttributes.Attributes);
     }
 
@@ -97,7 +98,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             null,
             new NativeCatchDifficultyAttributes(new()
             {
-                StarRating = 1.3280836378862895,
+                StarRating = 1.2449647913462982,
                 MaxCombo = 310
             })
         );
@@ -107,7 +108,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             null,
             new NativeCatchDifficultyAttributes(new()
             {
-                StarRating = 5.536300019585655,
+                StarRating = 5.530368648787597,
                 MaxCombo = 944
             })
         );
@@ -117,7 +118,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             "DTFF",
             new NativeCatchDifficultyAttributes(new()
             {
-                StarRating = 7.4250086916273315,
+                StarRating = 7.418883807144687,
                 MaxCombo = 983
             })
         );
@@ -127,7 +128,7 @@ internal unsafe class CatchDifficultyCalculatorTests
             "MFFL",
             new NativeCatchDifficultyAttributes(new()
             {
-                StarRating = 4.609845192696199,
+                StarRating = 4.609575554897659,
                 MaxCombo = 262
             })
         );
@@ -139,9 +140,9 @@ internal unsafe class CatchDifficultyCalculatorTests
             "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
             null,
             97,
-            new NativeTimedCatchDifficultyAttributes(new(82368, new CatchDifficultyAttributes()
+            new NativeTimedCatchDifficultyAttributes(new(82368, new CatchDifficultyAttributes
             {
-                StarRating = 1.143108905419039,
+                StarRating = 1.099653866192143,
                 MaxCombo = 144
             }))
         );
@@ -150,9 +151,9 @@ internal unsafe class CatchDifficultyCalculatorTests
             "beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu",
             null,
             281,
-            new NativeTimedCatchDifficultyAttributes(new(61291, new CatchDifficultyAttributes()
+            new NativeTimedCatchDifficultyAttributes(new(61291, new CatchDifficultyAttributes
             {
-                StarRating = 5.112422608001735,
+                StarRating = 5.104301352617107,
                 MaxCombo = 466
             }))
         );
@@ -161,9 +162,9 @@ internal unsafe class CatchDifficultyCalculatorTests
             "beatmaps/catch/Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu",
             "DTFF",
             378,
-            new NativeTimedCatchDifficultyAttributes(new(101370, new CatchDifficultyAttributes()
+            new NativeTimedCatchDifficultyAttributes(new(101370, new CatchDifficultyAttributes
             {
-                StarRating = 7.017780409236279,
+                StarRating = 7.007726550304218,
                 MaxCombo = 492
             }))
         );
@@ -172,9 +173,9 @@ internal unsafe class CatchDifficultyCalculatorTests
             "beatmaps/catch/Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu",
             "MFFL",
             70,
-            new NativeTimedCatchDifficultyAttributes(new(29316, new CatchDifficultyAttributes()
+            new NativeTimedCatchDifficultyAttributes(new(29316, new CatchDifficultyAttributes
             {
-                StarRating = 3.8205977060505543,
+                StarRating = 3.8190753864600535,
                 MaxCombo = 125
             }))
         );
