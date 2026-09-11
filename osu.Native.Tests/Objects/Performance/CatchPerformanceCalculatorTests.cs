@@ -69,7 +69,7 @@ internal unsafe class CatchPerformanceCalculatorTests
         yield return new(
             "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
             null,
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 310,
                 Accuracy = 1,
@@ -88,14 +88,14 @@ internal unsafe class CatchPerformanceCalculatorTests
             },
             new NativeCatchPerformanceAttributes(new()
             {
-                Total = 18.924552117524012
+                Total = 16.62329862571729
             })
         );
 
         yield return new(
             "beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu",
             "DTFL",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 519,
                 Accuracy = 0.8962892483349191,
@@ -114,40 +114,40 @@ internal unsafe class CatchPerformanceCalculatorTests
             },
             new NativeCatchPerformanceAttributes(new()
             {
-                Total = 306.481176897223
+                Total = 305.6862748958652
             })
         );
 
         yield return new(
             "beatmaps/catch/Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu",
             "FFEZ",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
-                MaxCombo = 924,
-                Accuracy = 1,
+                MaxCombo = 860,
+                Accuracy = 0.9738775510204082,
                 LegacyTotalScore = null,
                 CountMiss = 2,
                 CountMeh = 0,
                 CountOk = 0,
                 CountGood = 0,
-                CountGreat = 979,
+                CountGreat = 981,
                 CountPerfect = 0,
-                CountSmallTickMiss = -2,
-                CountSmallTickHit = 244,
+                CountSmallTickMiss = 30,
+                CountSmallTickHit = 212,
                 CountLargeTickMiss = 0,
-                CountLargeTickHit = 2,
+                CountLargeTickHit = 0,
                 CountSliderTailHit = 0
             },
             new NativeCatchPerformanceAttributes(new()
             {
-                Total = 250.24123058175263
+                Total = 210.8154386487999
             })
         );
 
         yield return new(
             "beatmaps/catch/Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu",
             "MF",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 204,
                 Accuracy = 0.7258064516129032,
@@ -156,17 +156,17 @@ internal unsafe class CatchPerformanceCalculatorTests
                 CountMeh = 0,
                 CountOk = 0,
                 CountGood = 0,
-                CountGreat = 242,
+                CountGreat = 236,
                 CountPerfect = 0,
                 CountSmallTickMiss = 99,
                 CountSmallTickHit = 11,
                 CountLargeTickMiss = 0,
-                CountLargeTickHit = 17,
+                CountLargeTickHit = 23,
                 CountSliderTailHit = 0
             },
             new NativeCatchPerformanceAttributes(new()
             {
-                Total = 31.727829984154145
+                Total = 31.724115302973036
             })
         );
     }

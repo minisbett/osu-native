@@ -69,7 +69,7 @@ internal unsafe class ManiaPerformanceCalculatorTests
         yield return new(
             "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
             null,
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 0,
                 Accuracy = 1,
@@ -88,15 +88,15 @@ internal unsafe class ManiaPerformanceCalculatorTests
             },
             new NativeManiaPerformanceAttributes(new()
             {
-                Total = 29.360109024870148,
-                Difficulty = 29.360109024870148
+                Difficulty = 29.360109024870148,
+                Total = 29.360109024870148
             })
         );
 
         yield return new(
             "beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu",
-            "HRFI",
-            new NativeScoreInfo()
+            null,
+            new NativeScoreInfo
             {
                 MaxCombo = 0,
                 Accuracy = 0.9974475699286899,
@@ -115,15 +115,15 @@ internal unsafe class ManiaPerformanceCalculatorTests
             },
             new NativeManiaPerformanceAttributes(new()
             {
-                Total = 887.0030883091539,
-                Difficulty = 887.0030883091539
+                Difficulty = 887.0030883091539,
+                Total = 887.0030883091539
             })
         );
 
         yield return new(
             "beatmaps/mania/MYTH & ROID - STYX HELIX (Tsukuyomi) [victorica's Hard].osu",
             "HDDT",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 0,
                 Accuracy = 0.8595799775327964,
@@ -150,7 +150,7 @@ internal unsafe class ManiaPerformanceCalculatorTests
         yield return new(
             "beatmaps/mania/Soleily - Renatus (ExPew) [Another].osu",
             "INFL",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 0,
                 Accuracy = 0.9994634414235846,
