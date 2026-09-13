@@ -31,8 +31,8 @@ internal unsafe class TaikoPerformanceCalculatorTests
     [Test]
     public void Create_Success()
     {
-        NativeOsuPerformanceCalculator nativePerformanceCalculator;
-        ErrorCode errorCode = OsuPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
+        NativeTaikoPerformanceCalculator nativePerformanceCalculator;
+        ErrorCode errorCode = TaikoPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }

@@ -12,6 +12,7 @@ public static unsafe class BufferHelper
     /// <list type="bullet">
     /// <item>If the buffer is null, the size is written in <paramref name="bufferSize"/> and <see cref="ErrorCode.BufferSizeQuery"/> is returned</item>
     /// <item>If a buffer and size are provided, the string is written to the buffer. If the buffer is too small, the string will be truncated</item>
+    /// <item>If the buffer size is 0 or negative, this is a NOP and <see cref="ErrorCode.Success"/> is returned</item>
     /// </list>
     /// </summary>
     /// <param name="str">The string to be written into the buffer.</param>
@@ -26,8 +27,11 @@ public static unsafe class BufferHelper
             return ErrorCode.BufferSizeQuery;
         }
 
+        if (*bufferSize <= 0)
+            return ErrorCode.Success;
+
         byte[] bytes = Encoding.UTF8.GetBytes(str);
-        int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1);
+        int bytesToWrite = Math.Min(bytes.Length, *bufferSize - 1); // only write as many bytes as possible while leaving room for the null-terminator
         bytes.AsSpan(0, bytesToWrite).CopyTo(new(buffer, bytesToWrite));
         buffer[bytesToWrite] = 0x0;
 
@@ -35,13 +39,20 @@ public static unsafe class BufferHelper
     }
 
     /// <summary>
-    /// Writes the specified values of unmanaged type into the provided buffer. If the buffer is too small, the array will be truncated.
+    /// Writes the specified values of unmanaged type into the provided buffer.
+    /// <list type="bullet">
+    /// <item> If the buffer is too small, the array will be truncated</item>
+    /// <item>If the buffer size is 0 or negative, this is a NOP and <see cref="ErrorCode.Success"/> is returned</item>
+    /// </list>
     /// </summary>
     /// <param name="values">The array of values to be written into the buffer.</param>
     /// <param name="buffer">The buffer.</param>
     /// <param name="bufferSize">The size of the buffer. This is measured in elements, not bytes.</param>
     public static void Write<T>(T[] values, T* buffer, int* bufferSize) where T : unmanaged
     {
+        if (*bufferSize <= 0)
+            return;
+
         int elementsToWrite = Math.Min(values.Length, *bufferSize);
         values.AsSpan(0, elementsToWrite).CopyTo(new(buffer, elementsToWrite));
     }

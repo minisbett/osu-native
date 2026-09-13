@@ -31,8 +31,8 @@ internal unsafe class CatchPerformanceCalculatorTests
     [Test]
     public void Create_Success()
     {
-        NativeOsuPerformanceCalculator nativePerformanceCalculator;
-        ErrorCode errorCode = OsuPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
+        NativeCatchPerformanceCalculator nativePerformanceCalculator;
+        ErrorCode errorCode = CatchPerformanceCalculatorObject.Create(&nativePerformanceCalculator);
 
         Assert.That(errorCode, Is.EqualTo(ErrorCode.Success));
     }
