@@ -10,7 +10,7 @@ namespace osu.Native.Objects.Performance;
 /// <summary>
 /// Represents a <see cref="TaikoPerformanceCalculator"/>.
 /// </summary>
-internal unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObject<TaikoPerformanceCalculator>
+public unsafe partial class TaikoPerformanceCalculatorObject : IOsuNativeObject<TaikoPerformanceCalculator>
 {
     /// <summary>
     /// Creates an instance of a <see cref="TaikoPerformanceCalculator"/>.

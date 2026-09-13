@@ -1,9 +1,10 @@
-﻿using osu.Game.Rulesets.Mania.Difficulty;
+﻿using osu.Game.Rulesets.Difficulty;
+using osu.Game.Rulesets.Mania.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
-public struct NativeTimedManiaDifficultyAttributes(double time, ManiaDifficultyAttributes attributes)
+public readonly struct NativeTimedManiaDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
 {
-    public double Time = time;
-    public NativeManiaDifficultyAttributes Attributes = new(attributes);
+    public readonly double Time = timedAttributes.Time;
+    public readonly NativeManiaDifficultyAttributes Attributes = new((ManiaDifficultyAttributes)timedAttributes.Attributes);
 }

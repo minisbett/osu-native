@@ -5,17 +5,17 @@ namespace osu.Native.Structures.Performance;
 /// <summary>
 /// Represents the Osu performance attributes (<see cref="OsuPerformanceAttributes"/>) on the native layer.
 /// </summary>
-public struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attributes)
+public readonly struct NativeOsuPerformanceAttributes(OsuPerformanceAttributes attributes)
 {
-    public double Total = attributes.Total;
-    public double Aim = attributes.Aim;
-    public double Speed = attributes.Speed;
-    public double Accuracy = attributes.Accuracy;
-    public double Flashlight = attributes.Flashlight;
-    public double EffectiveMissCount = attributes.EffectiveMissCount;
-    public double? SpeedDeviation = attributes.SpeedDeviation;
-    public double ComboBasedEstimatedMissCount = attributes.ComboBasedEstimatedMissCount;
-    public double? ScoreBasedEstimatedMissCount = attributes.ScoreBasedEstimatedMissCount;
-    public double AimEstimatedSliderBreaks = attributes.AimEstimatedSliderBreaks;
-    public double SpeedEstimatedSliderBreaks = attributes.SpeedEstimatedSliderBreaks;
+    public readonly double Total = attributes.Total;
+    public readonly double Aim = attributes.Aim;
+    public readonly double Speed = attributes.Speed;
+    public readonly double Accuracy = attributes.Accuracy;
+    public readonly double Flashlight = attributes.Flashlight;
+    public readonly double EffectiveMissCount = attributes.EffectiveMissCount;
+    public readonly double? SpeedDeviation = attributes.SpeedDeviation;
+    public readonly double ComboBasedEstimatedMissCount = attributes.ComboBasedEstimatedMissCount;
+    public readonly double? ScoreBasedEstimatedMissCount = attributes.ScoreBasedEstimatedMissCount;
+    public readonly double AimEstimatedSliderBreaks = attributes.AimEstimatedSliderBreaks;
+    public readonly double SpeedEstimatedSliderBreaks = attributes.SpeedEstimatedSliderBreaks;
 }

@@ -1,9 +1,10 @@
 ﻿using osu.Game.Rulesets.Catch.Difficulty;
+using osu.Game.Rulesets.Difficulty;
 
 namespace osu.Native.Structures.Difficulty;
 
-public struct NativeTimedCatchDifficultyAttributes(double time, CatchDifficultyAttributes attributes)
+public readonly struct NativeTimedCatchDifficultyAttributes(TimedDifficultyAttributes timedAttributes)
 {
-    public double Time = time;
-    public NativeCatchDifficultyAttributes Attributes = new(attributes);
+    public readonly double Time = timedAttributes.Time;
+    public readonly NativeCatchDifficultyAttributes Attributes = new((CatchDifficultyAttributes)timedAttributes.Attributes);
 }
