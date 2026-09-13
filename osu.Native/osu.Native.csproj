@@ -10,6 +10,7 @@
         <PublishAot>true</PublishAot>
         <OptimizationPreference>Size</OptimizationPreference>
         <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
+        <IlcScanReflection>false</IlcScanReflection> <!-- Disables some statical analysis for keeping metadata based on reflection calls, remove if things break -->
 
         <!-- Generate information for sizoscope -->
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
@@ -36,7 +37,7 @@
         <PackageReference Include="ppy.osu.Game.Rulesets.Mania" Version="2026.730.0"/>
         <PackageReference Include="ppy.osu.Game.Rulesets.Osu" Version="2026.730.0"/>
         <PackageReference Include="ppy.osu.Game.Rulesets.Taiko" Version="2026.730.0"/>
-        <PackageReference Include="ppy.osu.Game.Resources" Version="2026.730.0">
+        <PackageReference Include="ppy.osu.Game.Resources" Version="2026.710.0">
             <ExcludeAssets>all</ExcludeAssets>
         </PackageReference>
     </ItemGroup>
