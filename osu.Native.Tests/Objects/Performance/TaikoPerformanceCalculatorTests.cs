@@ -69,7 +69,7 @@ internal unsafe class TaikoPerformanceCalculatorTests
         yield return new(
             "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
             null,
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 208,
                 Accuracy = 1,
@@ -88,17 +88,17 @@ internal unsafe class TaikoPerformanceCalculatorTests
             },
             new NativeTaikoPerformanceAttributes(new()
             {
-                Total = 104.51117530615562,
-                Difficulty = 2.156834874920385,
-                Accuracy = 102.35434043123524,
-                EstimatedUnstableRate = 140.90673313955597
+                Difficulty = 2.149233415959476,
+                Accuracy = 102.35456278369898,
+                EstimatedUnstableRate = 140.90673313955597,
+                Total = 104.50379619965845
             })
         );
 
         yield return new(
             "beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu",
             "DT",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 697,
                 Accuracy = 0.9870801033591732,
@@ -117,17 +117,17 @@ internal unsafe class TaikoPerformanceCalculatorTests
             },
             new NativeTaikoPerformanceAttributes(new()
             {
-                Total = 412.4392958566681,
-                Difficulty = 233.62531746709058,
-                Accuracy = 178.81397838957753,
-                EstimatedUnstableRate = 100.34576232908552
+                Difficulty = 221.22921471940643,
+                Accuracy = 178.14966960828508,
+                EstimatedUnstableRate = 100.34576232908552,
+                Total = 399.3788843276915
             })
         );
 
         yield return new(
             "beatmaps/taiko/AliA - Kakurenbo (Santi199) [From Here].osu",
             "HDEZ",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 214,
                 Accuracy = 0.9642121524201854,
@@ -146,17 +146,17 @@ internal unsafe class TaikoPerformanceCalculatorTests
             },
             new NativeTaikoPerformanceAttributes(new()
             {
-                Total = 146.25134755466507,
-                Difficulty = 98.85314432466512,
-                Accuracy = 47.39820322999994,
-                EstimatedUnstableRate = 220.02760013950285
+                Difficulty = 98.57056524265009,
+                Accuracy = 47.381572665252705,
+                EstimatedUnstableRate = 220.0276001395029,
+                Total = 145.9521379079028
             })
         );
 
         yield return new(
             "beatmaps/taiko/The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu",
             "FL",
-            new NativeScoreInfo()
+            new NativeScoreInfo
             {
                 MaxCombo = 758,
                 Accuracy = 0.9883843717001056,
@@ -175,10 +175,10 @@ internal unsafe class TaikoPerformanceCalculatorTests
             },
             new NativeTaikoPerformanceAttributes(new()
             {
-                Total = 269.2142303936673,
-                Difficulty = 158.01180448187534,
-                Accuracy = 111.20242591179195,
-                EstimatedUnstableRate = 138.50375768093897
+                Difficulty = 156.57682643609704,
+                Accuracy = 111.16338835281029,
+                EstimatedUnstableRate = 138.503757680939,
+                Total = 267.74021478890734
             })
         );
     }

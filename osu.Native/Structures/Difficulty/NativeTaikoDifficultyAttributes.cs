@@ -21,7 +21,7 @@ public readonly struct NativeTaikoDifficultyAttributes(TaikoDifficultyAttributes
     /// <summary>
     /// Converts the native difficulty attributes to a managed <see cref="TaikoDifficultyAttributes"/> instance.
     /// </summary>
-    public readonly TaikoDifficultyAttributes ToManaged()
+    public TaikoDifficultyAttributes ToManaged()
     {
         return new()
         {
