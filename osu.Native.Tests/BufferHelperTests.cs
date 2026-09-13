@@ -27,7 +27,7 @@ internal unsafe class BufferHelperTests
         fixed (byte* bufferPtr = buffer)
             BufferHelper.String("Dean Herbert", bufferPtr, &size);
 
-        Assert.That(buffer, Is.EquivalentTo("Dean\0\0\0\0\0\0"u8.ToArray()));
+        Assert.That(buffer, Is.EquivalentTo([.. "Dean\0\0\0\0\0\0"u8]));
     }
     
     /// <summary>
