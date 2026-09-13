@@ -37,21 +37,25 @@
         <resource name="osu.Framework.Resources.Shaders.sh_CircularProgressUtils.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_CircularBlobUtils.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Blur.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Utils.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.Internal.sh_GlobalUniforms.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_yuv2rgb.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_CircularBlob.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_CircularProgress.fs" action="remove" />
         <resource name="osu.Framework.Resources.Fonts.bmfont.bmfc" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Texture2D.vs" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_Path.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_TextureWrapping.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Texture3D.vs" action="remove" />
-        <resource name="osu.Framework.Resources.Shaders.sh_Utils.h" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Particle.vs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_FastCircle.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Grayscale.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.Internal.sh_Vertex_Output.h" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_PathPrepass.vs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Texture.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_SaturationSelectorBackground.fs" action="remove" />
+        <resource name="osu.Framework.Resources.Textures.Checkerboard.png" action="remove" />
+        <resource name="osu.Framework.Resources.Shaders.sh_PathPrepass.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_HueSelectorBackground.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.sh_Video.fs" action="remove" />
         <resource name="osu.Framework.Resources.Shaders.Internal.sh_Fragment_Output.h" action="remove" />
