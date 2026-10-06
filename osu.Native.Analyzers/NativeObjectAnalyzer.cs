@@ -12,19 +12,19 @@ namespace osu.Native.Analyzers;
 public class NativeObjectAnalyzer : DiagnosticAnalyzer
 {
 #pragma warning disable RS2008
-    private static readonly DiagnosticDescriptor RuleOSU001 = new("OSU001", "Native functions may only exist in a native object",
+    private static readonly DiagnosticDescriptor _ruleOsu001 = new("OSU001", "Native functions may only exist in a native object",
         "Native functions may only exist in a native object (IOsuNativeObject<T>)", "Usage", DiagnosticSeverity.Error, true);
 
-    private static readonly DiagnosticDescriptor RuleOSU002 = new("OSU002", "Native functions must be static",
+    private static readonly DiagnosticDescriptor _ruleOsu002 = new("OSU002", "Native functions must be static",
         "Native functions must be static", "Usage", DiagnosticSeverity.Error, true);
 
-    private static readonly DiagnosticDescriptor RuleOSU003 = new("OSU003", "Native functions return an ErrorCode",
+    private static readonly DiagnosticDescriptor _ruleOsu003 = new("OSU003", "Native functions return an ErrorCode",
         "Native functions must return an ErrorCode", "Usage", DiagnosticSeverity.Error, true);
 
-    private static readonly DiagnosticDescriptor RuleOSU004 = new("OSU004", "Strings should be UTF-8",
+    private static readonly DiagnosticDescriptor _ruleOsu004 = new("OSU004", "Strings should be UTF-8",
         "Strings should be handled with UTF-8 encoding", "Usage", DiagnosticSeverity.Warning, true);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [RuleOSU002, RuleOSU003, RuleOSU001, RuleOSU004];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [_ruleOsu002, _ruleOsu003, _ruleOsu001, _ruleOsu004];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -33,7 +33,7 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(Analyze, SyntaxKind.ClassDeclaration);
     }
 
-    private void Analyze(SyntaxNodeAnalysisContext context)
+    private static void Analyze(SyntaxNodeAnalysisContext context)
     {
         ClassDeclarationSyntax classDeclaration = (ClassDeclarationSyntax)context.Node;
         INamedTypeSymbol classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
@@ -41,27 +41,27 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol errorCodeSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.ErrorCode");
         INamedTypeSymbol osuNativeFunctionSymbol = context.Compilation.GetTypeByMetadataName("osu.Native.Compiler.OsuNativeFunctionAttribute");
 
-        foreach (IMethodSymbol method in classSymbol.GetMembers().OfType<IMethodSymbol>())
+        foreach (IMethodSymbol method in classSymbol?.GetMembers().OfType<IMethodSymbol>() ?? [])
         {
-            if (!method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
+            if (!method.GetAttributes().Any(x => x.AttributeClass?.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default) ?? false))
                 continue;
 
             // RuleOSU001: Native functions may only exist in a native object
-            if (!classSymbol.AllInterfaces.Any(x => x.OriginalDefinition.Equals(iOsuNativeObjectSymbol, SymbolEqualityComparer.Default)))
-                context.ReportDiagnostic(Diagnostic.Create(RuleOSU001, method.Locations[0]));
+            if (!classSymbol?.AllInterfaces.Any(x => x.OriginalDefinition.Equals(iOsuNativeObjectSymbol, SymbolEqualityComparer.Default)) ?? false)
+                context.ReportDiagnostic(Diagnostic.Create(_ruleOsu001, method.Locations[0]));
 
             // RuleOSU002: Native functions must be static
             if (!method.IsStatic)
-                context.ReportDiagnostic(Diagnostic.Create(RuleOSU002, method.Locations[0]));
+                context.ReportDiagnostic(Diagnostic.Create(_ruleOsu002, method.Locations[0]));
 
             // RuleOSU003: Native functions must return an ErrorCode
             if (!method.ReturnType.Equals(errorCodeSymbol, SymbolEqualityComparer.Default))
-                context.ReportDiagnostic(Diagnostic.Create(RuleOSU003, method.Locations[0]));
+                context.ReportDiagnostic(Diagnostic.Create(_ruleOsu003, method.Locations[0]));
 
             // RuleOSU004: Strings should be handled with UTF-8 encoding
             foreach (IParameterSymbol parameter in method.Parameters)
-                if (parameter.Type is IPointerTypeSymbol pointer && pointer.PointedAtType.SpecialType == SpecialType.System_Char)
-                    context.ReportDiagnostic(Diagnostic.Create(RuleOSU004, parameter.Locations[0]));
+                if (parameter.Type is IPointerTypeSymbol { PointedAtType.SpecialType: SpecialType.System_Char })
+                    context.ReportDiagnostic(Diagnostic.Create(_ruleOsu004, parameter.Locations[0]));
         }
     }
 }
