@@ -1,0 +1,11 @@
+<Directives>
+    <Application>
+        <Assembly Name="osu.Game">
+            <Type Name="osu.Game.Utils.BindableValueAccessor">
+                <Method Name="getValue">
+                    <GenericArgument Name="System.Nullable`1[[System.Single, System.Private.CoreLib]], System.Private.CoreLib" />
+                </Method>
+            </Type>
+        </Assembly>
+    </Application>
+</Directives>
