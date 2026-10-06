@@ -1,0 +1,140 @@
+name: Native diff
+
+on:
+  issue_comment:
+    types: [ created ]
+
+permissions: {}
+
+env:
+  EXECUTION_ID: execution-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+jobs:
+  check-permissions:
+    name: Check permissions
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '!diff' }}
+    permissions:
+      pull-requests: read
+    outputs:
+      base: ${{ steps.pr.outputs.base }}
+      head: ${{ steps.pr.outputs.head }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ACTOR: ${{ github.actor }}
+      PR_NUMBER: ${{ github.event.issue.number }}
+    steps:
+      - name: Check permissions
+        run: |
+          PERMISSION="$(gh api "repos/$GITHUB_REPOSITORY/collaborators/$ACTOR/permission" --jq .permission)"
+          case "$PERMISSION" in
+              write|maintain|admin) ;;
+              *) exit 1 ;;
+          esac
+
+      - name: Get PR revisions
+        id: pr
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            --jq '"base=\(.base.sha)\nhead=\(.head.sha)"' >> "$GITHUB_OUTPUT"
+
+  compare:
+    name: Compare native builds
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Compare
+        env:
+          BASE_SHA: ${{ needs.check-permissions.outputs.base }}
+          HEAD_SHA: ${{ needs.check-permissions.outputs.head }}
+        run: |
+          git fetch --no-tags origin "$BASE_SHA" "$HEAD_SHA"
+          cp generate_cabinet_diff.sh "$RUNNER_TEMP/native-diff.sh"
+          git checkout --detach "$HEAD_SHA"
+          mkdir -p artifacts/native-diff
+          REF_BRANCH="$BASE_SHA" BUILD_LOG_DIR="$PWD/artifacts/native-diff" bash "$RUNNER_TEMP/native-diff.sh" \
+            > artifacts/native-diff/report.txt 2>&1
+          {
+              printf 'Native diff (linux-x64)\n\n```diff\n'
+              head -c 16000 artifacts/native-diff/report.txt | tr '\140' "'"
+              printf '\n```\n\n[Full report and build logs](%s)\n' "$RUN_URL"
+          } > artifacts/native-diff/comment.md
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: native-diff
+          path: artifacts/native-diff/
+          if-no-files-found: warn
+
+  create-comment:
+    name: Create PR comment
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Create comment
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          message: |
+            Native diff queued -- please wait! (${{ env.RUN_URL }})
+
+            *This comment will update on completion*
+
+  update-comment:
+    name: Update PR comment
+    needs: [ create-comment, compare ]
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.create-comment.result == 'success' }}
+    permissions:
+      actions: read
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@v8
+        if: ${{ needs.compare.result == 'success' }}
+        with:
+          name: native-diff
+          path: diff
+
+      - name: Update comment on success
+        if: ${{ needs.compare.result == 'success' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: recreate
+          file-path: diff/comment.md
+
+      - name: Update comment on failure
+        if: ${{ failure() || needs.compare.result == 'failure' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: recreate
+          message: |
+            Native diff failed: ${{ env.RUN_URL }}
+
+      - name: Update comment on cancellation
+        if: ${{ needs.compare.result == 'cancelled' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: delete
+          message: '.' # Appears to be required by this action for non-error status code.
