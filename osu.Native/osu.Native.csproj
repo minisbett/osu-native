@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -10,7 +10,6 @@
         <PublishAot>true</PublishAot>
         <OptimizationPreference>Size</OptimizationPreference>
         <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
-        <IlcScanReflection>false</IlcScanReflection> <!-- Disables some statical analysis for keeping metadata based on reflection calls, remove if things break -->
 
         <!-- Generate information for sizoscope -->
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
