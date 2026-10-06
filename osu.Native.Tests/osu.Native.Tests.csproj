@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
         <Nullable>enable</Nullable>
         <GenerateProgramFile>false</GenerateProgramFile>
     </PropertyGroup>
@@ -59,6 +60,7 @@
 
     <Target Name="PrepareTests" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true'">
         <Exec Command="dotnet &quot;$(TargetPath)&quot; &quot;$(TargetDir).&quot;"/>
+        <Exec Command="dotnet publish &quot;$(MSBuildProjectDirectory)/../osu.Native/osu.Native.csproj&quot; --ucr -c $(Configuration) -o &quot;$(TargetDir)native&quot;"/>
     </Target>
 
 </Project>
