@@ -1,0 +1,312 @@
+[
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "score": {
+      "max_combo": 314,
+      "accuracy": 1,
+      "count_great": 194,
+      "count_slider_tail_hit": 30
+    }
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Cardboard Box - The Limit Does Not Exist (Omekyu) [lim x - U+221E].osu",
+    "mods": [
+      {
+        "acronym": "EZ"
+      },
+      {
+        "acronym": "FL"
+      },
+      {
+        "acronym": "CL"
+      }
+    ],
+    "score": {
+      "max_combo": 1547,
+      "accuracy": 1,
+      "count_great": 1050
+    }
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate (Nightcore & Cut Ver.) (My Angel Ram) [Fearless Rockstar].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "HR"
+      }
+    ],
+    "score": {
+      "max_combo": 37,
+      "accuracy": 0.4970456838161118,
+      "count_miss": 25,
+      "count_meh": 32,
+      "count_ok": 97,
+      "count_great": 44,
+      "count_slider_tail_hit": 66
+    }
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/kradness&Reol - Remote Control (Taeyang) [Max Control!].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      }
+    ],
+    "score": {
+      "max_combo": 1774,
+      "accuracy": 0.9831543482838492,
+      "count_miss": 4,
+      "count_ok": 30,
+      "count_great": 1139,
+      "count_slider_tail_hit": 479
+    }
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [
+      {
+        "acronym": "DA",
+        "settings": {
+          "approach_rate": 9.5,
+          "overall_difficulty": 8.5,
+          "circle_size": 4.5,
+          "drain_rate": 6.5
+        }
+      }
+    ],
+    "score": {
+      "max_combo": 314,
+      "accuracy": 1,
+      "count_great": 194,
+      "count_slider_tail_hit": 30
+    }
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [
+      {
+        "acronym": "DT",
+        "settings": {
+          "speed_change": 1.25,
+          "adjust_pitch": true
+        }
+      },
+      {
+        "acronym": "DA",
+        "settings": {
+          "overall_difficulty": 8
+        }
+      }
+    ],
+    "score": {
+      "max_combo": 314,
+      "accuracy": 1,
+      "count_great": 194,
+      "count_slider_tail_hit": 30
+    }
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "score": {
+      "max_combo": 208,
+      "accuracy": 1,
+      "count_great": 208
+    }
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      }
+    ],
+    "score": {
+      "max_combo": 697,
+      "accuracy": 0.9870801033591732,
+      "count_miss": 4,
+      "count_ok": 12,
+      "count_great": 758
+    }
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/AliA - Kakurenbo (Santi199) [From Here].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "EZ"
+      }
+    ],
+    "score": {
+      "max_combo": 214,
+      "accuracy": 0.9642121524201854,
+      "count_miss": 37,
+      "count_ok": 65,
+      "count_great": 1840
+    }
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu",
+    "mods": [
+      {
+        "acronym": "FL"
+      }
+    ],
+    "score": {
+      "max_combo": 758,
+      "accuracy": 0.9883843717001056,
+      "count_miss": 11,
+      "count_great": 936
+    }
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "score": {
+      "max_combo": 310,
+      "accuracy": 1,
+      "count_great": 235,
+      "count_small_tick_hit": 360,
+      "count_large_tick_hit": 75
+    }
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      },
+      {
+        "acronym": "FL"
+      }
+    ],
+    "score": {
+      "max_combo": 519,
+      "accuracy": 0.8962892483349191,
+      "count_miss": 17,
+      "count_great": 892,
+      "count_small_tick_miss": 92,
+      "count_small_tick_hit": 15,
+      "count_large_tick_hit": 35
+    }
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu",
+    "mods": [
+      {
+        "acronym": "FF"
+      },
+      {
+        "acronym": "EZ"
+      }
+    ],
+    "score": {
+      "max_combo": 860,
+      "accuracy": 0.9738775510204082,
+      "count_miss": 2,
+      "count_great": 981,
+      "count_small_tick_miss": 30,
+      "count_small_tick_hit": 212
+    }
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu",
+    "mods": [
+      {
+        "acronym": "MF"
+      }
+    ],
+    "score": {
+      "max_combo": 204,
+      "accuracy": 0.7258064516129032,
+      "count_miss": 3,
+      "count_great": 236,
+      "count_small_tick_miss": 99,
+      "count_small_tick_hit": 11,
+      "count_large_tick_hit": 23
+    }
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "score": {
+      "accuracy": 1,
+      "count_perfect": 341
+    }
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu",
+    "mods": [],
+    "score": {
+      "accuracy": 0.9974475699286899,
+      "count_miss": 4,
+      "count_meh": 3,
+      "count_ok": 12,
+      "count_good": 7,
+      "count_great": 31,
+      "count_perfect": 6796
+    }
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/MYTH & ROID - STYX HELIX (Tsukuyomi) [victorica's Hard].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "DT"
+      }
+    ],
+    "score": {
+      "accuracy": 0.8595799775327964,
+      "count_miss": 34,
+      "count_meh": 8,
+      "count_ok": 96,
+      "count_good": 40,
+      "count_great": 117,
+      "count_perfect": 566
+    }
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/Soleily - Renatus (ExPew) [Another].osu",
+    "mods": [
+      {
+        "acronym": "IN"
+      },
+      {
+        "acronym": "FL"
+      }
+    ],
+    "score": {
+      "accuracy": 0.9994634414235846,
+      "count_miss": 1,
+      "count_ok": 2,
+      "count_good": 1,
+      "count_great": 6,
+      "count_perfect": 5184
+    }
+  }
+]
