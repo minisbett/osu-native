@@ -23,6 +23,7 @@
     <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
          therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
     <ItemGroup>
+        <RdXmlFile Include="rd.xml"/>
         <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>
     </ItemGroup>
 
