@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 REF_BRANCH="${REF_BRANCH:-master}"
@@ -10,7 +11,6 @@ case "$(uname -s)" in
 esac
 
 TEMP_DIR="$(mktemp -d)"
-BUILD_LOG_DIR="${BUILD_LOG_DIR:-$TEMP_DIR}"
 
 cleanup() {
     rm -rf "$TEMP_DIR"
@@ -18,25 +18,27 @@ cleanup() {
 
 trap cleanup EXIT
 
-mkdir -p "$TEMP_DIR/ref-src"
+dotnet publish osu.Native -c Release --ucr -p:PublishDir="$TEMP_DIR/local"
 
-echo "[1/4] Publishing working tree..."
-dotnet publish osu.Native -c Release --ucr -p:PublishDir="$TEMP_DIR/local" > "$BUILD_LOG_DIR/local.log" 2>&1
+mkdir "$TEMP_DIR/ref"
+git archive "$REF_BRANCH" | tar -x -C "$TEMP_DIR/ref"
+dotnet publish "$TEMP_DIR/ref/osu.Native" -c Release --ucr -p:PublishDir="$TEMP_DIR/ref"
 
-echo "[2/4] Archiving '$REF_BRANCH'..."
-git archive "$REF_BRANCH" | tar -x -C "$TEMP_DIR/ref-src"
-
-echo "[3/4] Publishing '$REF_BRANCH'..."
-dotnet publish "$TEMP_DIR/ref-src/osu.Native" -c Release --ucr -p:PublishDir="$TEMP_DIR/ref" > "$BUILD_LOG_DIR/ref.log" 2>&1
-
-echo "[4/4] Comparing..."
-echo
-echo
-REF_SIZE="$(wc -c < "$TEMP_DIR/ref/$LIBRARY")"
 LOCAL_SIZE="$(wc -c < "$TEMP_DIR/local/$LIBRARY")"
-printf '%s size: %s -> %s bytes (%+d)\n' "$LIBRARY" "$REF_SIZE" "$LOCAL_SIZE" "$((LOCAL_SIZE - REF_SIZE))"
-echo
-sed -i '/^\/\/ *Date:/d' "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h"
-git --no-pager diff --no-index "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h" || [[ $? -eq 1 ]]
-echo
-echo
+REF_SIZE="$(wc -c < "$TEMP_DIR/ref/$LIBRARY")"
+SIZE_DIFF=$((LOCAL_SIZE - REF_SIZE))
+
+sed -Ei '/^\/\/ *(Date|Assembly):/d' "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h"
+DIFF="$(git --no-pager diff --no-index "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h")"
+
+printf '%s size: %s -> %s bytes (%+d)\n' "$LIBRARY" "$REF_SIZE" "$LOCAL_SIZE" "$SIZE_DIFF"
+printf '%s\n' "$DIFF"
+
+if [[ -n "${CI:-}" ]]; then
+    {
+        printf 'ref_size=%s\n' "$REF_SIZE"
+        printf 'local_size=%s\n' "$LOCAL_SIZE"
+        printf 'size_diff=%s\n' "$SIZE_DIFF"
+        printf 'diff<<EOF\n%s\nEOF\n' "$DIFF"
+    } >> "$GITHUB_OUTPUT"
+fi
