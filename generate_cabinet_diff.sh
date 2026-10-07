@@ -12,6 +12,12 @@ esac
 TEMP_DIR="$(mktemp -d)"
 BUILD_LOG_DIR="${BUILD_LOG_DIR:-$TEMP_DIR}"
 
+cleanup() {
+    rm -rf "$TEMP_DIR"
+}
+
+trap cleanup EXIT
+
 mkdir -p "$TEMP_DIR/ref-src"
 
 echo "[1/4] Publishing working tree..."
