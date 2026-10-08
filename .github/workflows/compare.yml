@@ -78,15 +78,6 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Debug checkout
-        run: |
-          echo "Workspace: $GITHUB_WORKSPACE"
-          pwd
-          git rev-parse HEAD
-          git status --short
-          ls -la
-          git ls-files compare_artifacts.sh
-
       - name: Compare
         id: compare
         env:
