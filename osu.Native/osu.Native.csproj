@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -10,7 +10,8 @@
         <PublishAot>true</PublishAot>
         <OptimizationPreference>Size</OptimizationPreference>
         <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>
-        <IlcScanReflection>false</IlcScanReflection> <!-- Disables some statical analysis for keeping metadata based on reflection calls, remove if things break -->
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <SatelliteResourceLanguages>xx</SatelliteResourceLanguages> <!-- removes all satellite assemblies -->
 
         <!-- Generate information for sizoscope -->
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
@@ -23,7 +24,7 @@
     <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
          therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
     <ItemGroup>
-        <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>
+<!--        <IlcArg Include="&#45;&#45;substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>-->
     </ItemGroup>
 
     <ItemGroup>

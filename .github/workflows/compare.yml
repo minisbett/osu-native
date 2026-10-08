@@ -1,0 +1,136 @@
+name: Native artifact comparison
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+env:
+  EXECUTION_ID: execution-${{ github.run_id }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+jobs:
+  check-permissions:
+    name: Check permissions
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '!compare' }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ACTOR: ${{ github.actor }}
+    steps:
+      - name: Check permissions
+        run: |
+          PERMISSION="$(gh api "repos/$GITHUB_REPOSITORY/collaborators/$ACTOR/permission" --jq .permission)"
+
+          case "$PERMISSION" in
+              write|maintain|admin) ;;
+              *) exit 1 ;;
+          esac
+
+  create-comment:
+    name: Create PR comment
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Create comment
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          message: |
+            Native artifact comparison queued -- please wait! (${{ env.RUN_URL }})
+
+            *This comment will update on completion*
+  compare:
+    name: Compare
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR_NUMBER: ${{ github.event.issue.number }}
+    outputs:
+      ref_size: ${{ steps.compare.outputs.ref_size }}
+      local_size: ${{ steps.compare.outputs.local_size }}
+      size_diff: ${{ steps.compare.outputs.size_diff }}
+      diff: ${{ steps.compare.outputs.diff }}
+    steps:
+      - name: Get commit hashes
+        id: pr
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            --jq '"base=\(.base.sha)\nhead=\(.head.sha)"' >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.pr.outputs.head }}
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Debug checkout
+        run: |
+          echo "Workspace: $GITHUB_WORKSPACE"
+          pwd
+          git rev-parse HEAD
+          git status --short
+          ls -la
+          git ls-files compare_artifacts.sh
+
+      - name: Compare
+        id: compare
+        env:
+          REF_BRANCH: ${{ steps.pr.outputs.base }}
+        run: ./compare_artifacts.sh
+
+  update-comment:
+    name: Update PR comment
+    needs: [ create-comment, compare ]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Update comment on success
+        if: ${{ needs.compare.result == 'success' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: recreate
+          message: |
+            #### Native artifact comparison
+
+            Size: `${{ needs.compare.outputs.ref_size }}` → `${{ needs.compare.outputs.local_size }}` bytes (`${{ needs.compare.outputs.size_diff }}`)
+
+            ```diff
+            ${{ needs.compare.outputs.diff }}
+            ```
+            ---
+            Runner log: ${{ env.RUN_URL }}
+
+      - name: Update comment on failure
+        if: ${{ failure() || needs.compare.result == 'failure' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: recreate
+          message: |
+            Native artifact comparison failed: ${{ env.RUN_URL }}
+
+      - name: Update comment on cancellation
+        if: ${{ needs.compare.result == 'cancelled' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: ${{ env.EXECUTION_ID }}
+          mode: delete
+          message: '.' # Appears to be required by this action for non-error status code.
