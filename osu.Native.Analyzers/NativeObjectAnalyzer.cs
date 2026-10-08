@@ -24,7 +24,7 @@ public class NativeObjectAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor _ruleOsu004 = new("OSU004", "Strings should be UTF-8",
         "Strings should be handled with UTF-8 encoding", "Usage", DiagnosticSeverity.Warning, true);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [_ruleOsu002, _ruleOsu003, _ruleOsu001, _ruleOsu004];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [_ruleOsu001, _ruleOsu002, _ruleOsu003, _ruleOsu004];
 
     public override void Initialize(AnalysisContext context)
     {
