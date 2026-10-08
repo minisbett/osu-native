@@ -15,17 +15,13 @@ defaults:
     shell: bash -euo pipefail {0}
 
 jobs:
-  native-diff:
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '!diff' }}
+  check-permissions:
+    name: Check permissions
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '!compare' }}
     env:
       GH_TOKEN: ${{ github.token }}
       ACTOR: ${{ github.actor }}
-      PR_NUMBER: ${{ github.event.issue.number }}
-
     steps:
       - name: Check permissions
         run: |
@@ -36,12 +32,13 @@ jobs:
               *) exit 1 ;;
           esac
 
-      - name: Get commit hashes
-        id: pr
-        run: |
-          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
-            --jq '"base=\(.base.sha)\nhead=\(.head.sha)"' >> "$GITHUB_OUTPUT"
-
+  create-comment:
+    name: Create PR comment
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
       - name: Create comment
         uses: thollander/actions-comment-pull-request@v3
         with:
@@ -50,6 +47,26 @@ jobs:
             Native artifact comparison queued -- please wait! (${{ env.RUN_URL }})
 
             *This comment will update on completion*
+  compare:
+    name: Compare
+    needs: check-permissions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR_NUMBER: ${{ github.event.issue.number }}
+    outputs:
+      ref_size: ${{ steps.compare.outputs.ref_size }}
+      local_size: ${{ steps.compare.outputs.local_size }}
+      diff: ${{ steps.compare.outputs.diff }}
+    steps:
+      - name: Get commit hashes
+        id: pr
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            --jq '"base=\(.base.sha)\nhead=\(.head.sha)"' >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v7
         with:
@@ -61,11 +78,19 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Compare
-        id: diff
+        id: compare
         env:
           REF_BRANCH: ${{ steps.pr.outputs.base }}
-        run: ./generate_cabinet_diff.sh
+        run: ./compare_artifacts.sh
 
+  update-comment:
+    name: Update PR comment
+    needs: [ create-comment, compare ]
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    permissions:
+      pull-requests: write
+    steps:
       - name: Update comment on success
         if: ${{ needs.compare.result == 'success' }}
         uses: thollander/actions-comment-pull-request@v3
@@ -75,10 +100,10 @@ jobs:
           message: |
             #### Native artifact comparison
 
-            Size: `${{ steps.diff.outputs.ref_size }}` → `${{ steps.diff.outputs.local_size }}` bytes (`${{ steps.diff.outputs.local_size - steps.diff.outputs.ref_size }}`)
+            Size: `${{ needs.compare.outputs.ref_size }}` → `${{ needs.compare.outputs.local_size }}` bytes (`${{ needs.compare.outputs.local_size - needs.compare.outputs.ref_size }}`)
 
             ```diff
-            ${{ steps.diff.outputs.diff }}
+            ${{ needs.compare.outputs.diff }}
             ```
             ---
             Runner log: ${{ env.RUN_URL }}
@@ -90,7 +115,7 @@ jobs:
           comment-tag: ${{ env.EXECUTION_ID }}
           mode: recreate
           message: |
-            Native diff failed: ${{ env.RUN_URL }}
+            Native artifact comparison failed: ${{ env.RUN_URL }}
 
       - name: Update comment on cancellation
         if: ${{ failure() || needs.compare.result == 'failure' }}
