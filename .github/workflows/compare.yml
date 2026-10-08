@@ -78,6 +78,15 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Debug checkout
+        run: |
+        echo "Workspace: $GITHUB_WORKSPACE"
+        pwd
+        git rev-parse HEAD
+        git status --short
+        ls -la
+        git ls-files compare_artifacts.sh
+
       - name: Compare
         id: compare
         env:
@@ -119,7 +128,7 @@ jobs:
             Native artifact comparison failed: ${{ env.RUN_URL }}
 
       - name: Update comment on cancellation
-        if: ${{ failure() || needs.compare.result == 'failure' }}
+        if: ${{ needs.compare.result == 'cancelled' }}
         uses: thollander/actions-comment-pull-request@v3
         with:
           comment-tag: ${{ env.EXECUTION_ID }}
