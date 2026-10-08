@@ -60,6 +60,7 @@ jobs:
     outputs:
       ref_size: ${{ steps.compare.outputs.ref_size }}
       local_size: ${{ steps.compare.outputs.local_size }}
+      size_diff: ${{ steps.compare.outputs.size_diff }}
       diff: ${{ steps.compare.outputs.diff }}
     steps:
       - name: Get commit hashes
@@ -100,7 +101,7 @@ jobs:
           message: |
             #### Native artifact comparison
 
-            Size: `${{ needs.compare.outputs.ref_size }}` → `${{ needs.compare.outputs.local_size }}` bytes (`${{ needs.compare.outputs.local_size - needs.compare.outputs.ref_size }}`)
+            Size: `${{ needs.compare.outputs.ref_size }}` → `${{ needs.compare.outputs.local_size }}` bytes (`${{ needs.compare.outputs.size_diff }}`)
 
             ```diff
             ${{ needs.compare.outputs.diff }}
