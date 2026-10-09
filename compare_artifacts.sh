@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-
 trap 'echo "Failed at line $LINENO: $BASH_COMMAND (exit $?)" >&2' ERR
 
 REF_BRANCH="${REF_BRANCH:-master}"
@@ -31,7 +30,7 @@ REF_SIZE="$(wc -c < "$TEMP_DIR/ref/$LIBRARY")"
 SIZE_DIFF=$((LOCAL_SIZE - REF_SIZE))
 
 sed -Ei '/^\/\/ *(Date|Assembly):/d' "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h"
-DIFF="$(git --no-pager diff --no-index "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h")"
+DIFF="$(git --no-pager diff --no-index "$TEMP_DIR/ref/cabinet.h" "$TEMP_DIR/local/cabinet.h")" || [[ $? -eq 1 ]]
 
 printf '%s size: %s -> %s bytes (%+d)\n' "$LIBRARY" "$REF_SIZE" "$LOCAL_SIZE" "$SIZE_DIFF"
 printf '%s\n' "$DIFF"
