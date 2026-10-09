@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+trap 'echo "Failed at line $LINENO: $BASH_COMMAND (exit $?)" >&2' ERR
+
 REF_BRANCH="${REF_BRANCH:-master}"
 
 case "$(uname -s)" in

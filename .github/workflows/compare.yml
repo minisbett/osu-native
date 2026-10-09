@@ -73,6 +73,7 @@ jobs:
         with:
           ref: ${{ steps.pr.outputs.head }}
           persist-credentials: false
+          fetch-depth: 0
 
       - uses: actions/setup-dotnet@v6
         with:
