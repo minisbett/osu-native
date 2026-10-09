@@ -1,0 +1,198 @@
+[
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "index": 97
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Cardboard Box - The Limit Does Not Exist (Omekyu) [lim x - U+221E].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "HR"
+      }
+    ],
+    "index": 525
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Bridgit Mendler, Adam Hicks, Naomi Scott and Hayley Kiyoko - Determinate (Nightcore & Cut Ver.) (My Angel Ram) [Fearless Rockstar].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      }
+    ],
+    "index": 99
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/kradness&Reol - Remote Control (Taeyang) [Max Control!].osu",
+    "mods": [
+      {
+        "acronym": "EZ"
+      },
+      {
+        "acronym": "FL"
+      }
+    ],
+    "index": 586
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [
+      {
+        "acronym": "DA",
+        "settings": {
+          "approach_rate": 9.5,
+          "overall_difficulty": 8.5,
+          "circle_size": 4.5,
+          "drain_rate": 6.5
+        }
+      }
+    ],
+    "index": 97
+  },
+  {
+    "ruleset": 0,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [
+      {
+        "acronym": "DT",
+        "settings": {
+          "speed_change": 1.25,
+          "adjust_pitch": true
+        }
+      },
+      {
+        "acronym": "DA",
+        "settings": {
+          "overall_difficulty": 8
+        }
+      }
+    ],
+    "index": 97
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "index": 112
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/Nanamori-chu  Goraku-bu - Happy Time wa Owaranai (eiri-) [Oni].osu",
+    "mods": [],
+    "index": 387
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/AliA - Kakurenbo (Santi199) [From Here].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "DT"
+      }
+    ],
+    "index": 971
+  },
+  {
+    "ruleset": 1,
+    "beatmap": "beatmaps/taiko/The Quick Brown Fox - The Big Black (Blue Dragon) [Ono's Taiko Oni].osu",
+    "mods": [
+      {
+        "acronym": "FL"
+      },
+      {
+        "acronym": "SR"
+      }
+    ],
+    "index": 474
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "index": 97
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Lite Show Magic (t+pazolite vs C-Show) - Crack Traxxxx (Fatfan Kolek) [Spec's Hi-Speed Overdose].osu",
+    "mods": [],
+    "index": 281
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Hanatan - Airman ga Taosenai (SOUND HOLIC Ver.) (Natsu) [Zero's Overdose].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      },
+      {
+        "acronym": "FF"
+      }
+    ],
+    "index": 378
+  },
+  {
+    "ruleset": 2,
+    "beatmap": "beatmaps/catch/Icon For Hire - Make a Move (Speed Up Ver.) (Sotarks) [Ascendance's Overdose].osu",
+    "mods": [
+      {
+        "acronym": "MF"
+      },
+      {
+        "acronym": "FL"
+      }
+    ],
+    "index": 70
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/osu/Kenji Ninuma - DISCOPRINCE (peppy) [Normal].osu",
+    "mods": [],
+    "index": 147
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/xi - FREEDOM DiVE (razlteh) [Blocko's 7K Black Another].osu",
+    "mods": [
+      {
+        "acronym": "HD"
+      },
+      {
+        "acronym": "HR"
+      }
+    ],
+    "index": 3349
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/MYTH & ROID - STYX HELIX (Tsukuyomi) [victorica's Hard].osu",
+    "mods": [
+      {
+        "acronym": "DT"
+      },
+      {
+        "acronym": "FI"
+      }
+    ],
+    "index": 400
+  },
+  {
+    "ruleset": 3,
+    "beatmap": "beatmaps/mania/Soleily - Renatus (ExPew) [Another].osu",
+    "mods": [
+      {
+        "acronym": "IN"
+      }
+    ],
+    "index": 1298
+  }
+]
