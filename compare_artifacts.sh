@@ -20,10 +20,11 @@ cleanup() {
 trap cleanup EXIT
 
 dotnet publish osu.Native -c Release --ucr -p:PublishDir="$TEMP_DIR/local"
-
+ls -l "$TEMP_DIR/local"
 mkdir "$TEMP_DIR/ref"
 git archive "$REF_BRANCH" | tar -x -C "$TEMP_DIR/ref"
 dotnet publish "$TEMP_DIR/ref/osu.Native" -c Release --ucr -p:PublishDir="$TEMP_DIR/ref"
+ls -l "$TEMP_DIR/ref"
 
 LOCAL_SIZE="$(wc -c < "$TEMP_DIR/local/$LIBRARY")"
 REF_SIZE="$(wc -c < "$TEMP_DIR/ref/$LIBRARY")"
