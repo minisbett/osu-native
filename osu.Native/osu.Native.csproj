@@ -24,7 +24,7 @@
     <!-- Embedding the file as an EmbeddedResource only allows targetting the current assembly,
          therefore we need to use the substitution Ilc argument, targetting the whole compilation. -->
     <ItemGroup>
-<!--        <IlcArg Include="&#45;&#45;substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>-->
+        <IlcArg Include="--substitution:$(MSBuildThisFileDirectory)ILLink.Substitutions.xml" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup>
