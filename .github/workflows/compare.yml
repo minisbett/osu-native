@@ -75,6 +75,20 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      - name: Debug environment
+        run: |
+          echo "Workspace: $GITHUB_WORKSPACE"
+          echo "Runner OS: $RUNNER_OS"
+          echo "REF_BRANCH: $REF_BRANCH"
+          echo "HEAD: $(git rev-parse HEAD)"
+          echo "REF: $(git rev-parse "$REF_BRANCH")"
+          echo "SDK:"
+          dotnet --info
+          echo "Git status:"
+          git status --short
+          echo "Files:"
+          ls -la
+
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
