@@ -81,7 +81,7 @@ jobs:
           echo "Runner OS: $RUNNER_OS"
           echo "REF_BRANCH: ${{ steps.pr.outputs.base }}"
           echo "HEAD: $(git rev-parse HEAD)"
-          echo "REF: $(git rev-parse "$REF_BRANCH")"
+          echo "REF: $(git rev-parse "${{ steps.pr.outputs.base }}")"
           echo "SDK:"
           dotnet --info
           echo "Git status:"
