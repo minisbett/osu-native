@@ -30,7 +30,7 @@ public class NativeObjectGenerator : IIncrementalGenerator
                 INamedTypeSymbol classSymbol = model.GetDeclaredSymbol(declaration);
 
                 // Make sure the class inherits IOsuNativeObject<T>.
-                ITypeSymbol managedObjectSymbol = classSymbol.AllInterfaces.FirstOrDefault(
+                ITypeSymbol managedObjectSymbol = classSymbol?.AllInterfaces.FirstOrDefault(
                     x => x.OriginalDefinition.Equals(iOsuNativeObjectSymbol, SymbolEqualityComparer.Default))?.TypeArguments.FirstOrDefault();
                 if (managedObjectSymbol is null)
                     continue;
@@ -40,14 +40,14 @@ public class NativeObjectGenerator : IIncrementalGenerator
 
                 // Get all methods marked with [OsuNativeFunction] (and optionally additionally [OsuNativeEnumerator<T>]).
                 foreach (IMethodSymbol method in classSymbol.GetMembers().OfType<IMethodSymbol>())
-                    if (method.GetAttributes().Any(x => x.AttributeClass.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default)))
+                    if (method.GetAttributes().Any(x => x.AttributeClass?.Equals(osuNativeFunctionSymbol, SymbolEqualityComparer.Default) ?? false))
                     {
                         members.Add(GetNativeFunctionSource(method, objectName));
 
                         AttributeData enumeratorAttribute = method.GetAttributes().FirstOrDefault(
-                            x => x.AttributeClass.OriginalDefinition.Equals(osuNativeEnumeratorSymbol, SymbolEqualityComparer.Default));
+                            x => x.AttributeClass?.OriginalDefinition.Equals(osuNativeEnumeratorSymbol, SymbolEqualityComparer.Default) ?? false);
                         if (enumeratorAttribute is not null)
-                            members.Add(GetNativeEnumeratorSource(method, objectName, enumeratorAttribute.AttributeClass.TypeArguments[0]));
+                            members.Add(GetNativeEnumeratorSource(method, objectName, enumeratorAttribute.AttributeClass!.TypeArguments[0]));
                     }
 
                 string code = GetPartialClassSource(classSymbol, objectName, [.. members], managedObjectSymbol);
