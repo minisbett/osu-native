@@ -79,7 +79,7 @@ jobs:
         run: |
           echo "Workspace: $GITHUB_WORKSPACE"
           echo "Runner OS: $RUNNER_OS"
-          echo "REF_BRANCH: $REF_BRANCH"
+          echo "REF_BRANCH: ${{ steps.pr.outputs.base }}"
           echo "HEAD: $(git rev-parse HEAD)"
           echo "REF: $(git rev-parse "$REF_BRANCH")"
           echo "SDK:"
